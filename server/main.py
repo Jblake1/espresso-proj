@@ -14,21 +14,21 @@ def parse_json():
         print(request)
         # Get JSON data from the request
         data = request.get_json()
-        
+        print("Received data:", data)
         # Extract the required values
-        machine = data.get('machine')
-        coffee_type = data.get('coffee_type')
+        brewing_device = data.get('brewing_device')
+        drink = data.get('drink')
         grinder = data.get('grinder')
+        grind_range = data.get('grind_range')
         coffee_beans = data.get('coffee_beans')
         
         # Check for missing fields
-        if not all([machine, coffee_type, grinder, coffee_beans]):
-            return jsonify({"error": "Missing one or more required fields: machine, coffee_type, grinder"}), 400
-        
-        #coffee_advisor.set_api_key()
+        if not all([brewing_device, drink, grinder, coffee_beans, grind_range]):
+            return jsonify({"error": "Missing one or more required fields: brewing_device, drink, grinder, coffee_beans, grind_range"}), 400
 
         # Get coffee advice
-        advice = coffee_advisor.get_coffee_advice(coffee_type, coffee_beans, machine, grinder)
+        advice = coffee_advisor.get_coffee_advice(drink, coffee_beans, brewing_device, grinder, grind_range)
+        print("Advice:", advice)
 
         # Return the parsed values
         return jsonify({
