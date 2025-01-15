@@ -1,26 +1,55 @@
 #coffee_advisor.py
 
-import os 
-import openai
-import keyring 
-import sys
-import datetime
-from langchain.chat_models import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
-from langchain.chains import LLMChain, SequentialChain
+from dotenv import load_dotenv, find_dotenv
+_ = load_dotenv(find_dotenv()) # read local .env file
 
-#def set_api_key():
-api_key = keyring.get_password("OPENAI_API_KEY", "openai_user")
-os.environ["OPENAI_API_KEY"] = api_key
+import keyring
+import os
+import bs4
+from langchain_openai import ChatOpenAI
+from langchain_openai import OpenAIEmbeddings
+from langchain_core.vectorstores import InMemoryVectorStore
+from langchain_core.documents import Document
+from langchain_core.runnables import RunnablePassthrough, chain
+from langchain_core.output_parsers import StrOutputParser
+from langchain import hub
+from langchain_community.document_loaders import CSVLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langgraph.graph import START, StateGraph
+from typing_extensions import List, TypedDict
+from langchain.prompts import PromptTemplate
 
 
+api_key_1 = keyring.get_password("OPENAI_API_KEY", "openai_user")
+os.environ["OPENAI_API_KEY"] = api_key_1
 
-# account for deprecation of LLM model
+api_key_2 = keyring.get_password("LANGCHAIN_API_KEY", "langchain_user")
+os.environ["LANGCHAIN_TRACING_V2"] = "true"
+os.environ['LANGCHAIN_ENDPOINT'] = 'https://api.smith.langchain.com'
+os.environ["LANGCHAIN_API_KEY"] = api_key_2
 
-current_date = datetime.datetime.now().date()
-target_date = datetime.date(2024, 6, 12)
-llm_model = "gpt-4" if current_date > target_date else "gpt-3.5-turbo-0301"
-llm = ChatOpenAI(temperature=0.2, model=llm_model)
+llm = ChatOpenAI(model="gpt-4o-mini")
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+vector_store = InMemoryVectorStore(embeddings)
+
+file = 'C:/Users/Josh/OneDrive/Documents/project_notes/espresso/Espresso_seed_data.csv'
+loader = CSVLoader(file_path=file,
+    csv_args={
+    'delimiter': ',',
+    'quotechar': '"',
+    'fieldnames': ['Drink', 'Grinder','Espresso Grind Segment', 'Espresso Grind Range', 'Total Machine Grind Range']
+})
+
+docs = loader.load()
+
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+all_splits = text_splitter.split_documents(docs)
+
+# Index chunks
+_ = vector_store.add_documents(documents=all_splits)
+
+retriever = vector_store.as_retriever()
+
 
 def get_coffee_advice(drink, coffee_beans, brewing_device, grinder, grind_range):
     coffee_setup = {
@@ -33,50 +62,49 @@ def get_coffee_advice(drink, coffee_beans, brewing_device, grinder, grind_range)
     print("Coffee Setup:", coffee_setup)
     
 
-    #Determine Coffee Profile
-    first_prompt = ChatPromptTemplate.from_template("You are an expert barista answering questions for a customer making {drink} at home."
-                                                    "The customer has purchased {coffee_beans} beans, but would like to understand the beans' " 
-                                                    "characteristics. Provide a comprehensive description of {coffee_beans} beans including its "
-                                                    "roast type (light, medium, dark) and density. The following is an example response to a customer "
-                                                    "who purchased Red Bird Blue Jaguar Espresso beans: Red Bird Blue Jaguar Espresso beans are a "
-                                                    "medium roast, designed to balance sweetness, acidity, and body. Being a medium roast, the beans "
-                                                    "retain moderate density, which means they are neither as dense as light roasts nor as porous as dark roasts."
-    )
-    chain_one = LLMChain(llm=llm, prompt=first_prompt, output_key="bean_description")
+    bean_analysis_prompt = PromptTemplate.from_template(
+    """You are an expert barista answering questions for a customer making {drink} at home using the {grinder} grinder. The customer has purchased {coffee_beans} beans, 
+    but would like to understand the beans' characteristics. Provide a comprehensive description of {coffee_beans} beans including its roast 
+    type (light, medium, dark) and density. The following is an example response to a customer who purchased Red Bird Blue Jaguar Espresso beans: \n 
+    Red Bird Blue Jaguar Espresso beans are a medium roast bean, designed to balance sweetness, acidity, and body. Being a medium roast, the beans 
+    retain moderate density, which means they are neither as dense as light roasts nor as porous as dark roasts.   
+    """) 
 
-    #Use Cofee Profile to determine grind segmentation
-    second_prompt = ChatPromptTemplate.from_template("Based on the {bean_description} assign {coffee_beans} to one of three grind size segments: "
-                                                     "1) Fine - Light roasts, single-origin coffees, or beans with high density, 2) Medium - Medium roasts, "
-                                                     "balanced blends, or beans with medium density, 3) Coarse - Dark roasts or beans with lower density. Respond "
-                                                     "to this prompt with only one of three grind sizes: Fine, Medium, Coarse"
-    )
-    chain_two = LLMChain(llm=llm, prompt=second_prompt, output_key="grind_segment")
+    bean_segmentation_prompt = PromptTemplate.from_template(
+        """"Based on the bean analysis below assign the coffee beans to one of three grind size segments: 1) Fine - Light roasts, single-origin coffees, 
+        or beans with high density, 2) Medium - Medium roasts, balanced blends, or beans with medium density, 3) Coarse - Dark roasts or beans with 
+        lower density. Respond with only one of three grind sizes: Fine, Medium, Coarse.\n\n
 
-    #Convert coffee segmentation to grind settting for specific grinder & grind scale
-    third_prompt = ChatPromptTemplate.from_template("As an espresso expert advising a home barista, provide a numeric grind setting recommendation for grinding "
-                                                    "{coffee_beans} using the {grinder} grinder. The {grinder} grinder has a numeric scale {grind_range} from finest to coarsest. Keep in "
-                                                    "mind {coffee_beans} benefits from a {grind_segment} grind, so your response should be a number within {grind_range} "
-                                                    "which corresponds to a {grind_segment} grind for espresso beans. "
-    )
-    chain_three = LLMChain(llm=llm, prompt=third_prompt, output_key="grind_setting")
+        Bean analysis: {bean_analysis}
+    """)
 
-    #Predict shot pull time
-    fourth_prompt = ChatPromptTemplate.from_template("As an espresso expert advising a home barista, provide a recommended shot pull time for {coffee_beans} beans "
-                                                    "given the home barista is using a {grinder} grinder set to a {grind_setting} grind which results in a {grind_segment} grind."
-                                                    "The home bariasta is using a {brewing_device} to brew the {drink}. Respond to this prompt with a recommended shot pull time in seconds."
-    )
-    chain_four = LLMChain(llm=llm, prompt=fourth_prompt, output_key="brew_time")
+    grind_recommendation_prompt = PromptTemplate.from_template(
+        """Answer the question based only on the following context, bean analysis, grind segmentation: \n
+    Context: {context}\n
+    Bean analysis: {bean_analysis}\n
+    Bean Segmentation: {bean_segmentation}\n
 
-    overall_chain = SequentialChain(
-        chains=[chain_one, chain_two, chain_three, chain_four],
-        input_variables=["grinder","drink","coffee_beans","brewing_device", "grind_range"],
-        output_variables=["bean_description","grind_segment", "grind_setting","brew_time"],
-        verbose=True
+    Question: What espresso grind range would you recommend to brew {drink} using the {grinder} grinder?
+    """)
+
+    #Post-processing
+    def format_docs(docs):
+        return "\n\n".join(doc.page_content for doc in docs)
+
+    bean_analysis_chain = bean_analysis_prompt | llm | StrOutputParser()
+    bean_segmentation_chain = bean_segmentation_prompt | llm | StrOutputParser()
+    grind_recommendation_chain = grind_recommendation_prompt | llm | StrOutputParser()
+
+    chain = (
+        {"bean_analysis" : bean_analysis_chain, "grinder": RunnablePassthrough(), "drink": RunnablePassthrough()} 
+        | RunnablePassthrough.assign(bean_segmentation=bean_segmentation_chain)
+        | RunnablePassthrough.assign(context=lambda x: format_docs(vector_store.similarity_search("What grind setting would you recommend to brew {drink} using the {grinder} grinder?")))
+        | RunnablePassthrough.assign(grind_recommendation=grind_recommendation_chain)
     )
 
 
     try:
-        result = overall_chain(coffee_setup)
+        result = chain.invoke(coffee_setup)
         print("Result:", result)
         return result
     except Exception as e:

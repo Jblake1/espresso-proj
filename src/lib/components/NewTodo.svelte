@@ -133,7 +133,7 @@
   />
 
   <h1 class="visible-heading">
-    Grind Setting:{grindSetting}
+    Bean Description:{beanDescription}
   </h1>
 
   <h1 class="visible-heading">
@@ -141,7 +141,7 @@
   </h1>
 
   <h1 class="visible-heading">
-    Bean Description:{beanDescription}
+    Grind Setting:{grindSetting}
   </h1>
 
   <h1 class="visible-heading">
