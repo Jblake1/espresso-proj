@@ -79,12 +79,13 @@ def get_coffee_advice(drink, coffee_beans, brewing_device, grinder):
     """)
 
     grind_recommendation_prompt = PromptTemplate.from_template(
-        """Answer the question based only on the following context, bean analysis, grind segmentation: \n
+        """Answer the question based only on the following context and grind segmentation: \n
     Context: {context}\n
-    Bean analysis: {bean_analysis}\n
     Bean Segmentation: {bean_segmentation}\n
 
     Question: What espresso grind range would you recommend to brew {drink} using the {grinder} grinder?
+
+    Example response: I recommend using an espresso grind range of 12 to 18 for brewing Red Bird Espresso beans with the Df 54 grinder
     """)
 
     #Post-processing
