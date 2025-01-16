@@ -37,7 +37,6 @@
           brewing_device: brewingDevice,
           drink,
           grinder,
-          grind_range: grindRange,
           coffee_beans: coffeeBeans
         })
       });
@@ -50,13 +49,11 @@
       console.log('Received data:', data);
       const advice = data.advice;
       console.log('Advice:', advice);
-      brewTime = String(advice.brew_time); // Extract brew time
-      console.log('Brew Time:', brewTime);
-      grindSetting = advice.grind_setting; // Extract grind setting
+      grindSetting = advice.grind_recommendation; // Extract grind setting
       console.log('Grind Setting:', grindSetting);
-      grindSegment = advice.grind_segment; // Extract grind segmentation
+      grindSegment = advice.bean_segmentation; // Extract grind segmentation
       console.log('Grind Segment:', grindSegment);
-      beanDescription = advice.bean_description; // Extract bean description
+      beanDescription = advice.bean_analysis; // Extract bean description
       console.log('Bean Description:', beanDescription);
 
     } catch (error) {
@@ -74,7 +71,6 @@
     advice = '';
     brewTime = '';
     grindSetting = '';
-    grindRange = '';
     grindSegment = '';
     beanDescription = '';
     nameEl.focus()            // give focus to the name input
@@ -125,13 +121,6 @@
     type="text" id="coffeeBeans" autoComplete="off" class="input input__lg" 
   />
 
-  <h2 class="label-wrapper">
-    <label for="grindRange" class="label__lg">Grind Range</label>
-  </h2>
-  <input bind:value={grindRange} bind:this={grindRangeEl} use:selectOnFocus 
-    type="text" id="grindRange" autoComplete="off" class="input input__lg" 
-  />
-
   <h1 class="visible-heading">
     Bean Description:{beanDescription}
   </h1>
@@ -144,9 +133,6 @@
     Grind Setting:{grindSetting}
   </h1>
 
-  <h1 class="visible-heading">
-    Brew Time:{brewTime}
-  </h1> 
   
   <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={submit} >Submit</button>
 
