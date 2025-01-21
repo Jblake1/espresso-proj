@@ -1,12 +1,8 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import coffee_advisor
-import warnings
-
-warnings.simplefilter("ignore")
-
-app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+from flask import request, jsonify, url_for, redirect, render_template, flash
+from datetime import datetime
+from flaskcoffee import app
+from flaskcoffee import coffee_advisor
+from flaskcoffee.models import User, Post
 
 @app.route('/recommendation', methods=['POST'])
 def parse_json():
@@ -28,7 +24,7 @@ def parse_json():
         # Get coffee advice
         advice = coffee_advisor.get_coffee_advice(drink, coffee_beans, brewing_device, grinder)
         print("Advice:", advice)
-        
+
 
         # Return the parsed values
         return jsonify({
@@ -37,7 +33,7 @@ def parse_json():
     except Exception as e:
         # Handle errors
         return jsonify({"error": str(e)}), 500
-
-if __name__ == '__main__':
-    # Run the server
-    app.run(debug=True, host='0.0.0.0', port=4000)
+    
+@app.route('/about')
+def about():
+    return"<h1> About Page </h1>"

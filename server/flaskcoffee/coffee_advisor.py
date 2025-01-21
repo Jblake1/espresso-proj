@@ -49,7 +49,8 @@ all_splits = text_splitter.split_documents(docs)
 # Index chunks
 _ = vector_store.add_documents(documents=all_splits)
 
-retriever = vector_store.as_retriever()
+# Retriever didn't work with multiple passthroughs. Workaround was to use lambda x in chain
+# retriever = vector_store.as_retriever()
 
 
 def get_coffee_advice(drink, coffee_beans, brewing_device, grinder):
@@ -63,9 +64,10 @@ def get_coffee_advice(drink, coffee_beans, brewing_device, grinder):
     
 
     bean_analysis_prompt = PromptTemplate.from_template(
-    """You are an expert barista answering questions for a customer making {drink} at home using the {grinder} grinder and {brewing_device} {drink} machine. The customer has purchased {coffee_beans} beans, 
-    but would like to understand the beans' characteristics. Provide a comprehensive description of {coffee_beans} beans including its roast 
-    type (light, medium, dark) and density. The following is an example response to a customer who purchased Red Bird Blue Jaguar Espresso beans: \n 
+    """You are an expert barista answering questions for a customer making {drink} at home using the {grinder} grinder and {brewing_device} {drink} machine. 
+    The customer has purchased {coffee_beans} beans, but would like to understand the beans' characteristics. Provide a comprehensive description of 
+    {coffee_beans} beans including its roast type (light, medium, dark) and density. The following is an example response to a customer who purchased Red Bird 
+    Blue Jaguar Espresso beans: \n 
     Red Bird Blue Jaguar Espresso beans are a medium roast bean, designed to balance sweetness, acidity, and body. Being a medium roast, the beans 
     retain moderate density, which means they are neither as dense as light roasts nor as porous as dark roasts.   
     """) 
