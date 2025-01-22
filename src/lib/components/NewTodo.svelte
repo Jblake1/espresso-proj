@@ -11,7 +11,6 @@
   let brewTime = $state('');
   let drink = $state('');
   let grinder = $state('');
-  let grindRange = $state('');
   let grindSetting = $state('');
   let grindSegment = $state('');
   let coffeeBeans = $state('');
@@ -22,7 +21,6 @@
   let brewingDeviceEl: HTMLInputElement;
   let drinkEl: HTMLInputElement;
   let grinderEl: HTMLInputElement;
-  let grindRangeEl: HTMLInputElement;
   let coffeeBeansEl: HTMLInputElement;
   
 
