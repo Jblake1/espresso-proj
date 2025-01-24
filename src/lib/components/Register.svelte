@@ -27,7 +27,7 @@
                     username,
                     email,
                     password,
-                    confirmPassword
+                    confirm_password: confirmPassword
                 })
             });
 
@@ -36,7 +36,8 @@
             }
 
             const data = await response.json();
-            
+            console.log('Registration successful:', data);
+
         } catch (error) {
             errorMessage = error.message;
         }

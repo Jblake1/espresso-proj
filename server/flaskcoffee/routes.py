@@ -1,9 +1,8 @@
 from flask import request, jsonify, url_for, redirect, render_template, flash
 from datetime import datetime
-from flaskcoffee import app
-from flaskcoffee import coffee_advisor
+from flaskcoffee import app, db, bcrypt, coffee_advisor
 from flaskcoffee.models import User, Post
-from flaskcoffee import db, bcrypt
+
 
 @app.route('/recommendation', methods=['POST'])
 def recommendation_json():
@@ -44,19 +43,29 @@ def register_user_json():
     try:
         print(request)
         data = request.get_json()
+        print("Received data:", data)
         username = data.get('username')
+        print("Username:", username)
         email = data.get('email')
+        print("Email:", email)
         password = data.get('password')
+        print("Password:", password)
         confirm_password = data.get('confirm_password')
+        print("Confirm Password:", confirm_password)
+
         if password != confirm_password:
-            flash('Passwords do not match', 'danger')
-            return redirect(url_for('register'))
+            
+            return flash('Passwords do not match', 'danger')
+        
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         user = User(username=username, email=email, password=hashed_password)
+        
         db.session.add(user)
         db.session.commit()
-        flash(f'Your account has been created! You are now able to log in', 'success')
-        return redirect(url_for('login'))
+        #redirect(url_for('login'))
+        return jsonify({
+            "messsage": "User registered successfully"
+        }), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
