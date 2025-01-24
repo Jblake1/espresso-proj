@@ -26,13 +26,13 @@
                 body: JSON.stringify({
                     username,
                     email,
-                    password
+                    password,
+                    confirmPassword
                 })
             });
 
             if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.error || 'Registration failed');
+                throw new Error('Registration failed');
             }
 
             const data = await response.json();
@@ -68,5 +68,5 @@
     <label for="confirmPassword">Confirm Password</label>
     <input type="password" id="confirmPassword" bind:value={confirmPassword} required />
 
-    <button type="submit">Register</button>
+    <button type="submit" class="btn btn__primary btn__lg">Register</button>
 </form>

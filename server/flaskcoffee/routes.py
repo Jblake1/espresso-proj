@@ -3,9 +3,10 @@ from datetime import datetime
 from flaskcoffee import app
 from flaskcoffee import coffee_advisor
 from flaskcoffee.models import User, Post
+from flaskcoffee import db, bcrypt
 
 @app.route('/recommendation', methods=['POST'])
-def parse_json():
+def recommendation_json():
     try:
         print(request)
         # Get JSON data from the request
@@ -39,25 +40,38 @@ def about():
     return"<h1> About Page </h1>"
 
 @app.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+def register_user_json():
+    try:
+        print(request)
+        data = request.get_json()
+        username = data.get('username')
+        email = data.get('email')
+        password = data.get('password')
+        confirm_password = data.get('confirm_password')
+        if password != confirm_password:
+            flash('Passwords do not match', 'danger')
+            return redirect(url_for('register'))
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        user = User(username=username, email=email, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash(f'Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register')
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+def login_user_json():
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
+        user = User.query.filter_by(email=email).first()
+        if user and bcrypt.check_password_hash(user.password, password):
             flash('You have been logged in!', 'success')
             return redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
-    return render_template('login.html', title='Login')
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
