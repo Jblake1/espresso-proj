@@ -30,13 +30,23 @@
                     confirm_password: confirmPassword
                 })
             });
+            
 
-            if (!response.ok) {
+
+
+
+           if (response.ok) {
+                const data = await response.json();
+                if (data.message === "registration successful") {
+                console.log('Registration successful:', data);
+                // Redirect to the home page
+                window.location.href = '/login';
+                } else {
                 throw new Error('Registration failed');
+                }
             }
 
-            const data = await response.json();
-            console.log('Registration successful:', data);
+            
 
         } catch (error) {
             errorMessage = error.message;

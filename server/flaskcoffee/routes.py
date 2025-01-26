@@ -38,6 +38,7 @@ def recommendation_json():
 def about():
     return"<h1> About Page </h1>"
 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register_user_json():
     try:
@@ -64,23 +65,31 @@ def register_user_json():
         db.session.commit()
         #redirect(url_for('login'))
         return jsonify({
-            "messsage": "User registered successfully"
+            "message": "registration successful"
         }), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login_user_json():
     try:
+        print(request)
         data = request.get_json()
+        print("Received data:", data)
         email = data.get('email')
+        print("Email:", email)
         password = data.get('password')
+        print("Password:", password)
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password, password):
-            flash('You have been logged in!', 'success')
-            return redirect(url_for('home'))
+            return jsonify({
+            "message": "login successful"
+            }), 200
         else:
-            flash('Login Unsuccessful. Please check email and password', 'danger')
+            return jsonify({
+            "messsage": "User Login failed"
+            }), 300
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

@@ -8,26 +8,38 @@
     let passwordEl: HTMLInputElement;
     let errorMessage = $state('');
   
-    const submit = async () => {
+    const login = async () => {
       try {
-        const response = await fetch('http://localhost:4000/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            email,
-            password
-          })
-        });
-  
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Login failed: ${errorText}`);
-        }
-  
-        const data = await response.json();
-        console.log('Login successful:', data);
+          const response = await fetch('http://localhost:4000/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email,
+              password
+            })
+          });
+    
+          if (response.ok) {
+            const data = await response.json();
+            if (data.message === 'login successful') {
+              console.log('Login successful:', data);
+              // Redirect to the home page
+              window.location.href = '/';
+            } else {
+              throw new Error('Login failed');
+            }
+          }
+          
+          
+          // if (!response.ok) {
+          //   const errorText = await response.text();
+          //   throw new Error(`Login failed: ${errorText}`);
+          // }
+    
+          const data = await response.json();
+          console.log('Login successful:', data);
         
       } catch (error) {
         console.error('There was a problem with the login operation:', error);
@@ -55,21 +67,19 @@
     }
 </style>
   
-<form >
-    <h2 class="label-wrapper">
-        <label for="email" class="label__lg">Email</label>
-    </h2>
-    <input bind:this={emailEl} type="email" id="email" name="email" placeholder="Email" bind:value={email} class="input input__lg" />
+<form on:submit|preventDefault={login}>
+  <h2>Login</h2>
 
-    <h2 class="label-wrapper">
-        <label for="password" class="label__lg">Password</label>
-    </h2>
-    <input bind:this={passwordEl} type="password" id="password" name="password" placeholder="Password" bind:value={password} class="input input__lg" />
+  {#if errorMessage}
+      <p class="error">{errorMessage}</p>
+  {/if}
 
-    {#if errorMessage}
-        <div class="error-message">{errorMessage}</div>
-    {/if}
+  <label for="email">Email</label>
+  <input type="email" id="email" bind:value={email} required />
 
-    <button type="submit" class="btn btn__primary btn__lg">Login</button>
-    <button type="button" onclick={onCancel} class="btn btn__secondary btn__lg">Cancel</button>
+  <label for="password">Password</label>
+  <input type="password" id="password" bind:value={password} required />
+
+  <button type="submit" class="btn btn__primary btn__lg">Login</button>
+  <button type="button" on:click={onCancel} class="btn btn__secondary btn__lg">Cancel</button>
 </form>
