@@ -1,7 +1,7 @@
 from flask import request, jsonify, url_for, redirect, render_template, flash
 from datetime import datetime
 from flaskcoffee import app, db, bcrypt, coffee_advisor
-from flaskcoffee.models import User, Post
+from flaskcoffee.models import User, Post, CoffeeSetup
 
 
 @app.route('/recommendation', methods=['POST'])
@@ -88,8 +88,35 @@ def login_user_json():
             }), 200
         else:
             return jsonify({
-            "messsage": "User Login failed"
+            "message": "User Login failed"
             }), 300
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
+    
+@app.route('/saveSetup', methods=['POST'])
+def save_setup():
+    try:
+        print(request)
+        data = request.get_json()
+        print("Received data:", data)
+        drink = data.get('drink')
+        print("Drink:", drink)
+        coffee_beans = data.get('coffeeBeans')
+        print("Coffee Beans:", coffee_beans)
+        brewing_device = data.get('brewingDevice')
+        print("Brewing Device:", brewing_device)
+        grinder = data.get('grinder')
+        print("Grinder:", grinder)
+        grind_setting = data.get('grindSetting')
+        print("Grind Setting:", grind_setting)
+        
+        setup = CoffeeSetup(drink=drink, coffee_beans=coffee_beans, brewing_device=brewing_device, grinder=grinder, grind_setting=grind_setting)
+        
+        db.session.add(setup)
+        db.session.commit()
+        return jsonify({
+            "message": "Setup saved successfully"
+        }), 200
+    except Exception as e:
+        print("Error:", str(e))
+        return jsonify({"error": str(e)}), 500

@@ -31,4 +31,4 @@ class CoffeeSetup(db.Model):
     grind_setting = db.Column(db.String(100), nullable=False)
     
     def __repr__(self):
-        return f"CoffeeSetup('{self.drink}', '{self.coffee_beans}', '{self.grinder}', '{self.grind_setting}')"
+        return f"CoffeeSetup('{self.drink}', '{self.brewing_device}', '{self.coffee_beans}', '{self.grinder}', '{self.grind_setting}')"

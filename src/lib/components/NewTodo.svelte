@@ -2,7 +2,7 @@
 <script lang='ts'>
   import { onMount } from 'svelte'
   import { selectOnFocus } from '../actions'
-  
+  import CoffeeSetupSave from './CoffeeSetupSave.svelte';
 
   const { autofocus } = $props<{ autofocus: boolean }>()
 
@@ -16,13 +16,31 @@
   let coffeeBeans = $state('');
   let advice = $state('');
   let beanDescription = $state('');
+  let snapPropData = $state({});
+
+  // let snapProp = $state({
+  //   drink: "es",
+  //   brewingDevice: "brewingDevice",
+  //   coffeeBeans: "coffeeBeans",
+  //   grinder: "grinder",
+  //   grindSetting: "grindSetting"
+  // });
+  
+  //LOOK FOR FIX TO REFERENCING SELF REFERENCE STATE
+  let snapProp = () => ({
+    drink: drink,
+    brewingDevice: brewingDevice,
+    coffeeBeans: coffeeBeans,
+    grinder: grinder,
+    grindSetting: grindSetting
+  });
 
   let nameEl: HTMLInputElement;
   let brewingDeviceEl: HTMLInputElement;
   let drinkEl: HTMLInputElement;
   let grinderEl: HTMLInputElement;
   let coffeeBeansEl: HTMLInputElement;
-  
+
 
   const submit = async () => {
     try {
@@ -48,11 +66,12 @@
       const advice = data.advice;
       console.log('Advice:', advice);
       grindSetting = advice.grind_recommendation; // Extract grind setting
-      console.log('Grind Setting:', grindSetting);
       grindSegment = advice.bean_segmentation; // Extract grind segmentation
       console.log('Grind Segment:', grindSegment);
       beanDescription = advice.bean_analysis; // Extract bean description
       console.log('Bean Description:', beanDescription);
+      snapPropData = snapProp()
+    ;
 
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
@@ -135,3 +154,5 @@
   <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={submit} >Submit</button>
 
 </form>
+
+<CoffeeSetupSave drink = {snapPropData}/>
