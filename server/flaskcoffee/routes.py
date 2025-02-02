@@ -120,3 +120,23 @@ def save_setup():
     except Exception as e:
         print("Error:", str(e))
         return jsonify({"error": str(e)}), 500
+    
+
+@app.route('/getSetup', methods=['GET'])
+def get_setup():
+    try:
+        setups = CoffeeSetup.query.limit(3).all()
+        setup_list = []
+        for setup in setups:
+            setup_list.append({
+                "drink": setup.drink,
+                "coffeeBeans": setup.coffee_beans,
+                "brewingDevice": setup.brewing_device,
+                "grinder": setup.grinder,
+                "grindSetting": setup.grind_setting
+            })
+        return jsonify({
+            "setups": setup_list
+        }), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

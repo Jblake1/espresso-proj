@@ -138,9 +138,9 @@
     type="text" id="coffeeBeans" autoComplete="off" class="input input__lg" 
   />
 
-  <h1 class="visible-heading">
+  <!-- <h1 class="visible-heading">
     Bean Description:{beanDescription}
-  </h1>
+  </h1> -->
 
   <h1 class="visible-heading">
     Grind Segment:{grindSegment}
