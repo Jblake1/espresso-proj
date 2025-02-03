@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import { selectOnFocus } from '../actions'
+    import { goto } from '$app/navigation';
     
 
     let username = '';
@@ -81,3 +82,7 @@
 
     <button type="submit" class="btn btn__primary btn__lg">Register</button>
 </form>
+
+<!-- <div class="loginLink">
+    <button onclick={() => goto('/login')}>Login</button>
+</div> -->
