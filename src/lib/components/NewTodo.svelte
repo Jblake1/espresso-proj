@@ -4,6 +4,7 @@
   import { selectOnFocus } from '../actions'
   import CoffeeSetupSave from './CoffeeSetupSave.svelte';
   import RecentSetups from './RecentSetups.svelte';
+  import { goto } from '$app/navigation';
 
   const { autofocus } = $props<{ autofocus: boolean }>()
 
@@ -100,6 +101,12 @@
 </script>
 
 <style>
+
+  :global(.recent-setups) {
+      margin: 0;
+      padding: 0;
+    }
+
   .visible-heading {
   display: flex;
   visibility: visible !important;
@@ -110,7 +117,7 @@
   flex-direction: column; /* Arrange elements in a row */
   align-items: flex-start; /* Align items at the top */
   gap: 10px;
-}
+  }
 
   .outer-container {
       display: flex;
@@ -130,15 +137,31 @@
 
 
   .toDoForm {
-    width: 50%
+    flex: 0.7; /* Take up all available space */
+    margin-right: 0;
   }
 
   .RecentSetups {
-    width: 50%; 
+    flex: 0.3; /* Take up all available space */
+    margin-right: 0;
   }
 
   .CoffeeSetupSave {
-    width: 50%;
+    flex: 1; /* Take up all available space */
+    margin-right: 0;
+  }
+
+  .tabButton {
+    background-color: #f1f1f1;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
   }
 
 </style>
@@ -201,6 +224,22 @@
 
   <div class="RecentSetups">
     <RecentSetups />
+  </div>
+
+  <div class="tabButton">
+    <button onclick={() => goto('/login')}>Login</button>
+  </div>
+
+  <div class="tabButton">
+    <button onclick={() => goto('/archive')}>Archive</button>
+  </div>
+
+  <div class="tabButton">
+    <button onclick={() => goto('/about')}>About</button>
+  </div>
+
+  <div class="tabButton">
+    <button onclick={() => goto('/register')}>Register</button>
   </div>
 
 </div>

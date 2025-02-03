@@ -81,7 +81,8 @@
     .container {
       display: flex;
       flex-direction: column;
-      align-items: flex-end; /* Aligns items to the right */
+      width: 200%;
+      align-items: flex-start; /* Aligns items to the right */
       padding: 10px;
     }
   
