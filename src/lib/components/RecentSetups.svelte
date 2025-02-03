@@ -82,12 +82,12 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end; /* Aligns items to the right */
-      padding: 20px;
+      padding: 10px;
     }
   
     .setup {
-      text-align: right; /* Aligns text to the right */
-      margin-bottom: 20px;
+      text-align: left; /* Aligns text to the right */
+      margin-bottom: 10px;
     }
   </style>
 

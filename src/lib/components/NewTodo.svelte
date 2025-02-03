@@ -3,6 +3,7 @@
   import { onMount } from 'svelte'
   import { selectOnFocus } from '../actions'
   import CoffeeSetupSave from './CoffeeSetupSave.svelte';
+  import RecentSetups from './RecentSetups.svelte';
 
   const { autofocus } = $props<{ autofocus: boolean }>()
 
@@ -100,59 +101,106 @@
 
 <style>
   .visible-heading {
-  display: block !important;
+  display: flex;
   visibility: visible !important;
   opacity: 1 !important;
   color: black !important;
   font-size: 1.2em !important;
   margin-top: 1em !important;
+  flex-direction: column; /* Arrange elements in a row */
+  align-items: flex-start; /* Align items at the top */
+  gap: 10px;
 }
+
+  .outer-container {
+      display: flex;
+      flex-direction: row; /* Arrange elements in a row */
+      align-items: flex-start; /* Align items at the top */
+      gap: 10px; /* Add spacing between form and RecentSetups */
+    }
+
+
+  .inner-container {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: flex-start; /* Align items at the top */
+    gap: 10px; /* Add spacing between form elements */
+    width: 50%; /* Make form take 50% of the width */
+  }
+
+
+  .toDoForm {
+    width: 50%
+  }
+
+  .RecentSetups {
+    width: 50%; 
+  }
+
+  .CoffeeSetupSave {
+    width: 50%;
+  }
+
 </style>
 
-<form >
-  <h2 class="label-wrapper">
-    <label for="drink" class="label__lg">Drink</label>
-  </h2>
-  <input bind:value={drink} bind:this={drinkEl} use:selectOnFocus 
-    type="text" id="drink" autoComplete="off" class="input input__lg" 
-  />
 
-  <h2 class="label-wrapper">
-    <label for="brewing_device" class="label__lg">Model</label>
-  </h2>
-  <input bind:value={brewingDevice} bind:this={brewingDeviceEl} use:selectOnFocus 
-    type="text" id="brewingDevice" autoComplete="off" class="input input__lg" 
-  />
+<div class="outer-container">
+  <div class="inner-container">
+    <form class = "toDoForm">
+      <h2 class="label-wrapper">
+        <label for="drink" class="label__lg">Drink</label>
+      </h2>
+      <input bind:value={drink} bind:this={drinkEl} use:selectOnFocus 
+        type="text" id="drink" autoComplete="off" class="input input__lg" 
+      />
 
-  <h2 class="label-wrapper">
-    <label for="grinder" class="label__lg">Grinder</label>
-  </h2>
-  <input bind:value={grinder} bind:this={grinderEl} use:selectOnFocus 
-    type="text" id="grinder" autoComplete="off" class="input input__lg" 
-  />
+      <h2 class="label-wrapper">
+        <label for="brewing_device" class="label__lg">Model</label>
+      </h2>
+      <input bind:value={brewingDevice} bind:this={brewingDeviceEl} use:selectOnFocus 
+        type="text" id="brewingDevice" autoComplete="off" class="input input__lg" 
+      />
 
-  <h2 class="label-wrapper">
-    <label for="coffeeBeans" class="label__lg">Bean</label>
-  </h2>
-  <input bind:value={coffeeBeans} bind:this={coffeeBeansEl} use:selectOnFocus 
-    type="text" id="coffeeBeans" autoComplete="off" class="input input__lg" 
-  />
+      <h2 class="label-wrapper">
+        <label for="grinder" class="label__lg">Grinder</label>
+      </h2>
+      <input bind:value={grinder} bind:this={grinderEl} use:selectOnFocus 
+        type="text" id="grinder" autoComplete="off" class="input input__lg" 
+      />
 
-  <!-- <h1 class="visible-heading">
-    Bean Description:{beanDescription}
-  </h1> -->
+      <h2 class="label-wrapper">
+        <label for="coffeeBeans" class="label__lg">Bean</label>
+      </h2>
+      <input bind:value={coffeeBeans} bind:this={coffeeBeansEl} use:selectOnFocus 
+        type="text" id="coffeeBeans" autoComplete="off" class="input input__lg" 
+      />
 
-  <h1 class="visible-heading">
-    Grind Segment:{grindSegment}
-  </h1>
+      <!-- <h1 class="visible-heading">
+        Bean Description:{beanDescription}
+      </h1> -->
 
-  <h1 class="visible-heading">
-    Grind Setting:{grindSetting}
-  </h1>
+      
+        
+      <h1 class="visible-heading">
+        Grind Segment:{grindSegment}
+      </h1>
 
-  
-  <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={submit} >Submit</button>
+      <h1 class="visible-heading">
+        Grind Setting:{grindSetting}
+      </h1>
+      
+      
+      <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={submit} >Submit</button>
 
-</form>
+    </form>
 
-<CoffeeSetupSave drink = {snapPropData}/>
+    <div class="CoffeeSetupSave">
+      <CoffeeSetupSave drink={snapPropData}/>
+    </div>
+  </div>
+
+  <div class="RecentSetups">
+    <RecentSetups />
+  </div>
+
+</div>

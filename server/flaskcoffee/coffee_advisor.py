@@ -87,7 +87,7 @@ def get_coffee_advice(drink, coffee_beans, brewing_device, grinder):
 
     Question: What espresso grind range would you recommend to brew {drink} using the {grinder} grinder?
 
-    Example response: I recommend using an espresso grind range of 12 to 18 for brewing Red Bird Espresso beans with the Df 54 grinder
+    Example response: 12 to 18 on your Df 54
     """)
 
     #Post-processing
