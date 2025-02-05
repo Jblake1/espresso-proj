@@ -32,6 +32,6 @@
     }
   </script>
   
-  <form>
-    <button on:click={saveSetup}>Save Setup</button>
-  </form>
+  <div>
+    <button onclick={() => saveSetup()}>Save Setup</button>
+  </div>

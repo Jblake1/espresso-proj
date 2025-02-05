@@ -34,3 +34,15 @@ class CoffeeSetup(db.Model):
     
     def __repr__(self):
         return f"CoffeeSetup('{self.drink}', '{self.brewing_device}', '{self.coffee_beans}', '{self.grinder}', '{self.grind_setting}')"
+    
+class CoffeeJourney(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    drink = db.Column(db.String(100), nullable=False)
+    coffee_beans = db.Column(db.String(100), nullable=False)
+    brewing_device = db.Column(db.String(100), nullable=False)
+    grinder = db.Column(db.String(100), nullable=False)
+    grind_setting = db.Column(db.String(100), nullable=False)
+    iteration = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f"CoffeeJourney('{self.drink}', '{self.brewing_device}', '{self.coffee_beans}', '{self.grinder}', '{self.grind_setting}', '{self.iteration}')"

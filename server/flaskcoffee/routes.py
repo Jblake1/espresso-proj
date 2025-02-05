@@ -140,3 +140,33 @@ def get_setup():
         }), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/archiveSetup', methods=['POST', 'GET'])
+def archive_setup():
+    try:
+        print(request)
+        data = request.get_json()
+        print("Received data:", data)
+        drink = data.get('drink')
+        print("Drink:", drink)
+        coffee_beans = data.get('coffeeBeans')
+        print("Coffee Beans:", coffee_beans)
+        brewing_device = data.get('brewingDevice')
+        print("Brewing Device:", brewing_device)
+        grinder = data.get('grinder')
+        print("Grinder:", grinder)
+        grind_setting = data.get('grindSetting')
+        print("Grind Setting:", grind_setting)
+        iteration = data.get('iteration')
+        print("Iteration:", iteration)
+        
+        setup = CoffeeSetup(drink=drink, coffee_beans=coffee_beans, brewing_device=brewing_device, grinder=grinder, grind_setting=grind_setting)
+        
+        db.session.add(setup)
+        db.session.commit()
+        return jsonify({
+            "message": "Setup archived successfully"
+        }), 200
+    except Exception as e:
+        print("Error:", str(e))
+        return jsonify({"error": str(e)}), 500
