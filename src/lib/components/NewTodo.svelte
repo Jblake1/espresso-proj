@@ -110,7 +110,7 @@
   gap: 10px;
   }
 
-  .outer-container {
+  .outerContainer {
       display: flex;
       flex-direction: row; /* Arrange elements in a row */
       align-items: flex-start; /* Align items at the top */
@@ -118,7 +118,7 @@
     }
 
 
-  .inner-container {
+  .innerContainer {
     display: flex;
     flex-direction: column; /* Stack elements vertically */
     align-items: flex-start; /* Align items at the top */
@@ -158,8 +158,8 @@
 </style>
 
 
-<div class="outer-container">
-  <div class="inner-container">
+<div class="outerContainer">
+  <div class="innerContainer">
     <form class = "toDoForm">
       <h2 class="label-wrapper">
         <label for="drink" class="label__lg">Drink</label>

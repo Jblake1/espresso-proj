@@ -107,6 +107,14 @@
       gap: 10px; /* Add spacing between form and RecentSetups */
     }
 
+    .innerContainer {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: flex-start; /* Align items at the top */
+    gap: 10px; /* Add spacing between form elements */
+    width: 50%; /* Make form take 50% of the width */
+  }
+
 </style>
 
 <form>
@@ -114,40 +122,42 @@
     <p>Archive of all your coffee setups</p>
 </form>
 
-<div class="container">
-    <div class="journey">
-      <h2>Recent Setup 1</h2>
-      <p>Drink: {drink1}</p>
-      <p>Grinder: {grinder1}</p>
-      <p>Grind Setting: {grindSetting1}</p>
-      <p>Coffee Beans: {coffeeBeans1}</p>
-      <p>Brewing Device: {brewingDevice1}</p>
-      <p>Iteration: {iteration1}</p>
-    </div>
-
-    <div class="journey">
-      <h2>Recent Setup 2</h2>
-      <p>Drink: {drink2}</p>
-      <p>Grinder: {grinder2}</p>
-      <p>Grind Setting: {grindSetting2}</p>
-      <p>Coffee Beans: {coffeeBeans2}</p>
-      <p>Brewing Device: {brewingDevice2}</p>
-      <p>Iteration: {iteration2}</p>
-    </div>
-  
-    <div class="journey">
-      <h2>Recent Setup 3</h2>
-      <p>Drink: {drink3}</p>
-      <p>Grinder: {grinder3}</p>
-      <p>Grind Setting: {grindSetting3}</p>
-      <p>Coffee Beans: {coffeeBeans3}</p>
-      <p>Brewing Device: {brewingDevice3}</p>
-      <p>Iteration: {iteration3}</p>
-    </div>
-
-  </div>
-
 <div class = "outerContainer">
+    <div class="innerContainer">
+        <div class="journey">
+        <h2>Espresso Journey 1</h2>
+        <p>Drink: {drink1}</p>
+        <p>Grinder: {grinder1}</p>
+        <p>Grind Setting: {grindSetting1}</p>
+        <p>Coffee Beans: {coffeeBeans1}</p>
+        <p>Brewing Device: {brewingDevice1}</p>
+        <p>Iteration: {iteration1}</p>
+        </div>
+
+        <div class="journey">
+        <h2>Espresso Journey 2</h2>
+        <p>Drink: {drink2}</p>
+        <p>Grinder: {grinder2}</p>
+        <p>Grind Setting: {grindSetting2}</p>
+        <p>Coffee Beans: {coffeeBeans2}</p>
+        <p>Brewing Device: {brewingDevice2}</p>
+        <p>Iteration: {iteration2}</p>
+        </div>
+    
+        <div class="journey">
+        <h2>Espresso Journey 3</h2>
+        <p>Drink: {drink3}</p>
+        <p>Grinder: {grinder3}</p>
+        <p>Grind Setting: {grindSetting3}</p>
+        <p>Coffee Beans: {coffeeBeans3}</p>
+        <p>Brewing Device: {brewingDevice3}</p>
+        <p>Iteration: {iteration3}</p>
+        </div>
+    </div>
+
+
+
+
     <div class="tabButton">
         <button onclick={() => goto('/login')}>Login</button>
     </div>
