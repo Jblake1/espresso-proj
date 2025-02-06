@@ -44,6 +44,10 @@
       brewingDevice: brewingDevice3
     });
 
+    let archivePropData1 = $state({});
+    let archivePropData2 = $state({});
+    let archivePropData3 = $state({});
+
 
     const displaySetups = async () => {
         try {
@@ -67,6 +71,7 @@
                 grindSetting1 = setups[0].grindSetting;
                 coffeeBeans1 = setups[0].coffeeBeans;
                 brewingDevice1 = setups[0].brewingDevice;
+                archivePropData1 = archiveProp1();
             }
 
             if (setups.length > 1) {
@@ -76,6 +81,7 @@
                 grindSetting2 = setups[1].grindSetting;
                 coffeeBeans2 = setups[1].coffeeBeans;
                 brewingDevice2 = setups[1].brewingDevice;
+                archivePropData2 = archiveProp2();
             }
 
             if (setups.length > 2) {
@@ -85,6 +91,7 @@
                 grindSetting3 = setups[2].grindSetting;
                 coffeeBeans3 = setups[2].coffeeBeans;
                 brewingDevice3 = setups[2].brewingDevice;
+                archivePropData3 = archiveProp3();
             }
             } else {
                 const error = await response.json();
@@ -127,7 +134,7 @@
       <p>Brewing Device: {brewingDevice1}</p>
     </div>
     <div class="ArchiveButton">
-      <ArchiveButton drink={archiveProp1} />
+      <ArchiveButton drink={archivePropData1} />
     </div>
 
     <div class="setup">
@@ -139,7 +146,7 @@
       <p>Brewing Device: {brewingDevice2}</p>
     </div>
     <div class="ArchiveButton">
-      <ArchiveButton drink={archiveProp2} />
+      <ArchiveButton drink={archivePropData2} />
     </div>
   
     <div class="setup">
@@ -151,7 +158,7 @@
       <p>Brewing Device: {brewingDevice3}</p>
     </div>
     <div class="ArchiveButton">
-      <ArchiveButton drink={archiveProp3} />
+      <ArchiveButton drink={archivePropData3} />
     </div>
 
   </div>
