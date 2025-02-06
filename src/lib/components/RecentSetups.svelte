@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+    import ArchiveButton from './ArchiveButton.svelte';
 
     let drink1 = $state('');
     let grinder1 = $state('');
@@ -18,6 +19,30 @@
     let grindSetting3 = $state('');
     let coffeeBeans3 = $state('');
     let brewingDevice3 = $state('');
+
+    let archiveProp1 = () => ({
+      drink: drink1,
+      grinder: grinder1,
+      grindSetting: grindSetting1,
+      coffeeBeans: coffeeBeans1,
+      brewingDevice: brewingDevice1
+    });
+
+    let archiveProp2 = () => ({
+      drink: drink2,
+      grinder: grinder2,
+      grindSetting: grindSetting2,
+      coffeeBeans: coffeeBeans2,
+      brewingDevice: brewingDevice2
+    });
+
+    let archiveProp3 = () => ({
+      drink: drink3,
+      grinder: grinder3,
+      grindSetting: grindSetting3,
+      coffeeBeans: coffeeBeans3,
+      brewingDevice: brewingDevice3
+    });
 
 
     const displaySetups = async () => {
@@ -101,7 +126,10 @@
       <p>Coffee Beans: {coffeeBeans1}</p>
       <p>Brewing Device: {brewingDevice1}</p>
     </div>
-  
+    <div class="ArchiveButton">
+      <ArchiveButton drink={archiveProp1} />
+    </div>
+
     <div class="setup">
       <h2>Recent Setup 2</h2>
       <p>Drink: {drink2}</p>
@@ -109,6 +137,9 @@
       <p>Grind Setting: {grindSetting2}</p>
       <p>Coffee Beans: {coffeeBeans2}</p>
       <p>Brewing Device: {brewingDevice2}</p>
+    </div>
+    <div class="ArchiveButton">
+      <ArchiveButton drink={archiveProp2} />
     </div>
   
     <div class="setup">
@@ -119,4 +150,8 @@
       <p>Coffee Beans: {coffeeBeans3}</p>
       <p>Brewing Device: {brewingDevice3}</p>
     </div>
+    <div class="ArchiveButton">
+      <ArchiveButton drink={archiveProp3} />
+    </div>
+
   </div>

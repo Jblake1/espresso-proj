@@ -20,15 +20,6 @@
   let beanDescription = $state('');
   let snapPropData = $state({});
 
-  // let snapProp = $state({
-  //   drink: "es",
-  //   brewingDevice: "brewingDevice",
-  //   coffeeBeans: "coffeeBeans",
-  //   grinder: "grinder",
-  //   grindSetting: "grindSetting"
-  // });
-  
-  //LOOK FOR FIX TO REFERENCING SELF REFERENCE STATE
   let snapProp = () => ({
     drink: drink,
     brewingDevice: brewingDevice,
