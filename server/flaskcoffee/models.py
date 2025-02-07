@@ -43,6 +43,18 @@ class CoffeeJourney(db.Model):
     grinder = db.Column(db.String(100), nullable=False)
     grind_setting = db.Column(db.String(100), nullable=False)
     iteration = db.Column(db.Integer, nullable=False)
+    #cards = db.relationship('JourneyCard', backref='journey', lazy=True)
 
     def __repr__(self):
         return f"CoffeeJourney('{self.drink}', '{self.brewing_device}', '{self.coffee_beans}', '{self.grinder}', '{self.grind_setting}', '{self.iteration}')"
+    
+# class JourneyCard(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     grind_setting = db.Column(db.String(100), nullable=False)
+#     iteration = db.Column(db.Integer, nullable=False)
+#     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+#     journey_id = db.Column(db.Integer, db.ForeignKey('coffeejourney.id'), nullable=False)
+#     notes = db.Column(db.Text, nullable=True)
+    
+#     def __repr__(self):
+#         return f"JourneyCard('{self.grind_setting}', '{self.iteration}', '{self.date_posted}', '{self.grinder}', '{self.notes}')"

@@ -117,44 +117,58 @@
 
 </style>
 
-<form>
-    <h1>Archive</h1>
-    <p>Archive of all your coffee setups</p>
-</form>
+<h1>Archive</h1>
 
-<div class = "outerContainer">
+<div class="outerContainer">
     <div class="innerContainer">
-        <div class="journey">
-        <h2>Espresso Journey 1</h2>
-        <p>Drink: {drink1}</p>
-        <p>Grinder: {grinder1}</p>
-        <p>Grind Setting: {grindSetting1}</p>
-        <p>Coffee Beans: {coffeeBeans1}</p>
-        <p>Brewing Device: {brewingDevice1}</p>
-        <p>Iteration: {iteration1}</p>
+        <div class="outerContainer"> 
+            <div class="journey">
+                <h2>Espresso Journey 1</h2>
+                <p>Drink: {drink1}</p>
+                <p>Grinder: {grinder1}</p>
+                <p>Grind Setting: {grindSetting1}</p>
+                <p>Coffee Beans: {coffeeBeans1}</p>
+                <p>Brewing Device: {brewingDevice1}</p>
+                <p>Iteration: {iteration1}</p>
+            </div>
+
+            <div class="tabButton">
+                <button onclick={()=>goto('/archive')}>+</button>
+            </div>
         </div>
 
-        <div class="journey">
-        <h2>Espresso Journey 2</h2>
-        <p>Drink: {drink2}</p>
-        <p>Grinder: {grinder2}</p>
-        <p>Grind Setting: {grindSetting2}</p>
-        <p>Coffee Beans: {coffeeBeans2}</p>
-        <p>Brewing Device: {brewingDevice2}</p>
-        <p>Iteration: {iteration2}</p>
+        <div class="outerContainer">
+            <div class="journey">
+                <h2>Espresso Journey 2</h2>
+                <p>Drink: {drink2}</p>
+                <p>Grinder: {grinder2}</p>
+                <p>Grind Setting: {grindSetting2}</p>
+                <p>Coffee Beans: {coffeeBeans2}</p>
+                <p>Brewing Device: {brewingDevice2}</p>
+                <p>Iteration: {iteration2}</p>
+            </div>
+
+            <div class="tabButton">
+                <button onclick={()=>goto('/archive')}>+</button>
+            </div>
         </div>
-    
-        <div class="journey">
-        <h2>Espresso Journey 3</h2>
-        <p>Drink: {drink3}</p>
-        <p>Grinder: {grinder3}</p>
-        <p>Grind Setting: {grindSetting3}</p>
-        <p>Coffee Beans: {coffeeBeans3}</p>
-        <p>Brewing Device: {brewingDevice3}</p>
-        <p>Iteration: {iteration3}</p>
+
+        <div class="outerContainer">
+            <div class="journey">
+                <h2>Espresso Journey 3</h2>
+                <p>Drink: {drink3}</p>
+                <p>Grinder: {grinder3}</p>
+                <p>Grind Setting: {grindSetting3}</p>
+                <p>Coffee Beans: {coffeeBeans3}</p>
+                <p>Brewing Device: {brewingDevice3}</p>
+                <p>Iteration: {iteration3}</p>
+            </div>
+
+            <div class="tabButton">
+                <button onclick={()=>goto('/archive')}>+</button>
+            </div>
         </div>
     </div>
-
 
 
 

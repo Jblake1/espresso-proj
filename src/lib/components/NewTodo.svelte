@@ -157,6 +157,7 @@
 
 </style>
 
+<h1>Home</h1>
 
 <div class="outerContainer">
   <div class="innerContainer">
@@ -169,7 +170,7 @@
       />
 
       <h2 class="label-wrapper">
-        <label for="brewing_device" class="label__lg">Model</label>
+        <label for="brewing_device" class="label__lg">Brewing Device</label>
       </h2>
       <input bind:value={brewingDevice} bind:this={brewingDeviceEl} use:selectOnFocus 
         type="text" id="brewingDevice" autoComplete="off" class="input input__lg" 
