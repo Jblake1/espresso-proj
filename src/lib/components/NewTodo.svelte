@@ -52,20 +52,18 @@
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
+      } else {
+        const data = await response.json();
+        console.log('Received data:', data);
+        const advice = data.advice;
+        console.log('Advice:', advice);
+        grindSetting = advice.grind_recommendation; // Extract grind setting
+        grindSegment = advice.bean_segmentation; // Extract grind segmentation
+        console.log('Grind Segment:', grindSegment);
+        beanDescription = advice.bean_analysis; // Extract bean description
+        console.log('Bean Description:', beanDescription);
+        snapPropData = snapProp();
       }
-
-      const data = await response.json();
-      console.log('Received data:', data);
-      const advice = data.advice;
-      console.log('Advice:', advice);
-      grindSetting = advice.grind_recommendation; // Extract grind setting
-      grindSegment = advice.bean_segmentation; // Extract grind segmentation
-      console.log('Grind Segment:', grindSegment);
-      beanDescription = advice.bean_analysis; // Extract bean description
-      console.log('Bean Description:', beanDescription);
-      snapPropData = snapProp()
-    ;
-
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }

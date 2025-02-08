@@ -9,42 +9,36 @@
 
 <script lang="ts">
     import { onMount } from "svelte";
+    
 
     // Props that can be passed from the parent Archive component
     let props = $props();
 
-    let title = '';
-    let date = '';
+    // Creates a card shape with the following fields
+    // Grind Setting Field nullable
+    // Shot time nullable
+    // notes nullable
+    // date not nullable
+    
+    let datePosted = '';
     let notes = '';
     let grindSetting = '';
-    let iteration = '';
+    let shotTime = '';
     let journeyID = '';
 
     const createJourneyCard = async () => {
         try {
-            const response = await fetch('http://localhost:4000/postJourneyCard', {
+            const response = await fetch('http://localhost:4000/journeyCard', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Journey:', data);
-                const journeys = data.journeys;
-                console.log('journeys:', journeys);
-
-                if (journeys.length > 0) {
-                    // Destructure the first setup object
-                    title = journeys[0].title;
-                    date = journeys[0].date;
-                    notes = journeys[0].notes;
-                    grindSetting = journeys[0].grindSetting;
-                    iteration = journeys[0].iteration;
-                    journeyID = journeys[0].journeyID;
-                }
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            
         } catch (err) {
             console.error('Error getting journey:', err);
             alert('An error occurred while getting the journey.');
@@ -53,7 +47,7 @@
 
     const displayJourneyCard = async () => {
         try {
-            const response = await fetch('http://localhost:4000/getJourneyCard', {
+            const response = await fetch('http://localhost:4000/JourneyCard', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,18 +56,17 @@
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Journey:', data);
-                const journeys = data.journeys;
-                console.log('journeys:', journeys);
+                console.log('JourneyCards:', data);
+                const journeyCards = data.journeyCards;
+                console.log('JourneyCardsData:', journeyCards);
 
-                if (journeys.length > 0) {
+                if (journeyCards.length > 0) {
                     // Destructure the first setup object
-                    title = journeys[0].title;
-                    date = journeys[0].date;
-                    notes = journeys[0].notes;
-                    grindSetting = journeys[0].grindSetting;
-                    iteration = journeys[0].iteration;
-                    journeyID = journeys[0].journeyID;
+                    datePosted = journeyCards[0].date;
+                    notes = journeyCards[0].notes;
+                    grindSetting = journeyCards[0].grindSetting;
+                    shotTime = journeyCards[0].shotTime;
+                    journeyID = journeyCards[0].journeyID;
                 }
             }
         } catch (err) {
@@ -129,11 +122,9 @@
     </div>
 
     <div class="journey-card">
-        <h3>{title}</h3>
-        <p class="card_text">{date}</p>
-        <p class="card_text">{grindSetting}</p>
-        <p class="card_text">{notes}</p>
-        <p class="card_text">Iteration: {iteration}</p>
+        <p class="card_text">date posted: {datePosted}</p>
+        <p class="card_text">grind setting: {grindSetting}</p>
+        <p class="card_text">notes: {notes}</p>
         <p class="card_text">journey: {journeyID}</p>
     </div>
 </div>

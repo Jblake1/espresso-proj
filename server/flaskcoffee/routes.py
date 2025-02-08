@@ -189,3 +189,27 @@ def archive_setup():
         except Exception as e:
             return jsonify({"error": str(e)}), 500
     return jsonify({"error": "Method not allowed"}), 405
+
+@app.route('/journeyCard', methods=['POST', 'GET'])
+def journey_card():
+    try:
+        print(request)
+        data = request.get_json()
+        print("Received data:", data)
+        grind_setting = data.get('grindSetting')
+        print("Grind Setting:", grind_setting)
+        iteration = data.get('iteration')
+        print("Iteration:", iteration)
+        notes = data.get('notes')
+        print("Notes:", notes)
+        
+        card = JourneyCard(grind_setting=grind_setting, iteration=iteration, notes=notes)
+        
+        db.session.add(card)
+        db.session.commit()
+        return jsonify({
+            "message": "Card saved successfully"
+        }), 200
+    except Exception as e:
+        print("Error:", str(e))
+        return jsonify({"error": str(e)}), 500
