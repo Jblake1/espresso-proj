@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
+    import JourneyCard from './JourneyCard.svelte';
 
     let drink1 = $state('');
     let grinder1 = $state('');
@@ -22,6 +23,15 @@
     let coffeeBeans3 = $state('');
     let brewingDevice3 = $state('');
     let iteration3 = $state('');
+
+    let cardProp = () => ({
+        drink: drink1,
+        grinder: grinder1,
+        grindSetting: grindSetting1,
+        coffeeBeans: coffeeBeans1,
+        brewingDevice: brewingDevice1,
+        iteration: iteration1
+    });
 
     const displayArchive = async () => {
         try {
@@ -132,9 +142,9 @@
                 <p>Iteration: {iteration1}</p>
             </div>
 
-            <div class="tabButton">
-                <button onclick={()=>goto('/archive')}>+</button>
-            </div>
+            <div class="JourneyCard">
+                <JourneyCard journeyData={cardProp}/>
+              </div>
         </div>
 
         <div class="outerContainer">

@@ -1,12 +1,12 @@
 <script>
     import Hello from '$lib/components/Hello.svelte';
-    import NewTodo from '$lib/components/NewTodo.svelte';
+    import Home from '$lib/components/Home.svelte';
     
 </script>
 
 <Hello />
 
-<NewTodo />
+<Home />
 
 
 

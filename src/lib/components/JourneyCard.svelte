@@ -33,10 +33,13 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            });
+                body: JSON.stringify({
+                    journey_id: journeyID
+            })
+        });
 
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Network response of journeyCard not ok');
             }
             
         } catch (err) {
@@ -73,7 +76,7 @@
             console.error('Error getting journey:', err);
             alert('An error occurred while getting the journey.');
         }
-    }
+    };
     
     onMount(() => {
         displayJourneyCard();

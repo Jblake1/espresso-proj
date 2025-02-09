@@ -1,7 +1,7 @@
 from flask import request, jsonify, url_for, redirect, render_template, flash
 from datetime import datetime
 from flaskcoffee import app, db, bcrypt, coffee_advisor
-from flaskcoffee.models import User, Post, CoffeeSetup, CoffeeJourney
+from flaskcoffee.models import User, CoffeeSetup, CoffeeJourney, JourneyCard
 
 
 @app.route('/recommendation', methods=['POST'])
@@ -149,16 +149,9 @@ def archive_setup():
             print(request)
             data = request.get_json()
             print("Received data:", data)
-            drink = data.get('drink')
+            journey_id = data.get('Journey_id')
             print("Drink:", drink)
-            coffee_beans = data.get('coffeeBeans')
-            print("Coffee Beans:", coffee_beans)
-            brewing_device = data.get('brewingDevice')
-            print("Brewing Device:", brewing_device)
-            grinder = data.get('grinder')
-            print("Grinder:", grinder)
-            grind_setting = data.get('grindSetting')
-            print("Grind Setting:", grind_setting)
+            
             
             journey = CoffeeJourney(drink=drink, coffee_beans=coffee_beans, brewing_device=brewing_device, grinder=grinder, grind_setting=grind_setting, iteration=1)
             
@@ -192,24 +185,44 @@ def archive_setup():
 
 @app.route('/journeyCard', methods=['POST', 'GET'])
 def journey_card():
-    try:
-        print(request)
-        data = request.get_json()
-        print("Received data:", data)
-        grind_setting = data.get('grindSetting')
-        print("Grind Setting:", grind_setting)
-        iteration = data.get('iteration')
-        print("Iteration:", iteration)
-        notes = data.get('notes')
-        print("Notes:", notes)
+    if request.method == 'POST':
+        try:
+            print(request)
+            data = request.get_json()
+            print("Received data:", data)
+            grind_setting = data.get('grindSetting')
+            print("Grind Setting:", grind_setting)
+            iteration = data.get('iteration')
+            print("Iteration:", iteration)
+            notes = data.get('notes')
+            print("Notes:", notes)
+            
+            card = JourneyCard(grind_setting=grind_setting, iteration=iteration, notes=notes)
+            
+            db.session.add(card)
+            db.session.commit()
+            return jsonify({
+                "message": "Card saved successfully"
+            }), 200
+        except Exception as e:
+            print("Error:", str(e))
+            return jsonify({"error": str(e)}), 500
         
-        card = JourneyCard(grind_setting=grind_setting, iteration=iteration, notes=notes)
-        
-        db.session.add(card)
-        db.session.commit()
-        return jsonify({
-            "message": "Card saved successfully"
-        }), 200
-    except Exception as e:
-        print("Error:", str(e))
-        return jsonify({"error": str(e)}), 500
+    elif request.method == 'GET':
+        try:
+            cards = JourneyCard.query.order_by(JourneyCard.id.desc()).limit(3).all()
+            card_list = []
+            for card in cards:
+                card_list.append({
+                    "grindSetting": card.grind_setting,
+                    "iteration": card.iteration,
+                    "notes": card.notes,
+                    "journey_id": card.journey_id,
+                    "date_posted": card.date_posted
+                })
+            return jsonify({
+                "message": "Card saved successfully"
+            }), 200
+        except Exception as e:
+            print("Error:", str(e))
+            return jsonify({"error": str(e)}), 500
