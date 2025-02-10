@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from flaskcoffee import db
 
 class User(db.Model):
@@ -50,11 +50,12 @@ class CoffeeJourney(db.Model):
     
 class JourneyCard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    grind_setting = db.Column(db.String(100), nullable=False)
+    grind_setting = db.Column(db.String(100), nullable=False, default='(grind setting)')
     iteration = db.Column(db.Integer, nullable=False, default=2)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     journey_id = db.Column(db.Integer, db.ForeignKey('coffee_journey.id'), nullable=False)
-    notes = db.Column(db.Text, nullable=True)
+    shot_time = db.Column(db.String(10), nullable=True, default='(shot time)')
+    notes = db.Column(db.Text, nullable=True, default='(notes)')
     
     def __repr__(self):
-        return f"JourneyCard('{self.grind_setting}', '{self.iteration}', '{self.date_posted}', '{self.grinder}', '{self.notes}')"
+        return f"JourneyCard('{self.grind_setting}', '{self.iteration}', '{self.date_posted}', '{self.grinder}', '{self.notes}', '{self.shot_time}')"

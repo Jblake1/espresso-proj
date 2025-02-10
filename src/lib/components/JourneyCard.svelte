@@ -20,11 +20,11 @@
     // notes nullable
     // date not nullable
     
-    let datePosted = '';
-    let notes = '';
-    let grindSetting = '';
-    let shotTime = '';
-    let journeyID = '';
+    let datePosted = $state('');
+    let notes = $state('');
+    let grindSetting = $state('');
+    let shotTime = $state('');
+    let journeyID = $state('');
 
     const createJourneyCard = async () => {
         try {
@@ -34,7 +34,7 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    journey_id: journeyID
+                    journeyID: props.journeyData.journeyID
             })
         });
 
@@ -44,19 +44,22 @@
             
         } catch (err) {
             console.error('Error getting journey:', err);
-            alert('An error occurred while getting the journey.');
+            alert('An error occurred while posting the journey card.');
         }
     }
 
     const displayJourneyCard = async () => {
         try {
-            const response = await fetch('http://localhost:4000/JourneyCard', {
+            const response = await fetch('http://localhost:4000/journeyCard', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
-
+            
+            // 
+            // Investigate data flow of Journey id. Do integers behave diffferently
+            // or is the id column in journey blank. Or is the foreign id not generating
             if (response.ok) {
                 const data = await response.json();
                 console.log('JourneyCards:', data);
@@ -65,7 +68,7 @@
 
                 if (journeyCards.length > 0) {
                     // Destructure the first setup object
-                    datePosted = journeyCards[0].date;
+                    datePosted = journeyCards[0].datePosted;
                     notes = journeyCards[0].notes;
                     grindSetting = journeyCards[0].grindSetting;
                     shotTime = journeyCards[0].shotTime;
@@ -127,6 +130,7 @@
     <div class="journey-card">
         <p class="card_text">date posted: {datePosted}</p>
         <p class="card_text">grind setting: {grindSetting}</p>
+        <p class="card_text">shot time: {shotTime}</p>
         <p class="card_text">notes: {notes}</p>
         <p class="card_text">journey: {journeyID}</p>
     </div>

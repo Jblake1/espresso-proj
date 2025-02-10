@@ -149,8 +149,16 @@ def archive_setup():
             print(request)
             data = request.get_json()
             print("Received data:", data)
-            journey_id = data.get('Journey_id')
+            drink = data.get('drink')
             print("Drink:", drink)
+            coffee_beans = data.get('coffeeBeans')
+            print("Coffee Beans:", coffee_beans)
+            brewing_device = data.get('brewingDevice')
+            print("Brewing Device:", brewing_device)
+            grinder = data.get('grinder')
+            print("Grinder:", grinder)
+            grind_setting = data.get('grindSetting')
+            print("Grind Setting:", grind_setting)
             
             
             journey = CoffeeJourney(drink=drink, coffee_beans=coffee_beans, brewing_device=brewing_device, grinder=grinder, grind_setting=grind_setting, iteration=1)
@@ -190,14 +198,13 @@ def journey_card():
             print(request)
             data = request.get_json()
             print("Received data:", data)
-            grind_setting = data.get('grindSetting')
-            print("Grind Setting:", grind_setting)
-            iteration = data.get('iteration')
-            print("Iteration:", iteration)
-            notes = data.get('notes')
-            print("Notes:", notes)
-            
-            card = JourneyCard(grind_setting=grind_setting, iteration=iteration, notes=notes)
+            journey_id = data.get('journeyID')
+            print("Journey ID:", journey_id)
+            grind_setting = data.get('grindSetting', None)
+            notes = data.get('notes', None)
+            shot_time = data.get('shotTime', None)
+           
+            card = JourneyCard(journey_id=journey_id, grind_setting=grind_setting, iteration=2, notes=notes, shot_time=shot_time)
             
             db.session.add(card)
             db.session.commit()
@@ -218,10 +225,11 @@ def journey_card():
                     "iteration": card.iteration,
                     "notes": card.notes,
                     "journey_id": card.journey_id,
-                    "date_posted": card.date_posted
+                    "datePosted": card.date_posted,
+                    "shotTime": card.shot_time
                 })
             return jsonify({
-                "message": "Card saved successfully"
+                "journeyCards": card_list
             }), 200
         except Exception as e:
             print("Error:", str(e))

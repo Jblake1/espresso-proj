@@ -9,6 +9,7 @@
     let coffeeBeans1 = $state('');
     let brewingDevice1 = $state('');
     let iteration1 = $state('');
+    let journey_id1 = $state('');
 
     let drink2 = $state('');
     let grinder2 = $state('');
@@ -23,14 +24,10 @@
     let coffeeBeans3 = $state('');
     let brewingDevice3 = $state('');
     let iteration3 = $state('');
+    let cardPropData = $state({});
 
     let cardProp = () => ({
-        drink: drink1,
-        grinder: grinder1,
-        grindSetting: grindSetting1,
-        coffeeBeans: coffeeBeans1,
-        brewingDevice: brewingDevice1,
-        iteration: iteration1
+        journeyID: journey_id1
     });
 
     const displayArchive = async () => {
@@ -47,6 +44,7 @@
                 console.log('Archive:', data);
                 const journeys = data.journeys;
                 console.log('journeys:', journeys);
+                cardPropData = cardProp();
             
             if (journeys.length > 0) {
                 // Destructure the first setup object
@@ -56,6 +54,7 @@
                 coffeeBeans1 = journeys[0].coffeeBeans;
                 brewingDevice1 = journeys[0].brewingDevice;
                 iteration1 = journeys[0].iteration;
+                journey_id1 = journeys[0].id;
             }
 
             if (journeys.length > 1) {
@@ -140,11 +139,12 @@
                 <p>Coffee Beans: {coffeeBeans1}</p>
                 <p>Brewing Device: {brewingDevice1}</p>
                 <p>Iteration: {iteration1}</p>
+                <p>Journey ID: {journey_id1}</p>
             </div>
 
             <div class="JourneyCard">
-                <JourneyCard journeyData={cardProp}/>
-              </div>
+                <JourneyCard journeyData={cardPropData}/>
+            </div>
         </div>
 
         <div class="outerContainer">
