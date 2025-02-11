@@ -177,6 +177,7 @@ def archive_setup():
             journey_list = []
             for journey in journeys:
                 journey_list.append({
+                    "id": journey.id,
                     "drink": journey.drink,
                     "coffeeBeans": journey.coffee_beans,
                     "brewingDevice": journey.brewing_device,

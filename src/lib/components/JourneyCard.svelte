@@ -72,7 +72,7 @@
                     notes = journeyCards[0].notes;
                     grindSetting = journeyCards[0].grindSetting;
                     shotTime = journeyCards[0].shotTime;
-                    journeyID = journeyCards[0].journeyID;
+                    journeyID = journeyCards[0].journey_id;
                 }
             }
         } catch (err) {
@@ -94,11 +94,6 @@
         margin-bottom: 1rem;
         background-color: white;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    h3 {
-        margin: 0 0 0.5rem 0;
-        color: #333;
     }
 
     .card_text {

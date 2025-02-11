@@ -46,7 +46,7 @@ class CoffeeJourney(db.Model):
     cards = db.relationship('JourneyCard', backref='journey', lazy=True)
 
     def __repr__(self):
-        return f"CoffeeJourney('{self.drink}', '{self.brewing_device}', '{self.coffee_beans}', '{self.grinder}', '{self.grind_setting}', '{self.iteration}')"
+        return f"CoffeeJourney('{self.id}', '{self.drink}', '{self.brewing_device}', '{self.coffee_beans}', '{self.grinder}', '{self.grind_setting}', '{self.iteration}')"
     
 class JourneyCard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -58,4 +58,4 @@ class JourneyCard(db.Model):
     notes = db.Column(db.Text, nullable=True, default='(notes)')
     
     def __repr__(self):
-        return f"JourneyCard('{self.grind_setting}', '{self.iteration}', '{self.date_posted}', '{self.grinder}', '{self.notes}', '{self.shot_time}')"
+        return f"JourneyCard('{self.grind_setting}', '{self.iteration}', '{self.date_posted}', '{self.notes}', '{self.shot_time}', '{self.journey_id}')"

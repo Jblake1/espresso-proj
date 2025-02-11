@@ -44,7 +44,7 @@
                 console.log('Archive:', data);
                 const journeys = data.journeys;
                 console.log('journeys:', journeys);
-                cardPropData = cardProp();
+                
             
             if (journeys.length > 0) {
                 // Destructure the first setup object
@@ -55,6 +55,7 @@
                 brewingDevice1 = journeys[0].brewingDevice;
                 iteration1 = journeys[0].iteration;
                 journey_id1 = journeys[0].id;
+                cardPropData = cardProp();
             }
 
             if (journeys.length > 1) {
