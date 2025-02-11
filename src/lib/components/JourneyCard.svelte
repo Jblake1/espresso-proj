@@ -25,6 +25,7 @@
     let grindSetting = $state('');
     let shotTime = $state('');
     let journeyID = $state('');
+    let cardID = $state('');
 
     const createJourneyCard = async () => {
         try {
@@ -68,6 +69,7 @@
 
                 if (journeyCards.length > 0) {
                     // Destructure the first setup object
+                    cardID = journeyCards[0].id;
                     datePosted = journeyCards[0].datePosted;
                     notes = journeyCards[0].notes;
                     grindSetting = journeyCards[0].grindSetting;
@@ -80,7 +82,33 @@
             alert('An error occurred while getting the journey.');
         }
     };
-    
+
+    const updateJourneyCard = async () => {
+        try {
+            const response = await fetch('http://localhost:4000/journeyCardEdit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: cardID,
+                    grindSetting: grindSetting,
+                    shotTime: shotTime,
+                    datePosted: datePosted,
+                    notes: journeyID
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response of journeyCard update not ok');
+            }
+
+            } catch (err) {
+            console.error('Error getting journey:', err);
+            alert('An error occurred while updating card.');
+        }
+    };
+
     onMount(() => {
         displayJourneyCard();
     });
@@ -123,10 +151,14 @@
     </div>
 
     <div class="journey-card">
+        <p class="card_text">card{cardID}</p>
         <p class="card_text">date posted: {datePosted}</p>
-        <p class="card_text">grind setting: {grindSetting}</p>
-        <p class="card_text">shot time: {shotTime}</p>
-        <p class="card_text">notes: {notes}</p>
-        <p class="card_text">journey: {journeyID}</p>
+        <p class="card_text">{grindSetting}</p>
+        <p class="card_text">{shotTime}</p>
+        <p class="card_text">{notes}</p>
+        <p class="card_text">Journey id: {journeyID}</p>
+        <div class="tabButton">
+            <button onclick={()=>updateJourneyCard()}>Update</button>
+        </div>
     </div>
 </div>

@@ -222,6 +222,7 @@ def journey_card():
             card_list = []
             for card in cards:
                 card_list.append({
+                    "id": card.id,
                     "grindSetting": card.grind_setting,
                     "iteration": card.iteration,
                     "notes": card.notes,
@@ -235,3 +236,31 @@ def journey_card():
         except Exception as e:
             print("Error:", str(e))
             return jsonify({"error": str(e)}), 500
+        
+@app.route('/journeyCardEdit', methods=['POST'])
+def journey_card_edit():
+    try:
+        print(request)
+        data = request.get_json()
+        print("Received data:", data)
+        card_id = data.get('id')
+        print("Card ID:", card_id)
+        date_posted = data.get('datePosted')
+        grind_setting = data.get('grindSetting')
+        shot_time = data.get('shotTime')
+        notes = data.get('notes')
+        
+        
+        card = JourneyCard.query.get(card_id)
+        card.date_posted = date_posted
+        card.grind_setting = grind_setting
+        card.notes = notes
+        card.shot_time = shot_time
+        db.session.commit()
+
+        return jsonify({
+            "message": "Card updated successfully"
+        }), 200
+    except Exception as e:
+        print("Error:", str(e))
+        return jsonify({"error": str(e)}), 500
