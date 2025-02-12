@@ -45,7 +45,8 @@
 
     const displayJourneyCard = async () => {
         try {
-            const response = await fetch('http://localhost:4000/journeyCard', {
+            console.log(`Sending journeyID: ${props.journeyData.journeyID}`);
+            const response = await fetch(`http://localhost:4000/journeyCard?journeyID=${props.journeyData.journeyID}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,9 +72,9 @@
                     }
                 });
 
-                if (journeyCards.length > 0) {
-                    journeyID = journeyCards[0].journey_id;
-                }
+                
+                journeyID = props.journeyData.journeyID
+                
 
                 // if (journeyCards.length > 0) {
                 //     // Destructure the first setup object

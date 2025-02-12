@@ -26,20 +26,21 @@
     let coffeeBeans3 = $state('');
     let brewingDevice3 = $state('');
     let iteration3 = $state('');
+
     let cardPropData1 = $state({});
     let cardPropData2 = $state({});
     let cardPropData3 = $state({});
 
     let cardProp1 = () => ({
-        journeyID1: journey_id1
+        journeyID: journey_id1
     });
 
     let cardProp2 = () => ({
-        journeyID2: journey_id2
+        journeyID: journey_id2
     });
 
     let cardProp3 = () => ({
-        journeyID3: journey_id3
+        journeyID: journey_id3
     });
 
     const displayArchive = async () => {
@@ -141,6 +142,16 @@
     width: 50%; /* Make form take 50% of the width */
   }
 
+    .journey {
+        text-align: left; /* Aligns text to the left */
+        margin-bottom: 10px;
+        width: 500px; /* Fixed width */
+    }
+
+    .journeyCard {
+        margin-top: 75px; /* Add margin above */
+    }
+
 </style>
 
 <h1>Archive</h1>
@@ -155,11 +166,10 @@
                 <p>Grind Setting: {grindSetting1}</p>
                 <p>Coffee Beans: {coffeeBeans1}</p>
                 <p>Brewing Device: {brewingDevice1}</p>
-                <p>Iteration: {iteration1}</p>
                 <p>Journey ID: {journey_id1}</p>
             </div>
 
-            <div class="JourneyCard">
+            <div class="journeyCard">
                 <JourneyCard journeyData={cardPropData1}/>
             </div>
         </div>
@@ -172,11 +182,10 @@
                 <p>Grind Setting: {grindSetting2}</p>
                 <p>Coffee Beans: {coffeeBeans2}</p>
                 <p>Brewing Device: {brewingDevice2}</p>
-                <p>Iteration: {iteration2}</p>
                 <p>Journey ID: {journey_id2}</p>
             </div>
 
-            <div class="JourneyCard">
+            <div class="journeyCard">
                 <JourneyCard journeyData={cardPropData2}/>
             </div>
         </div>
@@ -189,11 +198,10 @@
                 <p>Grind Setting: {grindSetting3}</p>
                 <p>Coffee Beans: {coffeeBeans3}</p>
                 <p>Brewing Device: {brewingDevice3}</p>
-                <p>Iteration: {iteration3}</p>
                 <p>Journey ID: {journey_id3}</p>
             </div>
 
-            <div class="JourneyCard">
+            <div class="journeyCard">
                 <JourneyCard journeyData={cardPropData3}/>
             </div>
         </div>

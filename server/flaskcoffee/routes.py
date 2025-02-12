@@ -218,7 +218,9 @@ def journey_card():
         
     elif request.method == 'GET':
         try:
-            cards = JourneyCard.query.order_by(JourneyCard.id.desc()).limit(3).all()
+            journey_id = request.args.get('journeyID')
+            print(f"Received journeyID: {journey_id}")
+            cards = JourneyCard.query.filter_by(journey_id=journey_id).order_by(JourneyCard.id.desc()).limit(3).all()
             card_list = []
             for card in cards:
                 card_list.append({
