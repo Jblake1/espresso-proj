@@ -245,14 +245,12 @@ def journey_card_edit():
         print("Received data:", data)
         card_id = data.get('id')
         print("Card ID:", card_id)
-        date_posted = data.get('datePosted')
         grind_setting = data.get('grindSetting')
         shot_time = data.get('shotTime')
         notes = data.get('notes')
         
         
         card = JourneyCard.query.get(card_id)
-        card.date_posted = date_posted
         card.grind_setting = grind_setting
         card.notes = notes
         card.shot_time = shot_time

@@ -10,6 +10,8 @@
     let brewingDevice1 = $state('');
     let iteration1 = $state('');
     let journey_id1 = $state('');
+    let journey_id2 = $state('');
+    let journey_id3 = $state('');
 
     let drink2 = $state('');
     let grinder2 = $state('');
@@ -26,8 +28,19 @@
     let iteration3 = $state('');
     let cardPropData = $state({});
 
-    let cardProp = () => ({
-        journeyID: journey_id1
+    let cardProp1 = () => ({
+        journeyID1: journey_id1
+    });
+
+    let cardProp2 = () => ({
+        journeyID1: journey_id1,
+        journeyID2: journey_id2
+    });
+
+    let cardProp3 = () => ({
+        journeyID1: journey_id1,
+        journeyID2: journey_id2,
+        journeyID3: journey_id3
     });
 
     const displayArchive = async () => {
@@ -55,7 +68,7 @@
                 brewingDevice1 = journeys[0].brewingDevice;
                 iteration1 = journeys[0].iteration;
                 journey_id1 = journeys[0].id;
-                cardPropData = cardProp();
+                cardPropData = cardProp1();
             }
 
             if (journeys.length > 1) {
@@ -66,6 +79,9 @@
                 coffeeBeans2 = journeys[1].coffeeBeans;
                 brewingDevice2 = journeys[1].brewingDevice;
                 iteration2 = journeys[1].iteration;
+                journey_id2 = journeys[1].id;
+                cardPropData = cardProp2();
+
             }
 
             if (journeys.length > 2) {
@@ -76,6 +92,8 @@
                 coffeeBeans3 = journeys[2].coffeeBeans;
                 brewingDevice3 = journeys[2].brewingDevice;
                 iteration3 = journeys[2].iteration;
+                journey_id3 = journeys[2].id;
+                cardPropData = cardProp3();
             }
             } else {
                 const error = await response.json();
@@ -157,10 +175,11 @@
                 <p>Coffee Beans: {coffeeBeans2}</p>
                 <p>Brewing Device: {brewingDevice2}</p>
                 <p>Iteration: {iteration2}</p>
+                <p>Journey ID: {journey_id1}</p>
             </div>
 
-            <div class="tabButton">
-                <button onclick={()=>goto('/archive')}>+</button>
+            <div class="JourneyCard">
+                <JourneyCard journeyData={cardPropData}/>
             </div>
         </div>
 
@@ -173,10 +192,11 @@
                 <p>Coffee Beans: {coffeeBeans3}</p>
                 <p>Brewing Device: {brewingDevice3}</p>
                 <p>Iteration: {iteration3}</p>
+                <p>Journey ID: {journey_id1}</p>
             </div>
 
-            <div class="tabButton">
-                <button onclick={()=>goto('/archive')}>+</button>
+            <div class="JourneyCard">
+                <JourneyCard journeyData={cardPropData}/>
             </div>
         </div>
     </div>

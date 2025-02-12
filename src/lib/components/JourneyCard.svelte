@@ -27,6 +27,27 @@
     let journeyID = $state('');
     let cardID = $state('');
 
+    let datePosted1 = $state('');
+    let notes1 = $state('');
+    let grindSetting1 = $state('');
+    let shotTime1 = $state('');
+    let journeyID1 = $state('');
+    let cardID1 = $state('');
+
+    let datePosted2 = $state('');
+    let notes2 = $state('');
+    let grindSetting2 = $state('');
+    let shotTime2 = $state('');
+    let journeyID2 = $state('');
+    let cardID2 = $state('');
+
+    let datePosted3 = $state('');
+    let notes3 = $state('');
+    let grindSetting3 = $state('');
+    let shotTime3 = $state('');
+    let journeyID3 = $state('');
+    let cardID3 = $state('');
+
     const createJourneyCard = async () => {
         try {
             const response = await fetch('http://localhost:4000/journeyCard', {
@@ -94,8 +115,7 @@
                     id: cardID,
                     grindSetting: grindSetting,
                     shotTime: shotTime,
-                    datePosted: datePosted,
-                    notes: journeyID
+                    notes: notes
                 })
             });
 
@@ -124,6 +144,11 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
+    .toDoForm {
+    flex: 0.7; /* Take up all available space */
+    margin-right: 0;
+    }
+
     .card_text {
         font-size: 0.9rem;
         color: #666;
@@ -143,22 +168,65 @@
         cursor: pointer;
     }
 
+    .outerContainer {
+      display: flex;
+      flex-direction: row; /* Arrange elements in a row */
+      align-items: flex-start; /* Align items at the top */
+      gap: 10px; /* Add spacing between form and RecentSetups */
+    }
+
+
+  .innerContainer {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: flex-start; /* Align items at the top */
+    gap: 10px; /* Add spacing between form elements */
+    width: 50%; /* Make form take 50% of the width */
+  }
+
 </style>
 
 <div class="outerContainer">
-    <div class="tabButton">
-        <button onclick={()=>createJourneyCard()}>+</button>
+    <div class="innerContainer">
+        <div class="tabButton">
+            <button onclick={()=>createJourneyCard()}>+</button>
+        </div>
+
+        <p class="card_text">card ID {cardID}</p>
+        <p class="card_text">date posted: {datePosted}</p>
+        <p class="card_text">Journey id: {journeyID}</p>
+
+        <form class = toDoForm>
+            <input type="text" id="grindSetting" bind:value={grindSetting} required />
+            <input type="text" id="shotTime" bind:value={shotTime} required />
+            <input type="text" id="notes" bind:value={notes} required />
+            <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={()=>updateJourneyCard()} >Update</button>
+        </form>
     </div>
 
-    <div class="journey-card">
-        <p class="card_text">card{cardID}</p>
-        <p class="card_text">date posted: {datePosted}</p>
-        <p class="card_text">{grindSetting}</p>
-        <p class="card_text">{shotTime}</p>
-        <p class="card_text">{notes}</p>
-        <p class="card_text">Journey id: {journeyID}</p>
-        <div class="tabButton">
-            <button onclick={()=>updateJourneyCard()}>Update</button>
-        </div>
+    <div class="innerContainer">
+        <p class="card_text">card ID {cardID2}</p>
+        <p class="card_text">date posted: {datePosted2}</p>
+        <p class="card_text">Journey id: {journeyID2}</p>
+
+        <form class = toDoForm>
+            <input type="text" id="grindSetting" bind:value={grindSetting2} required />
+            <input type="text" id="shotTime" bind:value={shotTime2} required />
+            <input type="text" id="notes" bind:value={notes2} required />
+            <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={()=>updateJourneyCard()} >Update</button>
+        </form>
+    </div>
+
+    <div class="innerContainer">
+        <p class="card_text">card ID {cardID3}</p>
+        <p class="card_text">date posted: {datePosted3}</p>
+        <p class="card_text">Journey id: {journeyID3}</p>
+
+        <form class = toDoForm>
+            <input type="text" id="grindSetting" bind:value={grindSetting3} required />
+            <input type="text" id="shotTime" bind:value={shotTime3} required />
+            <input type="text" id="notes" bind:value={notes3} required />
+            <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={()=>updateJourneyCard()} >Update</button>
+        </form>
     </div>
 </div>
