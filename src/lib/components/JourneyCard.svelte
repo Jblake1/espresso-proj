@@ -10,43 +10,16 @@
 <script lang="ts">
     import { onMount } from "svelte";
     
-
     // Props that can be passed from the parent Archive component
     let props = $props();
 
-    // Creates a card shape with the following fields
-    // Grind Setting Field nullable
-    // Shot time nullable
-    // notes nullable
-    // date not nullable
-    
-    let datePosted = $state('');
-    let notes = $state('');
-    let grindSetting = $state('');
-    let shotTime = $state('');
+    let journeyCards = $state([]);
     let journeyID = $state('');
-    let cardID = $state('');
-
-    let datePosted1 = $state('');
-    let notes1 = $state('');
-    let grindSetting1 = $state('');
-    let shotTime1 = $state('');
-    let journeyID1 = $state('');
-    let cardID1 = $state('');
-
-    let datePosted2 = $state('');
-    let notes2 = $state('');
-    let grindSetting2 = $state('');
-    let shotTime2 = $state('');
-    let journeyID2 = $state('');
-    let cardID2 = $state('');
-
-    let datePosted3 = $state('');
-    let notes3 = $state('');
-    let grindSetting3 = $state('');
-    let shotTime3 = $state('');
-    let journeyID3 = $state('');
-    let cardID3 = $state('');
+    let cardData = $state([
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '' },
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '' },
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '' }
+    ]);
 
     const createJourneyCard = async () => {
         try {
@@ -88,15 +61,29 @@
                 const journeyCards = data.journeyCards;
                 console.log('JourneyCardsData:', journeyCards);
 
+                journeyCards.forEach((card, index) => {
+                    if (index < 3) {
+                        cardData[index].cardID = card.id;
+                        cardData[index].datePosted = card.datePosted;
+                        cardData[index].notes = card.notes;
+                        cardData[index].grindSetting = card.grindSetting;
+                        cardData[index].shotTime = card.shotTime;
+                    }
+                });
+
                 if (journeyCards.length > 0) {
-                    // Destructure the first setup object
-                    cardID = journeyCards[0].id;
-                    datePosted = journeyCards[0].datePosted;
-                    notes = journeyCards[0].notes;
-                    grindSetting = journeyCards[0].grindSetting;
-                    shotTime = journeyCards[0].shotTime;
                     journeyID = journeyCards[0].journey_id;
                 }
+
+                // if (journeyCards.length > 0) {
+                //     // Destructure the first setup object
+                //     cardID = journeyCards[0].id;
+                //     datePosted = journeyCards[0].datePosted;
+                //     notes = journeyCards[0].notes;
+                //     grindSetting = journeyCards[0].grindSetting;
+                //     shotTime = journeyCards[0].shotTime;
+                //     journeyID = journeyCards[0].journey_id;
+                // }
             }
         } catch (err) {
             console.error('Error getting journey:', err);
@@ -104,7 +91,7 @@
         }
     };
 
-    const updateJourneyCard = async () => {
+    const updateJourneyCard = async (index) => {
         try {
             const response = await fetch('http://localhost:4000/journeyCardEdit', {
                 method: 'POST',
@@ -112,10 +99,10 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    id: cardID,
-                    grindSetting: grindSetting,
-                    shotTime: shotTime,
-                    notes: notes
+                    id: cardData[index].cardID,
+                    grindSetting: cardData[index].grindSetting,
+                    shotTime: cardData[index].shotTime,
+                    notes: cardData[index].notes
                 })
             });
 
@@ -187,46 +174,22 @@
 </style>
 
 <div class="outerContainer">
-    <div class="innerContainer">
-        <div class="tabButton">
-            <button onclick={()=>createJourneyCard()}>+</button>
+    <div class="tabButton">
+        <button onclick={createJourneyCard}>+</button>
+    </div>
+
+    {#each cardData as card, index}
+        <div class="innerContainer">
+            <p class="card_text">card ID {card.cardID}</p>
+            <p class="card_text">date posted: {card.datePosted}</p>
+            <p class="card_text">Journey id: {journeyID}</p>
+
+            <form class="toDoForm">
+                <input type="text" id={`grindSetting${index + 1}`} bind:value={card.grindSetting} required />
+                <input type="text" id={`shotTime${index + 1}`} bind:value={card.shotTime} required />
+                <input type="text" id={`notes${index + 1}`} bind:value={card.notes} required />
+                <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={() => updateJourneyCard(index)}>Update</button>
+            </form>
         </div>
-
-        <p class="card_text">card ID {cardID}</p>
-        <p class="card_text">date posted: {datePosted}</p>
-        <p class="card_text">Journey id: {journeyID}</p>
-
-        <form class = toDoForm>
-            <input type="text" id="grindSetting" bind:value={grindSetting} required />
-            <input type="text" id="shotTime" bind:value={shotTime} required />
-            <input type="text" id="notes" bind:value={notes} required />
-            <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={()=>updateJourneyCard()} >Update</button>
-        </form>
-    </div>
-
-    <div class="innerContainer">
-        <p class="card_text">card ID {cardID2}</p>
-        <p class="card_text">date posted: {datePosted2}</p>
-        <p class="card_text">Journey id: {journeyID2}</p>
-
-        <form class = toDoForm>
-            <input type="text" id="grindSetting" bind:value={grindSetting2} required />
-            <input type="text" id="shotTime" bind:value={shotTime2} required />
-            <input type="text" id="notes" bind:value={notes2} required />
-            <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={()=>updateJourneyCard()} >Update</button>
-        </form>
-    </div>
-
-    <div class="innerContainer">
-        <p class="card_text">card ID {cardID3}</p>
-        <p class="card_text">date posted: {datePosted3}</p>
-        <p class="card_text">Journey id: {journeyID3}</p>
-
-        <form class = toDoForm>
-            <input type="text" id="grindSetting" bind:value={grindSetting3} required />
-            <input type="text" id="shotTime" bind:value={shotTime3} required />
-            <input type="text" id="notes" bind:value={notes3} required />
-            <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={()=>updateJourneyCard()} >Update</button>
-        </form>
-    </div>
+    {/each}
 </div>

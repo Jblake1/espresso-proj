@@ -26,20 +26,19 @@
     let coffeeBeans3 = $state('');
     let brewingDevice3 = $state('');
     let iteration3 = $state('');
-    let cardPropData = $state({});
+    let cardPropData1 = $state({});
+    let cardPropData2 = $state({});
+    let cardPropData3 = $state({});
 
     let cardProp1 = () => ({
         journeyID1: journey_id1
     });
 
     let cardProp2 = () => ({
-        journeyID1: journey_id1,
         journeyID2: journey_id2
     });
 
     let cardProp3 = () => ({
-        journeyID1: journey_id1,
-        journeyID2: journey_id2,
         journeyID3: journey_id3
     });
 
@@ -68,7 +67,7 @@
                 brewingDevice1 = journeys[0].brewingDevice;
                 iteration1 = journeys[0].iteration;
                 journey_id1 = journeys[0].id;
-                cardPropData = cardProp1();
+                cardPropData1 = cardProp1();
             }
 
             if (journeys.length > 1) {
@@ -80,8 +79,7 @@
                 brewingDevice2 = journeys[1].brewingDevice;
                 iteration2 = journeys[1].iteration;
                 journey_id2 = journeys[1].id;
-                cardPropData = cardProp2();
-
+                cardPropData2 = cardProp2();
             }
 
             if (journeys.length > 2) {
@@ -93,7 +91,7 @@
                 brewingDevice3 = journeys[2].brewingDevice;
                 iteration3 = journeys[2].iteration;
                 journey_id3 = journeys[2].id;
-                cardPropData = cardProp3();
+                cardPropData3 = cardProp3();
             }
             } else {
                 const error = await response.json();
@@ -162,7 +160,7 @@
             </div>
 
             <div class="JourneyCard">
-                <JourneyCard journeyData={cardPropData}/>
+                <JourneyCard journeyData={cardPropData1}/>
             </div>
         </div>
 
@@ -175,11 +173,11 @@
                 <p>Coffee Beans: {coffeeBeans2}</p>
                 <p>Brewing Device: {brewingDevice2}</p>
                 <p>Iteration: {iteration2}</p>
-                <p>Journey ID: {journey_id1}</p>
+                <p>Journey ID: {journey_id2}</p>
             </div>
 
             <div class="JourneyCard">
-                <JourneyCard journeyData={cardPropData}/>
+                <JourneyCard journeyData={cardPropData2}/>
             </div>
         </div>
 
@@ -192,11 +190,11 @@
                 <p>Coffee Beans: {coffeeBeans3}</p>
                 <p>Brewing Device: {brewingDevice3}</p>
                 <p>Iteration: {iteration3}</p>
-                <p>Journey ID: {journey_id1}</p>
+                <p>Journey ID: {journey_id3}</p>
             </div>
 
             <div class="JourneyCard">
-                <JourneyCard journeyData={cardPropData}/>
+                <JourneyCard journeyData={cardPropData3}/>
             </div>
         </div>
     </div>
