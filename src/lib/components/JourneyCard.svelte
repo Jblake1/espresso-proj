@@ -53,7 +53,7 @@
     const displayJourneyCard = async (journeyData) => {
         try {
             console.log(`Sending journeyID: ${journeyData}`);
-            const response = await fetch(`http://localhost:4000/journeyCard`, {
+            const response = await fetch(`http://localhost:4000/journeyCard?journeyID=${journeyData}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -110,6 +110,7 @@
         }
     };
 
+    // Run the displayJourneyCard function when the prop journeyData.journeyID changes
     $effect(() => {
 	console.log('running');
     console.log(props.journeyData.journeyID);
@@ -183,7 +184,6 @@
             <p class="card_text">card ID {card.cardID}</p>
             <p class="card_text">date posted: {card.datePosted}</p>
             <p class="card_text">Journey id: {card.journeyID}</p>
-            <p class="card_text">Test: {props.journeyData.journeyID}</p>
 
             <form class="toDoForm">
                 <input type="text" id={`grindSetting${index + 1}`} bind:value={card.grindSetting} required />
