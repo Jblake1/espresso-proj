@@ -13,13 +13,20 @@
     // Props that can be passed from the parent Archive component
     let props = $props();
 
+    let testVariable = $state('test');
+
+    let bob = $state('bob');
+
     let journeyCards = $state([]);
-    let journeyID = $state('');
+    let journeyID = $state(props.journeyData.journeyID);
+    let journeyPropData = () => props.journeyData.journeyID;
     let cardData = $state([
-        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '' },
-        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '' },
-        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '' }
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' },
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' },
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' }
     ]);
+
+    
 
     const createJourneyCard = async () => {
         try {
@@ -43,19 +50,17 @@
         }
     }
 
-    const displayJourneyCard = async () => {
+    const displayJourneyCard = async (journeyData) => {
         try {
-            console.log(`Sending journeyID: ${props.journeyData.journeyID}`);
-            const response = await fetch(`http://localhost:4000/journeyCard?journeyID=${props.journeyData.journeyID}`, {
+            console.log(`Sending journeyID: ${journeyData}`);
+            const response = await fetch(`http://localhost:4000/journeyCard`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
             
-            // 
-            // Investigate data flow of Journey id. Do integers behave diffferently
-            // or is the id column in journey blank. Or is the foreign id not generating
+            
             if (response.ok) {
                 const data = await response.json();
                 console.log('JourneyCards:', data);
@@ -63,28 +68,16 @@
                 console.log('JourneyCardsData:', journeyCards);
 
                 journeyCards.forEach((card, index) => {
-                    if (index < 3) {
+                    if (index < cardData.length) {
+                        
                         cardData[index].cardID = card.id;
                         cardData[index].datePosted = card.datePosted;
                         cardData[index].notes = card.notes;
                         cardData[index].grindSetting = card.grindSetting;
                         cardData[index].shotTime = card.shotTime;
+                        cardData[index].journeyID = props.journeyData.journeyID;
                     }
                 });
-
-                
-                journeyID = props.journeyData.journeyID
-                
-
-                // if (journeyCards.length > 0) {
-                //     // Destructure the first setup object
-                //     cardID = journeyCards[0].id;
-                //     datePosted = journeyCards[0].datePosted;
-                //     notes = journeyCards[0].notes;
-                //     grindSetting = journeyCards[0].grindSetting;
-                //     shotTime = journeyCards[0].shotTime;
-                //     journeyID = journeyCards[0].journey_id;
-                // }
             }
         } catch (err) {
             console.error('Error getting journey:', err);
@@ -117,9 +110,15 @@
         }
     };
 
-    onMount(() => {
-        displayJourneyCard();
+    $effect(() => {
+	console.log('running');
+    console.log(props.journeyData.journeyID);
+
+	if (props.journeyData.journeyID) {
+		displayJourneyCard(props.journeyData.journeyID);
+	}
     });
+
 </script>
 
 <style>
@@ -183,7 +182,8 @@
         <div class="innerContainer">
             <p class="card_text">card ID {card.cardID}</p>
             <p class="card_text">date posted: {card.datePosted}</p>
-            <p class="card_text">Journey id: {journeyID}</p>
+            <p class="card_text">Journey id: {card.journeyID}</p>
+            <p class="card_text">Test: {props.journeyData.journeyID}</p>
 
             <form class="toDoForm">
                 <input type="text" id={`grindSetting${index + 1}`} bind:value={card.grindSetting} required />
