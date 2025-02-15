@@ -21,7 +21,8 @@
   
         if (response.ok) {
           alert('Setup saved successfully!');
-          value= 'trigger';
+          //Toggle value to send rerender trigger
+          value = value === '1' ? '0' : '1';
 
         } else {
           const error = await response.json();
