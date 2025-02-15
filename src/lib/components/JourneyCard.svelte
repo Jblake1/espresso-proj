@@ -12,14 +12,6 @@
     
     // Props that can be passed from the parent Archive component
     let props = $props();
-
-    let testVariable = $state('test');
-
-    let bob = $state('bob');
-
-    let journeyCards = $state([]);
-    let journeyID = $state(props.journeyData.journeyID);
-    let journeyPropData = () => props.journeyData.journeyID;
     let cardData = $state([
         { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' },
         { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' },
@@ -43,6 +35,7 @@
             if (!response.ok) {
                 throw new Error('Network response of journeyCard not ok');
             }
+            displayJourneyCard(props.journeyData.journeyID);
             
         } catch (err) {
             console.error('Error getting journey:', err);
@@ -123,7 +116,7 @@
 </script>
 
 <style>
-    .journey-card {
+    .toDoForm {
         border: 1px solid #ddd;
         border-radius: 8px;
         padding: 1rem;
@@ -164,16 +157,17 @@
     }
 
 
-  .innerContainer {
+    .innerContainer {
     display: flex;
     flex-direction: column; /* Stack elements vertically */
     align-items: flex-start; /* Align items at the top */
     gap: 10px; /* Add spacing between form elements */
     width: 50%; /* Make form take 50% of the width */
-  }
+    }
 
 </style>
 
+<!-- button to create new cards and form to submit updated values -->
 <div class="outerContainer">
     <div class="tabButton">
         <button onclick={createJourneyCard}>+</button>
