@@ -20,6 +20,8 @@
   let beanDescription = $state('');
   let snapPropData = $state({});
 
+  let messageBind = $state('');
+
   let snapProp = () => ({
     drink: drink,
     brewingDevice: brewingDevice,
@@ -32,7 +34,7 @@
   let brewingDeviceEl: HTMLInputElement;
   let drinkEl: HTMLInputElement;
   let grinderEl: HTMLInputElement;
-  let coffeeBeansEl: HTMLInputElement;
+  let coffeeBeansEl: HTMLInputElement; 
 
 
   const submit = async () => {
@@ -208,12 +210,13 @@
     </form>
 
     <div class="CoffeeSetupSave">
-      <CoffeeSetupSave drink={snapPropData}/>
+      <CoffeeSetupSave bind:value={messageBind} props={snapPropData}/>
     </div>
+    <p>{messageBind}</p>
   </div>
 
   <div class="RecentSetups">
-    <RecentSetups drink={snapPropData}/>
+    <RecentSetups props={snapPropData} trigger={messageBind}/>
   </div>
 
   <div class="tabButton">

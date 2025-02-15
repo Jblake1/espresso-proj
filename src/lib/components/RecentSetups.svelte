@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import ArchiveButton from './ArchiveButton.svelte';
 
-    let props = $props();
+    let {props, trigger} = $props();
 
     let drink1 = $state('');
     let grinder1 = $state('');
@@ -111,7 +111,7 @@
     });
 
     $effect(() => {
-    if (props.drink.drink) {
+    if (trigger) {
       displaySetups();
     }
     });
@@ -130,9 +130,10 @@
       text-align: left; /* Aligns text to the right */
       margin-bottom: 10px;
     }
-  </style>
+</style>
 
 <div class="container">
+  
   {#if drink1 !== ''}
     <div class="setup">
       <h2>Recent Setup 1</h2>

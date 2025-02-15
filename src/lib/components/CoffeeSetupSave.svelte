@@ -1,5 +1,5 @@
 <script lang="ts">
-    let props   = $props();
+    let { value = $bindable(), props }  = $props();
    
     const saveSetup = async () => {
       try {
@@ -10,17 +10,19 @@
           },
           body: JSON.stringify(
             {
-              drink: props.drink.drink,
-              brewingDevice: props.drink.brewingDevice,
-              grinder: props.drink.grinder,
-              grindSetting: props.drink.grindSetting,
-              coffeeBeans: props.drink.coffeeBeans
+              drink: props.drink,
+              brewingDevice: props.brewingDevice,
+              grinder: props.grinder,
+              grindSetting: props.grindSetting,
+              coffeeBeans: props.coffeeBeans
             }
           ),
         });
   
         if (response.ok) {
           alert('Setup saved successfully!');
+          value= 'trigger';
+
         } else {
           const error = await response.json();
           alert('Failed to save setup: ' + error.message);
