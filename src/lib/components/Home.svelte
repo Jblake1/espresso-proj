@@ -213,7 +213,7 @@
   </div>
 
   <div class="RecentSetups">
-    <RecentSetups />
+    <RecentSetups drink={snapPropData}/>
   </div>
 
   <div class="tabButton">

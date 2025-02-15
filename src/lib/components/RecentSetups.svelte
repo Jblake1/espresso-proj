@@ -2,6 +2,8 @@
     import { onMount } from 'svelte';
     import ArchiveButton from './ArchiveButton.svelte';
 
+    let props = $props();
+
     let drink1 = $state('');
     let grinder1 = $state('');
     let grindSetting1 = $state('');
@@ -106,7 +108,13 @@
 
     onMount(() => {
     displaySetups();
-  });
+    });
+
+    $effect(() => {
+    if (props.drink.drink) {
+      displaySetups();
+    }
+    });
 </script>
 
 <style>
@@ -125,6 +133,7 @@
   </style>
 
 <div class="container">
+  {#if drink1 !== ''}
     <div class="setup">
       <h2>Recent Setup 1</h2>
       <p>Drink: {drink1}</p>
@@ -136,7 +145,8 @@
     <div class="ArchiveButton">
       <ArchiveButton drink={archivePropData1} />
     </div>
-
+  {/if}
+  {#if drink2 !== ''}
     <div class="setup">
       <h2>Recent Setup 2</h2>
       <p>Drink: {drink2}</p>
@@ -148,7 +158,8 @@
     <div class="ArchiveButton">
       <ArchiveButton drink={archivePropData2} />
     </div>
-  
+  {/if}
+  {#if drink3 !== ''}
     <div class="setup">
       <h2>Recent Setup 3</h2>
       <p>Drink: {drink3}</p>
@@ -160,5 +171,5 @@
     <div class="ArchiveButton">
       <ArchiveButton drink={archivePropData3} />
     </div>
-
+  {/if}
   </div>

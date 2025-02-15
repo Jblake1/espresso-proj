@@ -180,17 +180,19 @@
     </div>
 
     {#each cardData as card, index}
-        <div class="innerContainer">
-            <p class="card_text">card ID {card.cardID}</p>
-            <p class="card_text">date posted: {card.datePosted}</p>
-            <p class="card_text">Journey id: {card.journeyID}</p>
+        {#if card.cardID !== ''}
+            <div class="innerContainer">
+                <p class="card_text">card ID {card.cardID}</p>
+                <p class="card_text">date posted: {card.datePosted}</p>
+                <p class="card_text">Journey id: {card.journeyID}</p>
 
-            <form class="toDoForm">
-                <input type="text" id={`grindSetting${index + 1}`} bind:value={card.grindSetting} required />
-                <input type="text" id={`shotTime${index + 1}`} bind:value={card.shotTime} required />
-                <input type="text" id={`notes${index + 1}`} bind:value={card.notes} required />
-                <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={() => updateJourneyCard(index)}>Update</button>
-            </form>
-        </div>
+                <form class="toDoForm">
+                    <input type="text" id={`grindSetting${index + 1}`} bind:value={card.grindSetting} required />
+                    <input type="text" id={`shotTime${index + 1}`} bind:value={card.shotTime} required />
+                    <input type="text" id={`notes${index + 1}`} bind:value={card.notes} required />
+                    <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={() => updateJourneyCard(index)}>Update</button>
+                </form>
+            </div>
+        {/if}
     {/each}
 </div>
