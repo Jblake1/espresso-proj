@@ -24,6 +24,7 @@ from langchain.prompts import PromptTemplate
 api_key_1 = keyring.get_password("OPENAI_API_KEY", "openai_user")
 os.environ["OPENAI_API_KEY"] = api_key_1
 
+# langchain api was incase I wanted to use langsmith. But seems unnecessary for the scope of this project
 api_key_2 = keyring.get_password("LANGCHAIN_API_KEY", "langchain_user")
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ['LANGCHAIN_ENDPOINT'] = 'https://api.smith.langchain.com'

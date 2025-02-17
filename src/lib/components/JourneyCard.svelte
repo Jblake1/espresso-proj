@@ -29,8 +29,8 @@
                 },
                 body: JSON.stringify({
                     journeyID: props.journeyData.journeyID
-            })
-        });
+                })
+            });
 
             if (!response.ok) {
                 throw new Error('Network response of journeyCard not ok');

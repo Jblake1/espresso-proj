@@ -1,3 +1,5 @@
+<!-- saves the current values in the submission fields
+ and the grind seting rec that was returned -->
 <script lang="ts">
     let { value = $bindable(), props }  = $props();
    

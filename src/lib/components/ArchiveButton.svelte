@@ -1,3 +1,7 @@
+<!-- Possibly needs renaming 
+ child compponent of recent setups 
+ sends selected recent setup to the archive db -->
+
 <script lang="ts">
     let props   = $props();
 

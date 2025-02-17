@@ -1,3 +1,8 @@
+<!-- Allow non existing user to register as a user
+ provide username email password
+ register and redirect to home
+ include optional redirect to login -->
+
 <script lang="ts">
     import { onMount } from 'svelte'
     import { selectOnFocus } from '../actions'

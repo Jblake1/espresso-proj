@@ -1,4 +1,5 @@
-<!-- components/NewTodo.svelte -->
+<!-- homepage where espresso inputs are submitted 
+ and setups can be saved to a intermediary db -->
 <script lang='ts'>
   import { onMount } from 'svelte'
   import { selectOnFocus } from '../actions'

@@ -1,3 +1,6 @@
+<!-- displays recently saved espresso setups on homapage
+ allow for espresso setups to be archived
+ meaning sent to the archive db -->
 <script lang="ts">
     import { onMount } from 'svelte';
     import ArchiveButton from './ArchiveButton.svelte';

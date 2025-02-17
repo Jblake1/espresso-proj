@@ -1,3 +1,7 @@
+<!-- Login page which redirects to home upon login 
+ returns error msgs for failed login
+ redirect to register page for non existing users -->
+
 <script lang="ts">
     import { onMount } from 'svelte'
     import { selectOnFocus } from '../actions'
