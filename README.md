@@ -1,6 +1,6 @@
 Project Setup steps after downloading the repo
 
-Download dependencies (vite,node js, npm, python)
+Download dependencies located in "requirements.txt"
 
 Create databases defined in the models file. Navigate to your project server folder in terminal and run: 
 
