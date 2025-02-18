@@ -213,7 +213,6 @@
     <div class="CoffeeSetupSave">
       <CoffeeSetupSave bind:value={messageBind} props={snapPropData}/>
     </div>
-    <p>{messageBind}</p>
   </div>
 
   <div class="RecentSetups">

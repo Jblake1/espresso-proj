@@ -34,7 +34,7 @@ llm = ChatOpenAI(model="gpt-4o-mini")
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 vector_store = InMemoryVectorStore(embeddings)
 
-file = 'C:/Users/Josh/OneDrive/Documents/project_notes/espresso/Espresso_seed_data.csv'
+file = os.path.join(os.path.dirname(__file__), "csv_data", "Espresso_seed_data.csv")
 loader = CSVLoader(file_path=file,
     csv_args={
     'delimiter': ',',

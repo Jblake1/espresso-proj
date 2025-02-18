@@ -1,38 +1,36 @@
-# sv
+Project Setup steps after downloading the repo
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Download dependencies (vite,node js, npm, python)
 
-## Creating a project
+Create databases defined in the models file. Navigate to your project server folder in terminal and run: 
 
-If you're seeing this, you've probably already done this step. Congrats!
+python 
+from flaskcoffee import app, db
+app.app_context().push()
+db.create_all()
 
-```bash
-# create a new project in the current directory
-npx sv create
+In a terminal run the following to create the server:
 
-# create a new project in my-app
-npx sv create my-app
-```
+cd projects/espresso-project/server/
+python run.py
 
-## Developing
+In another terminal run the following to boot up the svelte frontend: 
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
+cd projects/espresso-project
 npm run dev -- --open
-```
 
-## Building
+For testing the recommendation system here are some example values:
 
-To create a production version of your app:
+Drink: espresso
 
-```bash
-npm run build
-```
+Brewing Device: Gaggia Classic Pro
 
-You can preview the production build with `npm run preview`.
+Grinder: DF 64
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Bean: Red Bird Espresso 
+
+Alternate Bean Option: Life Boost Blonde Roast (useful to alternate when testing)
+
+Combinations of grinders and bean roast types are assigned setting ranges in the seed data csv. 
+
+Generally it is setup to identify the roast level of the bean and then give a recommendation based on that.
