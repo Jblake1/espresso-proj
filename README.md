@@ -4,7 +4,9 @@ Download dependencies located in requirements.txt:
 
 pip install -r requirements.txt
 
-Create databases defined in the models file. Navigate to your project server folder in terminal and run: 
+You may need to create databases defined in the models file. Navigate to your project server folder in terminal and run: 
+
+cd projects/espresso-project/server/
 
 python 
 from flaskcoffee import app, db
@@ -36,3 +38,12 @@ Alternate Bean Option: Life Boost Blonde Roast (useful to alternate when testing
 Combinations of grinders and bean roast types are assigned setting ranges in the seed data csv. 
 
 Generally it is setup to identify the roast level of the bean and then give a recommendation based on that.
+
+To reset individual tables you can run something like this: 
+
+from flaskcoffee import app, db
+from flaskcoffee.models import CoffeeJourney
+app.app_context().push()
+JourneyCard.__table__.drop(db.engine)
+JourneyCard.__table__.create(db.engine)
+db.session.commit()
