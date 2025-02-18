@@ -1,6 +1,8 @@
 Project Setup steps after downloading the repo
 
-Download dependencies located in "requirements.txt"
+Download dependencies located in requirements.txt:
+
+pip install -r requirements.txt
 
 Create databases defined in the models file. Navigate to your project server folder in terminal and run: 
 
