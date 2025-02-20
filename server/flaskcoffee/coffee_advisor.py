@@ -4,9 +4,7 @@
 from dotenv import load_dotenv, find_dotenv
 _ = load_dotenv(find_dotenv()) # read local .env file
 
-import keyring
 import os
-import bs4
 from langchain_openai import ChatOpenAI
 from langchain_openai import OpenAIEmbeddings
 from langchain_core.vectorstores import InMemoryVectorStore
@@ -20,9 +18,12 @@ from langgraph.graph import START, StateGraph
 from typing_extensions import List, TypedDict
 from langchain.prompts import PromptTemplate
 
+# Windows credential manager key retrieval 
+# api_key_1 = keyring.get_password("OPENAI_API_KEY", "openai_user")
+# os.environ["OPENAI_API_KEY"] = api_key_1
 
-api_key_1 = keyring.get_password("OPENAI_API_KEY", "openai_user")
-os.environ["OPENAI_API_KEY"] = api_key_1
+
+api_key_1 = os.environ.get("OPENAI_API_KEY")
 
 # langchain api was incase I wanted to use langsmith. But seems unnecessary for the scope of this project
 # api_key_2 = keyring.get_password("LANGCHAIN_API_KEY", "langchain_user")

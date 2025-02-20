@@ -2,7 +2,10 @@
  intends to show archived espresso setups 
  and allow for repeated updates to "journey cards" -->
 
+ 
+
 <script lang="ts">
+    import "tailwindcss";
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
     import JourneyCard from './JourneyCard.svelte';
