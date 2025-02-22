@@ -5,7 +5,7 @@
  
 
 <script lang="ts">
-    import "tailwindcss";
+    //import "tailwindcss";
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
     import JourneyCard from './JourneyCard.svelte';
