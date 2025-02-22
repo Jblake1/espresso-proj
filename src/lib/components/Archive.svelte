@@ -5,7 +5,6 @@
  
 
 <script lang="ts">
-    //import "tailwindcss";
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
     import JourneyCard from './JourneyCard.svelte';
@@ -37,6 +36,8 @@
     let cardPropData1 = $state({});
     let cardPropData2 = $state({});
     let cardPropData3 = $state({});
+
+    let message = "Hello, Tailwind!";
 
     let cardProp1 = () => ({
         journeyID: journey_id1
@@ -164,6 +165,8 @@
 </style>
 
 <h1>Archive</h1>
+
+<h1 class="text-3xl font-bold text-blue-500">{message}</h1>
 
 <div class="outerContainer">
     <div class="innerContainer">
