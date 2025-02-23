@@ -8,6 +8,7 @@
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
     import JourneyCard from './JourneyCard.svelte';
+    import LightSwitch from './LightSwitch.svelte';
 
     let drink1 = $state('');
     let grinder1 = $state('');
@@ -165,6 +166,10 @@
 </style>
 
 <h1>Archive</h1>
+
+<div>
+    <LightSwitch />
+</div>
 
 <h1 class="text-3xl font-bold text-blue-500">{message}</h1>
 
