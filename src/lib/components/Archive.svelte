@@ -8,7 +8,6 @@
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
     import JourneyCard from './JourneyCard.svelte';
-    import LightSwitch from './LightSwitch.svelte';
 
     let drink1 = $state('');
     let grinder1 = $state('');
@@ -124,20 +123,6 @@
 
 
 <style>
-
-    .tabButton {
-        background-color: #f1f1f1;
-        border: none;
-        color: black;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-    }
-
     .outerContainer {
       display: flex;
       flex-direction: row; /* Arrange elements in a row */
@@ -164,12 +149,6 @@
     }
 
 </style>
-
-<h1>Archive</h1>
-
-<div>
-    <LightSwitch />
-</div>
 
 <h1 class="text-3xl font-bold text-blue-500">{message}</h1>
 
@@ -222,23 +201,5 @@
                 <JourneyCard journeyData={cardPropData3}/>
             </div>
         </div>
-    </div>
-
-
-
-    <div class="tabButton">
-        <button onclick={() => goto('/login')}>Login</button>
-    </div>
-
-    <div class="tabButton">
-        <button onclick={() => goto('/')}>Home</button>
-    </div>
-
-    <div class="tabButton">
-        <button onclick={() => goto('/about')}>About</button>
-    </div>
-
-    <div class="tabButton">
-        <button onclick={() => goto('/register')}>Register</button>
     </div>
 </div>

@@ -5,7 +5,6 @@
   import { selectOnFocus } from '../actions'
   import CoffeeSetupSave from './CoffeeSetupSave.svelte';
   import RecentSetups from './RecentSetups.svelte';
-  import { goto } from '$app/navigation';
 
   const { autofocus } = $props<{ autofocus: boolean }>()
 
@@ -143,19 +142,6 @@
     margin-right: 0;
   }
 
-  .tabButton {
-    background-color: #f1f1f1;
-    border: none;
-    color: black;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-  }
-
 </style>
 
 <h1>Home</h1>
@@ -218,21 +204,4 @@
   <div class="RecentSetups">
     <RecentSetups props={snapPropData} trigger={messageBind}/>
   </div>
-
-  <div class="tabButton">
-    <button onclick={() => goto('/login')}>Login</button>
-  </div>
-
-  <div class="tabButton">
-    <button onclick={() => goto('/archive')}>Archive</button>
-  </div>
-
-  <div class="tabButton">
-    <button onclick={() => goto('/about')}>About</button>
-  </div>
-
-  <div class="tabButton">
-    <button onclick={() => goto('/register')}>Register</button>
-  </div>
-
 </div>

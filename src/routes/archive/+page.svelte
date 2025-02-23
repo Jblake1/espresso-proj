@@ -1,7 +1,7 @@
 <script>
-    import Hello from '$lib/components/Hello.svelte';
     import Archive from '$lib/components/Archive.svelte';
+    import AppBar from '$lib/components/AppBar.svelte';
 </script>
 
-<Hello />
+<AppBar />
 <Archive />

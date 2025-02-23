@@ -1,7 +1,7 @@
 <script>
-    import Hello from '$lib/components/Hello.svelte';
     import About from '$lib/components/About.svelte';
+    import AppBar from '$lib/components/AppBar.svelte';
 </script>
 
-<Hello />
-<About page/>
+<AppBar />
+<About />
