@@ -2,56 +2,40 @@
 <script>
     import { AppBar, LightSwitch } from '@skeletonlabs/skeleton';
     import { goto } from '$app/navigation';
-    //import { LightSwitch } from '@skeletonlabs/skeleton';
+    import { TabGroup, Tab, TabAnchor } from '@skeletonlabs/skeleton';
+    import { onMount } from 'svelte';
     let color = 'primary';
-    //let position = 'top'; // or 'bottom'
+    let currentPath = '';
+
+    onMount(() => {
+        currentPath = window.location.pathname;
+    });
+
+    function handleNavigation(event, path) {
+        event.preventDefault(); // Prevent full page reload
+        goto(path); // Use SvelteKit's client-side navigation
+        currentPath = path; // Update the state
+    }
 </script>
 
-<style>
-    .tabButton {
-            background-color: #f1f1f1;
-            border: none;
-            color: black;
-            padding: 5px 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-    }
-</style>
-
+<style></style>
 
 <div>
-    <AppBar color={color} >
-        <div slot="lead">Espresso Oracle</div>
-
-        <div slot="trail">
-            <div class="tabButton">
-                <button onclick={() => goto('/login')}>Login</button>
-            </div>
+    <AppBar color={color}>
+        <svelte:fragment slot="lead">
+            <strong class="text-xl uppercase">Espresso Oracle</strong>
+        </svelte:fragment>
         
-            <div class="tabButton">
-                <button onclick={() => goto('/')}>Home</button>
-            </div>
-
-            <div class="tabButton">
-                <button onclick={() => goto('/archive')}>Archive</button>
-            </div>
-        
-            <div class="tabButton">
-                <button onclick={() => goto('/about')}>About</button>
-            </div>
-        
-            <div class="tabButton">
-                <button onclick={() => goto('/register')}>Register</button>
-            </div>
-
-            <div>
+        <svelte:fragment slot="trail">
+            <TabGroup slot="justify-center">
+                <TabAnchor href="/" selected={currentPath === '/'} on:click={(e) => handleNavigation(e, '/')}>Home</TabAnchor>
+                <TabAnchor href="/archive" selected={currentPath === '/archive'} on:click={(e) => handleNavigation(e, '/archive')}>Archive</TabAnchor>
+                <TabAnchor href="/about" selected={currentPath === '/about'} on:click={(e) => handleNavigation(e, '/about')}>About</TabAnchor>
+                <TabAnchor href="/login" selected={currentPath === '/login'} on:click={(e) => handleNavigation(e, '/login')}>Login</TabAnchor>
+                <TabAnchor href="/register" selected={currentPath === '/register'} on:click={(e) => handleNavigation(e, '/register')}>Register</TabAnchor>
                 <LightSwitch />
-            </div>
-        </div>
+            </TabGroup>
+        </svelte:fragment>
     </AppBar>
 </div>
    

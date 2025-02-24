@@ -1,9 +1,9 @@
 <script>
     import Login from '$lib/components/Login.svelte';
-    import Hello from '$lib/components/Hello.svelte';
+    import AppBar from '$lib/components/AppBar.svelte';
 </script>
 
-<Hello />
+<AppBar />
 <Login />
 
 
