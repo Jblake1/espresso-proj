@@ -2,93 +2,67 @@
  returns error msgs for failed login
  redirect to register page for non existing users -->
 
-<script lang="ts">
-    import { onMount } from 'svelte'
-    import { selectOnFocus } from '../actions'
-  
-    let email = $state('');
-    let password = $state('');
-    let emailEl: HTMLInputElement;
-    let passwordEl: HTMLInputElement;
-    let errorMessage = $state('');
-  
-    // const login = async () => {
-    //   try {
-    //       const response = await fetch('http://localhost:4000/login', {
-    //         method: 'POST',
-    //         headers: {
-    //           'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //           email,
-    //           password
-    //         })
-    //       });
-    
-    //       if (response.ok) {
-    //         const data = await response.json();
-    //         if (data.message === 'login successful') {
-    //           console.log('Login successful:', data);
-    //           // Redirect to the home page
-    //           window.location.href = '/';
-    //         } else {
-    //           throw new Error('Login failed');
-    //         }
-    //       };
+ <script lang="ts">
+  import { onMount } from 'svelte'
+  import { selectOnFocus } from '../actions'
 
-    const handleSubmit = async (event: SubmitEvent) => {
-      event.preventDefault();
-      try {
-          const response = await fetch('http://localhost:4000/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              email,
-              password
-            })
-          });
-    
-          if (response.ok) {
-            const data = await response.json();
-            if (data.message === 'login successful') {
-              console.log('Login successful:', data);
-              window.location.href = '/';
-            } else {
-              throw new Error('Login failed');
-            }
-          }
-    
+  let email = $state('');
+  let password = $state('');
+  let emailEl: HTMLInputElement;
+  let passwordEl: HTMLInputElement;
+  let errorMessage = $state('');
+
+  const handleSubmit = async (event: SubmitEvent) => {
+    event.preventDefault();
+    try {
+        const response = await fetch('http://localhost:4000/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email,
+            password
+          })
+        });
+  
+        if (response.ok) {
           const data = await response.json();
-          console.log('Login successful:', data);
-        
-      } catch (error) {
-        console.error('There was a problem with the login operation:', error);
-        errorMessage = 'Login Unsuccessful. Please check email and password';
-      }
-    };
+          if (data.message === 'login successful') {
+            console.log('Login successful:', data);
+            window.location.href = '/';
+          } else {
+            throw new Error('Login failed');
+          }
+        }
   
-    const onCancel = () => {
-      email = '';
-      password = '';
-      emailEl.focus();
-    };
-  
-    onMount(() => {
-      emailEl.focus();
-    });
+        const data = await response.json();
+        console.log('Login successful:', data);
+      
+    } catch (error) {
+      console.error('There was a problem with the login operation:', error);
+      errorMessage = 'Login Unsuccessful. Please check email and password';
+    }
+  };
+
+  const onCancel = () => {
+    email = '';
+    password = '';
+    emailEl.focus();
+  };
+
+  onMount(() => {
+    emailEl.focus();
+  });
 </script>
 
-  
+
 <style>
-    .error-message {
-        color: red;
-        margin-top: 1em;
-    }
+
 </style>
-  
-<div class="card p-4">
+
+<div class="flex justify-center items-center min-h-screen">
+<div class="card p-4 w-1/3">
   <form onsubmit={handleSubmit} class="space-y-4">
       <h2 class="h2">Login</h2>
 
@@ -120,6 +94,10 @@
       </label>
 
       <button type="submit" class="btn variant-filled-primary w-full">Login</button>
+      <div class="flex items-center space-x-2">
+          <span>Need an account?</span>
+          <a href="/register" class="text-blue-500 underline">Register</a>
+      </div>
   </form>
 </div>
-
+</div>
