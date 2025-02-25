@@ -177,22 +177,18 @@
         type="text" id="coffeeBeans" autoComplete="off" class="input input__lg" 
       />
 
+      <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={submit} >Submit</button>
+
       <!-- <h1 class="visible-heading">
         Bean Description:{beanDescription}
       </h1> -->
-
-      
-        
-      <h1 class="visible-heading">
-        Grind Segment:{grindSegment}
-      </h1>
 
       <h1 class="visible-heading">
         Grind Setting:{grindSetting}
       </h1>
       
       
-      <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={submit} >Submit</button>
+      
 
     </form>
 

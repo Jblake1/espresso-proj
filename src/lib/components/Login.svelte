@@ -12,7 +12,32 @@
     let passwordEl: HTMLInputElement;
     let errorMessage = $state('');
   
-    const login = async () => {
+    // const login = async () => {
+    //   try {
+    //       const response = await fetch('http://localhost:4000/login', {
+    //         method: 'POST',
+    //         headers: {
+    //           'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //           email,
+    //           password
+    //         })
+    //       });
+    
+    //       if (response.ok) {
+    //         const data = await response.json();
+    //         if (data.message === 'login successful') {
+    //           console.log('Login successful:', data);
+    //           // Redirect to the home page
+    //           window.location.href = '/';
+    //         } else {
+    //           throw new Error('Login failed');
+    //         }
+    //       };
+
+    const handleSubmit = async (event: SubmitEvent) => {
+      event.preventDefault();
       try {
           const response = await fetch('http://localhost:4000/login', {
             method: 'POST',
@@ -29,18 +54,11 @@
             const data = await response.json();
             if (data.message === 'login successful') {
               console.log('Login successful:', data);
-              // Redirect to the home page
               window.location.href = '/';
             } else {
               throw new Error('Login failed');
             }
           }
-          
-          
-          // if (!response.ok) {
-          //   const errorText = await response.text();
-          //   throw new Error(`Login failed: ${errorText}`);
-          // }
     
           const data = await response.json();
           console.log('Login successful:', data);
@@ -60,7 +78,6 @@
     onMount(() => {
       emailEl.focus();
     });
-    
 </script>
 
   
@@ -71,19 +88,38 @@
     }
 </style>
   
-<form on:submit|preventDefault={login}>
-  <h2>Login</h2>
+<div class="card p-4">
+  <form onsubmit={handleSubmit} class="space-y-4">
+      <h2 class="h2">Login</h2>
 
-  {#if errorMessage}
-      <p class="error">{errorMessage}</p>
-  {/if}
+      {#if errorMessage}
+          <div class="alert variant-filled-error">{errorMessage}</div>
+      {/if}
+      <label class="label">
+          <span>Email</span>
+          <input 
+              class="input" 
+              type="email" 
+              bind:value={email}
+              bind:this={emailEl}
+              placeholder="Enter your email"
+              required
+          />
+      </label>
 
-  <label for="email">Email</label>
-  <input type="email" id="email" bind:value={email} required />
+      <label class="label">
+          <span>Password</span>
+          <input 
+              class="input" 
+              type="password" 
+              bind:value={password}
+              bind:this={passwordEl}
+              placeholder="Enter your password"
+              required
+          />
+      </label>
 
-  <label for="password">Password</label>
-  <input type="password" id="password" bind:value={password} required />
+      <button type="submit" class="btn variant-filled-primary w-full">Login</button>
+  </form>
+</div>
 
-  <button type="submit" class="btn btn__primary btn__lg">Login</button>
-  <button type="button" on:click={onCancel} class="btn btn__secondary btn__lg">Cancel</button>
-</form>
