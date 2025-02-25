@@ -3,19 +3,15 @@
  register and redirect to home
  include optional redirect to login -->
 
-<script lang="ts">
-    import { onMount } from 'svelte'
-    import { selectOnFocus } from '../actions'
+ <script lang="ts">
+    import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
     
-
     let username = '';
     let email = '';
     let password = '';
     let confirmPassword = '';
     let errorMessage = '';
-
-    // const dispatch = createEventDispatcher();
 
     const register = async () => {
         if (password !== confirmPassword) {
@@ -36,24 +32,17 @@
                     confirm_password: confirmPassword
                 })
             });
-            
 
-
-
-
-           if (response.ok) {
+            if (response.ok) {
                 const data = await response.json();
                 if (data.message === "registration successful") {
-                console.log('Registration successful:', data);
-                // Redirect to the home page
-                window.location.href = '/login';
+                    console.log('Registration successful:', data);
+                    // Redirect to the login page
+                    window.location.href = '/login';
                 } else {
-                throw new Error('Registration failed');
+                    throw new Error('Registration failed');
                 }
             }
-
-            
-
         } catch (error) {
             errorMessage = error.message;
         }
@@ -66,28 +55,64 @@
     }
 </style>
 
-<form on:submit|preventDefault={register}>
-    <h2>Register</h2>
+<div class="flex justify-center items-center min-h-screen">
+    <div class="card p-4 w-1/3">
+        <form on:submit|preventDefault={register} class="space-y-4">
+            <h2 class="h2">Register</h2>
 
-    {#if errorMessage}
-        <p class="error">{errorMessage}</p>
-    {/if}
+            {#if errorMessage}
+                <div class="alert variant-filled-error">{errorMessage}</div>
+            {/if}
 
-    <label for="username">Username</label>
-    <input type="text" id="username" bind:value={username} required />
+            <label class="label">
+                <span>Username</span>
+                <input 
+                    class="input" 
+                    type="text" 
+                    bind:value={username} 
+                    placeholder="Enter your username"
+                    required 
+                />
+            </label>
 
-    <label for="email">Email</label>
-    <input type="email" id="email" bind:value={email} required />
+            <label class="label">
+                <span>Email</span>
+                <input 
+                    class="input" 
+                    type="email" 
+                    bind:value={email} 
+                    placeholder="Enter your email"
+                    required 
+                />
+            </label>
 
-    <label for="password">Password</label>
-    <input type="password" id="password" bind:value={password} required />
+            <label class="label">
+                <span>Password</span>
+                <input 
+                    class="input" 
+                    type="password" 
+                    bind:value={password} 
+                    placeholder="Enter your password"
+                    required 
+                />
+            </label>
 
-    <label for="confirmPassword">Confirm Password</label>
-    <input type="password" id="confirmPassword" bind:value={confirmPassword} required />
+            <label class="label">
+                <span>Confirm Password</span>
+                <input 
+                    class="input" 
+                    type="password" 
+                    bind:value={confirmPassword} 
+                    placeholder="Confirm your password"
+                    required 
+                />
+            </label>
 
-    <button type="submit" class="btn btn__primary btn__lg">Register</button>
-</form>
-
-<!-- <div class="loginLink">
-    <button onclick={() => goto('/login')}>Login</button>
-</div> -->
+            <button type="submit" class="btn variant-filled-primary w-full">Register</button>
+            <div class="flex items-center space-x-2">
+                <span>Already have an account?</span>
+                <a href="/login" class="text-blue-500 underline">Login</a>
+            </div>
+        </form>
+    </div>
+</div>
