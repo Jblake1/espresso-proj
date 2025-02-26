@@ -7,6 +7,10 @@
     import { onMount } from 'svelte';
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
     import JourneyCard from './JourneyCard.svelte';
+
+    let journeyImage1 = '/images/espresso1.jpg';
+    let journeyImage2 = '/images/espresso2.jpg';
+    let journeyImage3 = '/images/espresso3.jpg';
     
     let drink1 = '';
     let grinder1 = '';
@@ -121,6 +125,19 @@
 </script>
 
 <style>
+
+    .accordion-header {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 0.375rem;
+        overflow: hidden; /* Keep background inside rounded corners */
+    }
+    
+    /* Other styles remain the same */
+
+    
+    
     /* Modified layout styles */
     .outerContainer {
         display: flex;
@@ -164,12 +181,18 @@
                     <button
                         type="button"
                         class="flex items-center space-x-3 w-full text-left"
+                        style="background-image: url({journeyImage1}); background-size: cover; background-position: center;"
                         on:click|stopPropagation={() => toggleAccordion(0)}
                         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(0)}
                     >
-                        <p class="whitespace-nowrap">Drink: {drink1}</p>
-                        <div class="h-4 border-r border-slate-300"></div>
-                        <p class="whitespace-nowrap">Coffee: {coffeeBeans1}</p>
+                        <div class="py-2 px-3 rounded-md flex items-center space-x-3 flex-grow">
+                            <p class="whitespace-nowrap">Drink: {drink1}</p>
+                            <div class="h-4 border-r border-slate-300"></div>
+                            <p class="whitespace-nowrap truncate">Coffee: {coffeeBeans1}</p>
+                        </div>
+                        <div class="h-full w-14 max-w-[56px] flex-shrink-0">
+                            <!-- No image needed here since we're using background image -->
+                        </div>
                     </button>
                 </svelte:fragment>
                 <svelte:fragment slot="content">
@@ -210,12 +233,18 @@
                     <button
                         type="button"
                         class="flex items-center space-x-3 w-full text-left"
+                        style="background-image: url({journeyImage2}); background-size: cover; background-position: center;"
                         on:click|stopPropagation={() => toggleAccordion(1)}
                         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(1)}
                     >
-                        <p class="whitespace-nowrap">Drink: {drink2}</p>
-                        <div class="h-4 border-r border-slate-300"></div>
-                        <p class="whitespace-nowrap">Coffee: {coffeeBeans2}</p>
+                        <div class="py-2 px-3 rounded-md flex items-center space-x-3 flex-grow">
+                            <p class="whitespace-nowrap">Drink: {drink2}</p>
+                            <div class="h-4 border-r border-slate-300"></div>
+                            <p class="whitespace-nowrap truncate">Coffee: {coffeeBeans2}</p>
+                        </div>
+                        <div class="h-full w-14 max-w-[56px] flex-shrink-0">
+                            <!-- No image needed here since we're using background image -->
+                        </div>
                     </button>
                 </svelte:fragment>
                 <svelte:fragment slot="content">
@@ -256,12 +285,18 @@
                     <button
                         type="button"
                         class="flex items-center space-x-3 w-full text-left"
+                        style="background-image: url({journeyImage3}); background-size: cover; background-position: center;"
                         on:click|stopPropagation={() => toggleAccordion(2)}
                         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(2)}
                     >
-                        <p class="whitespace-nowrap">Drink: {drink3}</p>
-                        <div class="h-4 border-r border-slate-300"></div>
-                        <p class="whitespace-nowrap">Coffee: {coffeeBeans3}</p>
+                        <div class="py-2 px-3 rounded-md flex items-center space-x-3 flex-grow">
+                            <p class="whitespace-nowrap">Drink: {drink3}</p>
+                            <div class="h-4 border-r border-slate-300"></div>
+                            <p class="whitespace-nowrap truncate">Coffee: {coffeeBeans3}</p>
+                        </div>
+                        <div class="h-full w-14 max-w-[56px] flex-shrink-0">
+                            <!-- No image needed here since we're using background image -->
+                        </div>
                     </button>
                 </svelte:fragment>
                 <svelte:fragment slot="content">

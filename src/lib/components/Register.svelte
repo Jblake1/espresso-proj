@@ -49,11 +49,7 @@
     };
 </script>
 
-<style>
-    .error {
-        color: red;
-    }
-</style>
+<style></style>
 
 <div class="flex justify-center items-center min-h-screen">
     <div class="card p-4 w-1/3">
