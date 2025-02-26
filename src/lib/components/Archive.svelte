@@ -8,6 +8,8 @@
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
     import JourneyCard from './JourneyCard.svelte';
 
+    let color = 'primary';
+
     let journeyImage1 = '/images/espresso1.jpg';
     let journeyImage2 = '/images/espresso2.jpg';
     let journeyImage3 = '/images/espresso3.jpg';
@@ -125,20 +127,6 @@
 </script>
 
 <style>
-
-    .accordion-header {
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        border-radius: 0.375rem;
-        overflow: hidden; /* Keep background inside rounded corners */
-    }
-    
-    /* Other styles remain the same */
-
-    
-    
-    /* Modified layout styles */
     .outerContainer {
         display: flex;
         flex-direction: row;
@@ -156,7 +144,6 @@
     }
 
     /* Each journey container will be a column */
-
     /* Card will take full width of its container */
     .journeyInfoCard {
         width: 100%;
@@ -186,9 +173,9 @@
                         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(0)}
                     >
                         <div class="py-2 px-3 rounded-md flex items-center space-x-3 flex-grow">
-                            <p class="whitespace-nowrap">Drink: {drink1}</p>
+                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-1 rounded text-white">Drink: {drink1}</p>
                             <div class="h-4 border-r border-slate-300"></div>
-                            <p class="whitespace-nowrap truncate">Coffee: {coffeeBeans1}</p>
+                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-1 rounded text-white">Coffee: {coffeeBeans1}</p>
                         </div>
                         <div class="h-full w-14 max-w-[56px] flex-shrink-0">
                             <!-- No image needed here since we're using background image -->
@@ -238,9 +225,9 @@
                         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(1)}
                     >
                         <div class="py-2 px-3 rounded-md flex items-center space-x-3 flex-grow">
-                            <p class="whitespace-nowrap">Drink: {drink2}</p>
+                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-1 rounded text-white">Drink: {drink2}</p>
                             <div class="h-4 border-r border-slate-300"></div>
-                            <p class="whitespace-nowrap truncate">Coffee: {coffeeBeans2}</p>
+                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-1 rounded text-white">Coffee: {coffeeBeans2}</p>
                         </div>
                         <div class="h-full w-14 max-w-[56px] flex-shrink-0">
                             <!-- No image needed here since we're using background image -->
@@ -290,9 +277,9 @@
                         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(2)}
                     >
                         <div class="py-2 px-3 rounded-md flex items-center space-x-3 flex-grow">
-                            <p class="whitespace-nowrap">Drink: {drink3}</p>
+                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-1 rounded text-white">Drink: {drink3}</p>
                             <div class="h-4 border-r border-slate-300"></div>
-                            <p class="whitespace-nowrap truncate">Coffee: {coffeeBeans3}</p>
+                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-1 rounded text-white">Coffee: {coffeeBeans3}</p>
                         </div>
                         <div class="h-full w-14 max-w-[56px] flex-shrink-0">
                             <!-- No image needed here since we're using background image -->
