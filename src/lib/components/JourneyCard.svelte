@@ -15,6 +15,7 @@
     let cardData = $state([
         { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' },
         { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' },
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' },
         { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' }
     ]);
 
@@ -103,6 +104,20 @@
         }
     };
 
+    // Function to format date to mm/dd/yy
+    function formatDate(dateString) {
+        if (!dateString) return '';
+        
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return dateString; // Return original if invalid
+        
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const year = date.getFullYear().toString().slice(-2);
+        
+        return `${month}/${day}/${year}`;
+    }
+
     // Run the displayJourneyCard function when the prop journeyData.journeyID changes
     $effect(() => {
 	console.log('running');
@@ -167,25 +182,67 @@
 
 </style>
 
-<!-- button to create new cards and form to submit updated values -->
-<div class="outerContainer">
-    <div class="tabButton">
-        <button onclick={createJourneyCard}>+</button>
+<!-- Updated layout with scroll snap -->
+<div class="flex flex-row gap-2 w-full">
+    <div class="flex items-center self-stretch">
+        <button 
+            class="rounded-full h-12 w-12 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold shadow"
+            onclick={createJourneyCard}>
+            <span class="text-xl">+</span>
+        </button>
     </div>
-
-    {#each cardData as card, index}
-        {#if card.cardID !== ''}
-            <div class="innerContainer">
-                <form class="toDoForm">
-                    <p class="card_text">card ID {card.cardID}</p>
-                    <p class="card_text">date posted: {card.datePosted}</p>
-                    <!-- <p class="card_text">Journey id: {card.journeyID}</p> -->
-                    <input type="text" id={`grindSetting${index + 1}`} bind:value={card.grindSetting} required />
-                    <input type="text" id={`shotTime${index + 1}`} bind:value={card.shotTime} required />
-                    <input type="text" id={`notes${index + 1}`} bind:value={card.notes} required />
-                    <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={() => updateJourneyCard(index)}>Update</button>
-                </form>
-            </div>
-        {/if}
-    {/each}
+    <!-- Scroll container with snap -->
+    <div class="flex overflow-x-auto snap-x snap-mandatory pb-4 gap-4 w-full">
+        {#each cardData as card, index}
+            {#if card.cardID !== ''}
+                <!-- Each card is a snap point -->
+                <div class="snap-start shrink-0 w-80">
+                    <form class="border border-gray-200 rounded-lg shadow-sm bg-white p-4 w-full">
+                        <div class="mb-4">
+                            <p class="text-sm font-medium text-gray-500">{formatDate(card.datePosted)}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for={`grindSetting${index + 1}`} class="block text-sm font-medium text-gray-700 mb-1">Grind Setting</label>
+                            <input 
+                                type="text" 
+                                id={`grindSetting${index + 1}`} 
+                                bind:value={card.grindSetting} 
+                                required
+                                class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" 
+                            />
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for={`shotTime${index + 1}`} class="block text-sm font-medium text-gray-700 mb-1">Shot Time</label>
+                            <input 
+                                type="text" 
+                                id={`shotTime${index + 1}`} 
+                                bind:value={card.shotTime} 
+                                required 
+                                class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                            />
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for={`notes${index + 1}`} class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                            <textarea 
+                                id={`notes${index + 1}`} 
+                                bind:value={card.notes} 
+                                required
+                                class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 min-h-[80px]"
+                            ></textarea>
+                        </div>
+                        
+                        <button 
+                            type="button" 
+                            onclick={() => updateJourneyCard(index)}
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md shadow-sm">
+                            Update
+                        </button>
+                    </form>
+                </div>
+            {/if}
+        {/each}
+    </div>
 </div>

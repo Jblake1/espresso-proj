@@ -112,43 +112,65 @@
 </script>
 
 <style>
+    /* Modified layout styles */
     .outerContainer {
         display: flex;
-        flex-direction: row; /* Arrange elements in a row */
-        align-items: flex-start; /* Align items at the top */
-        gap: 10px; /* Add spacing between form and RecentSetups */
-        width: 100%; /* Ensure the container takes up the full width */
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 20px;
+        width: 100%;
     }
 
     .innerContainer {
         display: flex;
-        flex-direction: column; /* Stack elements vertically */
-        align-items: flex-start; /* Align items at the top */
-        gap: 10px; /* Add spacing between form elements */
-        width: 100%; /* Ensure the container takes up the full width */
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px;
+        width: 100%;
     }
 
-    .card {
-        flex: 0 0 25%; /* Do not grow or shrink, take up 25% of the width */
+    /* Each journey container will be a column */
+    .journeyContainer {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 15px;
+    }
+
+    /* Card will take full width of its container */
+    .journeyInfoCard {
+        width: 100%;
     }
 
     .journeyCard {
-        margin-top: 75px; /* Add margin above */
-        flex: 1; /* Allow the journeyCard to take up remaining space */
+        width: 100%;
     }
 </style>
 
 <div class="outerContainer">
     <div class="innerContainer">
-        <div class="outerContainer"> 
-            <div class="card p-4">
-                <header class="card-header">Espresso Journey 1</header>
-                <p>Drink: {drink1}</p>
-                <p>Grinder: {grinder1}</p>
-                <p>Coffee Beans: {coffeeBeans1}</p>
-                <p>Brewing Device: {brewingDevice1}</p>
-                <!-- <p>Journey ID: {journey_id1}</p> -->
-                <footer class="card-footer text-center whitespace-nowrap">Grind Setting: {grindSetting1}</footer>
+        <!-- First Journey -->
+        <div class="journeyContainer">
+            <div class="journeyInfoCard border border-slate-300 rounded-md overflow-hidden">
+                <header class="bg-blue-gray-100 p-3 border-b border-blue-gray-200 font-semibold text-center">
+                    Espresso Journey 1
+                </header>
+                <div class="p-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <p class="whitespace-nowrap">Drink: {drink1}</p>
+                            <div class="h-4 border-r border-slate-300"></div>
+                            <p class="whitespace-nowrap">Coffee Beans: {coffeeBeans1}</p>
+                            <div class="h-4 border-r border-slate-300"></div>
+                            <p class="whitespace-nowrap">Grinder: {grinder1}</p>
+                            <div class="h-4 border-r border-slate-300"></div>
+                            <p class="whitespace-nowrap">Brewing Device: {brewingDevice1}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- <footer class="bg-blue-gray-100 p-3 border-t border-blue-gray-200 text-center whitespace-nowrap">
+                    Grind Setting: {grindSetting1}
+                </footer> -->
             </div>
 
             <div class="journeyCard">
@@ -156,31 +178,57 @@
             </div>
         </div>
 
-        <div class="outerContainer">
-            <div class="card p-4">
-                <h2>Espresso Journey 2</h2>
-                <p>Drink: {drink2}</p>
-                <p>Grinder: {grinder2}</p>
-                <p>Grind Setting: {grindSetting2}</p>
-                <p>Coffee Beans: {coffeeBeans2}</p>
-                <p>Brewing Device: {brewingDevice2}</p>
-                <!-- <p>Journey ID: {journey_id2}</p> -->
+       <!-- Second Journey -->
+       <div class="journeyContainer">
+        <div class="journeyInfoCard border border-slate-300 rounded-md overflow-hidden">
+            <header class="bg-blue-gray-100 p-3 border-b border-blue-gray-200 font-semibold text-center">
+                Espresso Journey 2
+            </header>
+            <div class="p-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <p class="whitespace-nowrap">Drink: {drink2}</p>
+                        <div class="h-4 border-r border-slate-300"></div>
+                        <p class="whitespace-nowrap">Coffee Beans: {coffeeBeans2}</p>
+                        <div class="h-4 border-r border-slate-300"></div>
+                        <p class="whitespace-nowrap">Grinder: {grinder2}</p>
+                        <div class="h-4 border-r border-slate-300"></div>
+                        <p class="whitespace-nowrap">Brewing Device: {brewingDevice2}</p>
+                    </div>
+                </div>
             </div>
+            <!-- <footer class="bg-blue-gray-100 p-3 border-t border-blue-gray-200 text-center whitespace-nowrap">
+                Grind Setting: {grindSetting2}
+            </footer> -->
+        </div>
 
             <div class="journeyCard">
                 <JourneyCard journeyData={cardPropData2}/>
             </div>
         </div>
-
-        <div class="outerContainer">
-            <div class="card p-4">
-                <h2>Espresso Journey 3</h2>
-                <p>Drink: {drink3}</p>
-                <p>Grinder: {grinder3}</p>
-                <p>Grind Setting: {grindSetting3}</p>
-                <p>Coffee Beans: {coffeeBeans3}</p>
-                <p>Brewing Device: {brewingDevice3}</p>
-                <!-- <p>Journey ID: {journey_id3}</p> -->
+    
+        <!-- Third Journey -->
+        <div class="journeyContainer">
+            <div class="journeyInfoCard border border-slate-300 rounded-md overflow-hidden">
+                <header class="bg-blue-gray-100 p-3 border-b border-blue-gray-200 font-semibold text-center">
+                    Espresso Journey 3
+                </header>
+                <div class="p-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <p class="whitespace-nowrap">Drink: {drink3}</p>
+                            <div class="h-4 border-r border-slate-300"></div>
+                            <p class="whitespace-nowrap">Coffee Beans: {coffeeBeans3}</p>
+                            <div class="h-4 border-r border-slate-300"></div>
+                            <p class="whitespace-nowrap">Grinder: {grinder3}</p>
+                            <div class="h-4 border-r border-slate-300"></div>
+                            <p class="whitespace-nowrap">Brewing Device: {brewingDevice3}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- <footer class="bg-blue-gray-100 p-3 border-t border-blue-gray-200 text-center whitespace-nowrap">
+                    Grind Setting: {grindSetting3}
+                </footer> -->
             </div>
 
             <div class="journeyCard">

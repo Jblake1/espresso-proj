@@ -89,7 +89,7 @@ def get_coffee_advice(drink, coffee_beans, brewing_device, grinder):
 
     Question: What espresso grind range would you recommend to brew {drink} using the {grinder} grinder?
 
-    Example response: 12 to 18 on your Df 54
+    Example response: 12 to 18
     """)
 
     #Post-processing
