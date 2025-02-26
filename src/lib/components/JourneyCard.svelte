@@ -130,57 +130,7 @@
 
 </script>
 
-<style>
-    .toDoForm {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 1rem;
-        margin-bottom: 1rem;
-        background-color: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .toDoForm {
-    flex: 0.7; /* Take up all available space */
-    margin-right: 0;
-    }
-
-    .card_text {
-        font-size: 0.9rem;
-        color: #666;
-        margin: 0 0 0.5rem 0;
-    }
-
-    .tabButton {
-        background-color: #f1f1f1;
-        border: none;
-        color: black;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-    }
-
-    .outerContainer {
-      display: flex;
-      flex-direction: row; /* Arrange elements in a row */
-      align-items: flex-start; /* Align items at the top */
-      gap: 10px; /* Add spacing between form and RecentSetups */
-    }
-
-
-    .innerContainer {
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: flex-start; /* Align items at the top */
-    gap: 10px; /* Add spacing between form elements */
-    width: 50%; /* Make form take 50% of the width */
-    }
-
-</style>
+<style></style>
 
 <!-- Updated layout with scroll snap -->
 <div class="flex flex-row gap-2 w-full">

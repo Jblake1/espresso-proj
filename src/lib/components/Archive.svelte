@@ -5,6 +5,7 @@
  <script lang="ts">
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
+    import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
     import JourneyCard from './JourneyCard.svelte';
     
     let drink1 = '';
@@ -46,6 +47,14 @@
     let cardProp3 = () => ({
         journeyID: journey_id3
     });
+
+    // Add state to track which accordion item is open
+    let openItem = -1; // -1 means all closed
+
+    // Function to toggle accordion items
+    function toggleAccordion(index) {
+        openItem = openItem === index ? -1 : index;
+    }
 
     const displayArchive = async () => {
         try {
@@ -130,12 +139,6 @@
     }
 
     /* Each journey container will be a column */
-    .journeyContainer {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        gap: 15px;
-    }
 
     /* Card will take full width of its container */
     .journeyInfoCard {
@@ -149,91 +152,144 @@
 
 <div class="outerContainer">
     <div class="innerContainer">
-        <!-- First Journey -->
-        <div class="journeyContainer">
-            <div class="journeyInfoCard border border-slate-300 rounded-md overflow-hidden">
-                <header class="bg-blue-gray-100 p-3 border-b border-blue-gray-200 font-semibold text-center">
-                    Espresso Journey 1
-                </header>
-                <div class="p-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <p class="whitespace-nowrap">Drink: {drink1}</p>
-                            <div class="h-4 border-r border-slate-300"></div>
-                            <p class="whitespace-nowrap">Coffee Beans: {coffeeBeans1}</p>
-                            <div class="h-4 border-r border-slate-300"></div>
-                            <p class="whitespace-nowrap">Grinder: {grinder1}</p>
-                            <div class="h-4 border-r border-slate-300"></div>
-                            <p class="whitespace-nowrap">Brewing Device: {brewingDevice1}</p>
+        <Accordion>
+            <!-- First Journey -->
+            <AccordionItem open={openItem === 0}>
+                <svelte:fragment slot="lead">
+                    <div class="flex items-center space-x-2">
+                        <span class="badge bg-primary-500">1</span>
+                    </div>
+                </svelte:fragment>
+                <svelte:fragment slot="summary">
+                    <button
+                        type="button"
+                        class="flex items-center space-x-3 w-full text-left"
+                        on:click|stopPropagation={() => toggleAccordion(0)}
+                        on:keydown={(e) => e.key === 'Enter' && toggleAccordion(0)}
+                    >
+                        <p class="whitespace-nowrap">Drink: {drink1}</p>
+                        <div class="h-4 border-r border-slate-300"></div>
+                        <p class="whitespace-nowrap">Coffee: {coffeeBeans1}</p>
+                    </button>
+                </svelte:fragment>
+                <svelte:fragment slot="content">
+                    <div class="journey-content">
+                        <div class="journeyInfoCard border border-slate-300 rounded-md overflow-hidden">
+                            <header class="bg-blue-gray-100 p-3 border-b border-blue-gray-200 font-semibold text-center">
+                                Espresso Journey 1
+                            </header>
+                            <div class="p-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <p class="whitespace-nowrap">Drink: {drink1}</p>
+                                        <div class="h-4 border-r border-slate-300"></div>
+                                        <p class="whitespace-nowrap">Coffee Beans: {coffeeBeans1}</p>
+                                        <div class="h-4 border-r border-slate-300"></div>
+                                        <p class="whitespace-nowrap">Grinder: {grinder1}</p>
+                                        <div class="h-4 border-r border-slate-300"></div>
+                                        <p class="whitespace-nowrap">Brewing Device: {brewingDevice1}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="journeyCard">
+                            <JourneyCard journeyData={cardPropData1}/>
                         </div>
                     </div>
-                </div>
-                <!-- <footer class="bg-blue-gray-100 p-3 border-t border-blue-gray-200 text-center whitespace-nowrap">
-                    Grind Setting: {grindSetting1}
-                </footer> -->
-            </div>
+                </svelte:fragment>
+            </AccordionItem>
 
-            <div class="journeyCard">
-                <JourneyCard journeyData={cardPropData1}/>
-            </div>
-        </div>
-
-       <!-- Second Journey -->
-       <div class="journeyContainer">
-        <div class="journeyInfoCard border border-slate-300 rounded-md overflow-hidden">
-            <header class="bg-blue-gray-100 p-3 border-b border-blue-gray-200 font-semibold text-center">
-                Espresso Journey 2
-            </header>
-            <div class="p-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
+            <!-- Second Journey -->
+            <AccordionItem open={openItem === 1}>
+                <svelte:fragment slot="lead">
+                    <div class="flex items-center space-x-2">
+                        <span class="badge bg-primary-500">2</span>
+                    </div>
+                </svelte:fragment>
+                <svelte:fragment slot="summary">
+                    <button
+                        type="button"
+                        class="flex items-center space-x-3 w-full text-left"
+                        on:click|stopPropagation={() => toggleAccordion(1)}
+                        on:keydown={(e) => e.key === 'Enter' && toggleAccordion(1)}
+                    >
                         <p class="whitespace-nowrap">Drink: {drink2}</p>
                         <div class="h-4 border-r border-slate-300"></div>
-                        <p class="whitespace-nowrap">Coffee Beans: {coffeeBeans2}</p>
-                        <div class="h-4 border-r border-slate-300"></div>
-                        <p class="whitespace-nowrap">Grinder: {grinder2}</p>
-                        <div class="h-4 border-r border-slate-300"></div>
-                        <p class="whitespace-nowrap">Brewing Device: {brewingDevice2}</p>
-                    </div>
-                </div>
-            </div>
-            <!-- <footer class="bg-blue-gray-100 p-3 border-t border-blue-gray-200 text-center whitespace-nowrap">
-                Grind Setting: {grindSetting2}
-            </footer> -->
-        </div>
-
-            <div class="journeyCard">
-                <JourneyCard journeyData={cardPropData2}/>
-            </div>
-        </div>
-    
-        <!-- Third Journey -->
-        <div class="journeyContainer">
-            <div class="journeyInfoCard border border-slate-300 rounded-md overflow-hidden">
-                <header class="bg-blue-gray-100 p-3 border-b border-blue-gray-200 font-semibold text-center">
-                    Espresso Journey 3
-                </header>
-                <div class="p-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <p class="whitespace-nowrap">Drink: {drink3}</p>
-                            <div class="h-4 border-r border-slate-300"></div>
-                            <p class="whitespace-nowrap">Coffee Beans: {coffeeBeans3}</p>
-                            <div class="h-4 border-r border-slate-300"></div>
-                            <p class="whitespace-nowrap">Grinder: {grinder3}</p>
-                            <div class="h-4 border-r border-slate-300"></div>
-                            <p class="whitespace-nowrap">Brewing Device: {brewingDevice3}</p>
+                        <p class="whitespace-nowrap">Coffee: {coffeeBeans2}</p>
+                    </button>
+                </svelte:fragment>
+                <svelte:fragment slot="content">
+                    <div class="journey-content">
+                        <div class="journeyInfoCard border border-slate-300 rounded-md overflow-hidden">
+                            <header class="bg-blue-gray-100 p-3 border-b border-blue-gray-200 font-semibold text-center">
+                                Espresso Journey 2
+                            </header>
+                            <div class="p-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <p class="whitespace-nowrap">Drink: {drink2}</p>
+                                        <div class="h-4 border-r border-slate-300"></div>
+                                        <p class="whitespace-nowrap">Coffee Beans: {coffeeBeans2}</p>
+                                        <div class="h-4 border-r border-slate-300"></div>
+                                        <p class="whitespace-nowrap">Grinder: {grinder2}</p>
+                                        <div class="h-4 border-r border-slate-300"></div>
+                                        <p class="whitespace-nowrap">Brewing Device: {brewingDevice2}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="journeyCard">
+                            <JourneyCard journeyData={cardPropData2}/>
                         </div>
                     </div>
-                </div>
-                <!-- <footer class="bg-blue-gray-100 p-3 border-t border-blue-gray-200 text-center whitespace-nowrap">
-                    Grind Setting: {grindSetting3}
-                </footer> -->
-            </div>
+                </svelte:fragment>
+            </AccordionItem>
 
-            <div class="journeyCard">
-                <JourneyCard journeyData={cardPropData3}/>
-            </div>
-        </div>
+            <!-- Third Journey -->
+            <AccordionItem open={openItem === 2}>
+                <svelte:fragment slot="lead">
+                    <div class="flex items-center space-x-2">
+                        <span class="badge bg-primary-500">3</span>
+                    </div>
+                </svelte:fragment>
+                <svelte:fragment slot="summary">
+                    <button
+                        type="button"
+                        class="flex items-center space-x-3 w-full text-left"
+                        on:click|stopPropagation={() => toggleAccordion(2)}
+                        on:keydown={(e) => e.key === 'Enter' && toggleAccordion(2)}
+                    >
+                        <p class="whitespace-nowrap">Drink: {drink3}</p>
+                        <div class="h-4 border-r border-slate-300"></div>
+                        <p class="whitespace-nowrap">Coffee: {coffeeBeans3}</p>
+                    </button>
+                </svelte:fragment>
+                <svelte:fragment slot="content">
+                    <div class="journey-content">
+                        <div class="journeyInfoCard border border-slate-300 rounded-md overflow-hidden">
+                            <header class="bg-blue-gray-100 p-3 border-b border-blue-gray-200 font-semibold text-center">
+                                Espresso Journey 3
+                            </header>
+                            <div class="p-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <p class="whitespace-nowrap">Drink: {drink3}</p>
+                                        <div class="h-4 border-r border-slate-300"></div>
+                                        <p class="whitespace-nowrap">Coffee Beans: {coffeeBeans3}</p>
+                                        <div class="h-4 border-r border-slate-300"></div>
+                                        <p class="whitespace-nowrap">Grinder: {grinder3}</p>
+                                        <div class="h-4 border-r border-slate-300"></div>
+                                        <p class="whitespace-nowrap">Brewing Device: {brewingDevice3}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="journeyCard">
+                            <JourneyCard journeyData={cardPropData3}/>
+                        </div>
+                    </div>
+                </svelte:fragment>
+            </AccordionItem>
+        </Accordion>
     </div>
 </div>
