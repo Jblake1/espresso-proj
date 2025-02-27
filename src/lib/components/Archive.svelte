@@ -159,9 +159,6 @@
         width: 100%;
     }
 
-    .journeyCard {
-        width: 100%;
-    }
 </style>
 
 <div class="outerContainer">
@@ -183,9 +180,9 @@
                         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(0)}
                     >
                         <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow"> <!-- No vertical padding -->
-                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">Drink: {drink1}</p>
+                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{drink1}</p>
                             <div class="h-3 border-r border-slate-300"></div> <!-- Shorter divider -->
-                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">Coffee: {coffeeBeans1}</p>
+                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{coffeeBeans1}</p>
                         </div>
                         <div class="h-full w-12 max-w-[48px] flex-shrink-0">
                             <!-- No image needed here since we're using background image -->
@@ -209,8 +206,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="journeyCard">
-                            <JourneyCard journeyData={cardPropData1}/>
+                        <div class="flex justify-center w-full">
+                            <div class="w-full md:w-3/4">
+                                <JourneyCard journeyData={cardPropData1}/>
+                            </div>
                         </div>
                     </div>
                 </svelte:fragment>
@@ -232,9 +231,9 @@
                         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(1)}
                     >
                         <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow"> <!-- No vertical padding -->
-                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">Drink: {drink2}</p>
+                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{drink2}</p>
                             <div class="h-3 border-r border-slate-300"></div> <!-- Shorter divider -->
-                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">Coffee: {coffeeBeans2}</p>
+                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{coffeeBeans2}</p>
                         </div>
                         <div class="h-full w-12 max-w-[48px] flex-shrink-0">
                             <!-- No image needed here since we're using background image -->
@@ -258,8 +257,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="journeyCard">
-                            <JourneyCard journeyData={cardPropData2}/>
+                        <div class="flex justify-center w-full">
+                            <div class="w-full md:w-3/4">
+                                <JourneyCard journeyData={cardPropData2}/>
+                            </div>
                         </div>
                     </div>
                 </svelte:fragment>
@@ -281,9 +282,9 @@
                         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(2)}
                     >
                         <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow"> <!-- No vertical padding -->
-                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">Drink: {drink3}</p>
+                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{drink3}</p>
                             <div class="h-3 border-r border-slate-300"></div> <!-- Shorter divider -->
-                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">Coffee: {coffeeBeans3}</p>
+                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{coffeeBeans3}</p>
                         </div>
                         <div class="h-full w-12 max-w-[48px] flex-shrink-0">
                             <!-- No image needed here since we're using background image -->
@@ -307,8 +308,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="journeyCard">
-                            <JourneyCard journeyData={cardPropData3}/>
+                        <div class="flex justify-center w-full">
+                            <div class="w-full md:w-3/4">
+                                <JourneyCard journeyData={cardPropData3}/>
+                            </div>
                         </div>
                     </div>
                 </svelte:fragment>
