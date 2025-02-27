@@ -127,6 +127,16 @@
 </script>
 
 <style>
+    :global(.accordion-item) {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    
+    /* If you want a tiny bit of spacing */
+    :global(.accordion-item + .accordion-item) {
+        margin-top: 1px !important;
+    }
+
     .outerContainer {
         display: flex;
         flex-direction: row;
@@ -167,17 +177,17 @@
                 <svelte:fragment slot="summary">
                     <button
                         type="button"
-                        class="flex items-center space-x-3 w-full text-left"
+                        class="flex items-center space-x-3 w-full text-left h-10 p-0 overflow-hidden" 
                         style="background-image: url({journeyImage1}); background-size: cover; background-position: center;"
                         on:click|stopPropagation={() => toggleAccordion(0)}
                         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(0)}
                     >
-                        <div class="py-2 px-3 rounded-md flex items-center space-x-3 flex-grow">
-                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-1 rounded text-white">Drink: {drink1}</p>
-                            <div class="h-4 border-r border-slate-300"></div>
-                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-1 rounded text-white">Coffee: {coffeeBeans1}</p>
+                        <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow"> <!-- No vertical padding -->
+                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">Drink: {drink1}</p>
+                            <div class="h-3 border-r border-slate-300"></div> <!-- Shorter divider -->
+                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">Coffee: {coffeeBeans1}</p>
                         </div>
-                        <div class="h-full w-14 max-w-[56px] flex-shrink-0">
+                        <div class="h-full w-12 max-w-[48px] flex-shrink-0">
                             <!-- No image needed here since we're using background image -->
                         </div>
                     </button>

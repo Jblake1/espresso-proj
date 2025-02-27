@@ -4,6 +4,8 @@ import { join } from "path";
 // 1. Import the Skeleton plugin
 import { skeleton } from "@skeletonlabs/tw-plugin";
 
+import { myCustomTheme } from "./my-custom-theme";
+
 import forms from '@tailwindcss/forms';
 
 
@@ -19,13 +21,13 @@ export default {
       "../**/*.{html,js,svelte,ts}"
     ),
   ],
-  theme: {
-    extend: {},
-  },
   plugins: [
     skeleton({
-      themes: { preset: ["rocket"] }
-    }),
-    forms // Add the forms plugin here
+      themes: {
+        custom: [
+          myCustomTheme
+        ]
+      }
+    })
   ]
 };
