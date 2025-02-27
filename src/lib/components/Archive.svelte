@@ -194,20 +194,17 @@
                 </svelte:fragment>
                 <svelte:fragment slot="content">
                     <div class="journey-content">
-                        <div class="journeyInfoCard border border-slate-300 rounded-md overflow-hidden">
-                            <header class="bg-blue-gray-100 p-3 border-b border-blue-gray-200 font-semibold text-center">
-                                Espresso Journey 1
-                            </header>
+                        <div class="journeyInfoCard rounded-md overflow-hidden">
                             <div class="p-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center space-x-3">
-                                        <p class="whitespace-nowrap">Drink: {drink1}</p>
+                                <div class="flex items-center justify-center">
+                                    <div class="flex items-center space-x-3 flex-wrap">
+                                        <p class="whitespace-nowrap">{drink1}</p>
                                         <div class="h-4 border-r border-slate-300"></div>
-                                        <p class="whitespace-nowrap">Coffee Beans: {coffeeBeans1}</p>
+                                        <p class="whitespace-nowrap">{coffeeBeans1}</p>
                                         <div class="h-4 border-r border-slate-300"></div>
-                                        <p class="whitespace-nowrap">Grinder: {grinder1}</p>
+                                        <p class="whitespace-nowrap">{grinder1}</p>
                                         <div class="h-4 border-r border-slate-300"></div>
-                                        <p class="whitespace-nowrap">Brewing Device: {brewingDevice1}</p>
+                                        <p class="whitespace-nowrap">{brewingDevice1}</p>
                                     </div>
                                 </div>
                             </div>
@@ -229,37 +226,34 @@
                 <svelte:fragment slot="summary">
                     <button
                         type="button"
-                        class="flex items-center space-x-3 w-full text-left"
+                        class="flex items-center space-x-3 w-full text-left h-10 p-0 overflow-hidden" 
                         style="background-image: url({journeyImage2}); background-size: cover; background-position: center;"
                         on:click|stopPropagation={() => toggleAccordion(1)}
                         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(1)}
                     >
-                        <div class="py-2 px-3 rounded-md flex items-center space-x-3 flex-grow">
-                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-1 rounded text-white">Drink: {drink2}</p>
-                            <div class="h-4 border-r border-slate-300"></div>
-                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-1 rounded text-white">Coffee: {coffeeBeans2}</p>
+                        <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow"> <!-- No vertical padding -->
+                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">Drink: {drink2}</p>
+                            <div class="h-3 border-r border-slate-300"></div> <!-- Shorter divider -->
+                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">Coffee: {coffeeBeans2}</p>
                         </div>
-                        <div class="h-full w-14 max-w-[56px] flex-shrink-0">
+                        <div class="h-full w-12 max-w-[48px] flex-shrink-0">
                             <!-- No image needed here since we're using background image -->
                         </div>
                     </button>
                 </svelte:fragment>
                 <svelte:fragment slot="content">
                     <div class="journey-content">
-                        <div class="journeyInfoCard border border-slate-300 rounded-md overflow-hidden">
-                            <header class="bg-blue-gray-100 p-3 border-b border-blue-gray-200 font-semibold text-center">
-                                Espresso Journey 2
-                            </header>
+                        <div class="journeyInfoCard rounded-md overflow-hidden">
                             <div class="p-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center space-x-3">
-                                        <p class="whitespace-nowrap">Drink: {drink2}</p>
+                                <div class="flex items-center justify-center">
+                                    <div class="flex items-center space-x-3 flex-wrap">
+                                        <p class="whitespace-nowrap">{drink2}</p>
                                         <div class="h-4 border-r border-slate-300"></div>
-                                        <p class="whitespace-nowrap">Coffee Beans: {coffeeBeans2}</p>
+                                        <p class="whitespace-nowrap">{coffeeBeans2}</p>
                                         <div class="h-4 border-r border-slate-300"></div>
-                                        <p class="whitespace-nowrap">Grinder: {grinder2}</p>
+                                        <p class="whitespace-nowrap">{grinder2}</p>
                                         <div class="h-4 border-r border-slate-300"></div>
-                                        <p class="whitespace-nowrap">Brewing Device: {brewingDevice2}</p>
+                                        <p class="whitespace-nowrap">{brewingDevice2}</p>
                                     </div>
                                 </div>
                             </div>
@@ -281,37 +275,34 @@
                 <svelte:fragment slot="summary">
                     <button
                         type="button"
-                        class="flex items-center space-x-3 w-full text-left"
+                        class="flex items-center space-x-3 w-full text-left h-10 p-0 overflow-hidden" 
                         style="background-image: url({journeyImage3}); background-size: cover; background-position: center;"
                         on:click|stopPropagation={() => toggleAccordion(2)}
                         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(2)}
                     >
-                        <div class="py-2 px-3 rounded-md flex items-center space-x-3 flex-grow">
-                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-1 rounded text-white">Drink: {drink3}</p>
-                            <div class="h-4 border-r border-slate-300"></div>
-                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-1 rounded text-white">Coffee: {coffeeBeans3}</p>
+                        <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow"> <!-- No vertical padding -->
+                            <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">Drink: {drink3}</p>
+                            <div class="h-3 border-r border-slate-300"></div> <!-- Shorter divider -->
+                            <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">Coffee: {coffeeBeans3}</p>
                         </div>
-                        <div class="h-full w-14 max-w-[56px] flex-shrink-0">
+                        <div class="h-full w-12 max-w-[48px] flex-shrink-0">
                             <!-- No image needed here since we're using background image -->
                         </div>
                     </button>
                 </svelte:fragment>
                 <svelte:fragment slot="content">
                     <div class="journey-content">
-                        <div class="journeyInfoCard border border-slate-300 rounded-md overflow-hidden">
-                            <header class="bg-blue-gray-100 p-3 border-b border-blue-gray-200 font-semibold text-center">
-                                Espresso Journey 3
-                            </header>
+                        <div class="journeyInfoCard rounded-md overflow-hidden">
                             <div class="p-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center space-x-3">
-                                        <p class="whitespace-nowrap">Drink: {drink3}</p>
+                                <div class="flex items-center justify-center">
+                                    <div class="flex items-center space-x-3 flex-wrap">
+                                        <p class="whitespace-nowrap">{drink3}</p>
                                         <div class="h-4 border-r border-slate-300"></div>
-                                        <p class="whitespace-nowrap">Coffee Beans: {coffeeBeans3}</p>
+                                        <p class="whitespace-nowrap">{coffeeBeans3}</p>
                                         <div class="h-4 border-r border-slate-300"></div>
-                                        <p class="whitespace-nowrap">Grinder: {grinder3}</p>
+                                        <p class="whitespace-nowrap">{grinder3}</p>
                                         <div class="h-4 border-r border-slate-300"></div>
-                                        <p class="whitespace-nowrap">Brewing Device: {brewingDevice3}</p>
+                                        <p class="whitespace-nowrap">{brewingDevice3}</p>
                                     </div>
                                 </div>
                             </div>
