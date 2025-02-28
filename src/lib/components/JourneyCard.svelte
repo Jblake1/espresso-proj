@@ -187,7 +187,7 @@
                     >
                         <span class="text-xs font-bold">×</span>
                     </button>
-                    <form class="border border-primary-200 rounded-lg shadow-sm bg-tertiary-900 p-4 w-full">
+                    <form class="border border-primary-400 rounded-lg shadow-sm bg-tertiary-900 p-4 w-full">
 
                         <div class="mb-4">
                             <div class="flex items-center justify-between">
@@ -198,34 +198,43 @@
 
                         <div class="mb-3">
                             <label for={`grindSetting${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">Grind Setting</label>
-                            <input 
-                                type="text" 
-                                id={`grindSetting${index + 1}`} 
-                                bind:value={card.grindSetting} 
-                                required
-                                class="w-full p-2 border border-primary-200 rounded-md text-tertiary-200 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500" 
-                            />
+                            <div class="relative">
+                                <div class="absolute top-0 left-0 h-[1px] w-1/3 bg-primary-200"></div>
+                                <input 
+                                    type="text" 
+                                    id={`grindSetting${index + 1}`} 
+                                    bind:value={card.grindSetting} 
+                                    required
+                                    class="w-full p-2 border-0 rounded-md text-tertiary-500 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500" 
+                                />
+                            </div>
                         </div>
                         
                         <div class="mb-3">
                             <label for={`shotTime${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">Shot Time</label>
-                            <input 
-                                type="text" 
-                                id={`shotTime${index + 1}`} 
-                                bind:value={card.shotTime} 
-                                required 
-                                class="w-full p-2 border border-primary-200 rounded-md text-tertiary-200 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500"
-                            />
+                            <div class="relative">
+                                <div class="absolute top-0 left-0 h-[1px] w-1/3 bg-primary-200"></div>
+                                <input 
+                                    type="text" 
+                                    id={`shotTime${index + 1}`} 
+                                    bind:value={card.shotTime} 
+                                    required 
+                                    class="w-full p-2 border-0 rounded-md text-tertiary-500 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500"
+                                />
+                            </div>
                         </div>
                         
-                        <div class="mb-4">
+                        <div class="mb-4 relative">
                             <label for={`notes${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">Notes</label>
-                            <textarea 
-                                id={`notes${index + 1}`} 
-                                bind:value={card.notes} 
-                                required
-                                class="w-full p-2 border border-primary-200 rounded-md text-tertiary-200 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500 min-h-[80px]"
-                            ></textarea>
+                            <div class="relative">
+                                <div class="absolute top-0 left-0 h-[1px] w-1/3 bg-primary-200"></div>
+                                <textarea 
+                                    id={`notes${index + 1}`} 
+                                    bind:value={card.notes} 
+                                    required
+                                    class="w-full p-2 border-0 rounded-md text-tertiary-500 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500 min-h-[80px]"
+                                ></textarea>
+                            </div>
                         </div>
                         
                         <button 
