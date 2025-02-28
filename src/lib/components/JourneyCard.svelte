@@ -21,6 +21,7 @@
 
     
 
+
     const createJourneyCard = async () => {
         try {
             const response = await fetch('http://localhost:4000/journeyCard', {
@@ -43,6 +44,36 @@
             alert('An error occurred while posting the journey card.');
         }
     }
+
+    const deleteJourneyCard = async (cardID, index) => {
+        try {
+            const response = await fetch('http://localhost:4000/journeyCardDelete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: cardID
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response of journeyCard delete not ok');
+            }
+
+            cardData[index].cardID = '';
+            cardData[index].datePosted = '';
+            cardData[index].iteration = '';
+            cardData[index].notes = '';
+            cardData[index].grindSetting = '';
+            cardData[index].shotTime = '';
+            cardData[index].journeyID = '';
+            
+        } catch (err) {
+            console.error('Error getting journey:', err);
+            alert('An error occurred while deleting the journey card.');
+        }
+    };
 
     const displayJourneyCard = async (journeyData) => {
         try {
@@ -147,7 +178,15 @@
         {#each cardData as card, index}
             {#if card.cardID !== ''}
                 <!-- Each card is a snap point -->
-                <div class="snap-start shrink-0 w-80">
+                <div class="snap-start shrink-0 w-80 relative">
+                    <button 
+                        type="button"
+                        onclick={() => deleteJourneyCard(card.cardID, index)}
+                        class="absolute -top-1 right-0 px-1.5 py-0.5 bg-red-500 hover:bg-red-600 text-white rounded-tl-md rounded-tr-lg rounded-bl-md flex items-center justify-center shadow-md z-10"
+                        title="Delete card"
+                    >
+                        <span class="text-xs font-bold">×</span>
+                    </button>
                     <form class="border border-primary-200 rounded-lg shadow-sm bg-tertiary-900 p-4 w-full">
 
                         <div class="mb-4">

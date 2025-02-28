@@ -265,3 +265,23 @@ def journey_card_edit():
     except Exception as e:
         print("Error:", str(e))
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/journeyCardDelete', methods=['POST'])
+def journey_card_delete():
+    try:
+        print(request)
+        data = request.get_json()
+        print("Received data:", data)
+        card_id = data.get('id')
+        print("Card ID:", card_id)
+        
+        card = JourneyCard.query.get(card_id)
+        db.session.delete(card)
+        db.session.commit()
+
+        return jsonify({
+            "message": "Card deleted successfully"
+        }), 200
+    except Exception as e:
+        print("Error:", str(e))
+        return jsonify({"error": str(e)}), 500
