@@ -62,6 +62,31 @@
         openItem = openItem === index ? -1 : index;
     }
 
+    const deleteJourney = async (journeyID) => {
+        try {
+            const response = await fetch('http://localhost:4000/journeyDelete', {
+                method: 'Post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: journeyID
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Journey deleted:', data);
+                goto('/archive');
+            } else {
+                const error = await response.json();
+                console.error('Failed to delete journey:', error.message);
+            }
+        } catch (err) {
+            console.error('Error deleting journey:', err);
+        }
+    }
+
     const displayArchive = async () => {
         try {
             const response = await fetch('http://localhost:4000/archiveSetup', {
@@ -184,6 +209,18 @@
                             <div class="h-3 border-r border-slate-300"></div> <!-- Shorter divider -->
                             <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{coffeeBeans1}</p>
                         </div>
+                        <div>
+                            <span 
+                                class="btn-icon variant-filled-primary cursor-pointer"
+                                on:click|stopPropagation={() => deleteJourney(journey_id1)}
+                                on:keydown|stopPropagation={(e) => e.key === 'Enter' && deleteJourney(journey_id1)}
+                                tabindex="0"
+                                role="button"
+                                aria-label="Delete journey"
+                            >
+                                delete
+                            </span>
+                        </div>
                         <div class="h-full w-12 max-w-[48px] flex-shrink-0">
                             <!-- No image needed here since we're using background image -->
                         </div>
@@ -235,6 +272,18 @@
                             <div class="h-3 border-r border-slate-300"></div> <!-- Shorter divider -->
                             <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{coffeeBeans2}</p>
                         </div>
+                        <div>
+                            <span 
+                                class="btn-icon variant-filled-primary cursor-pointer"
+                                on:click|stopPropagation={() => deleteJourney(journey_id2)}
+                                on:keydown|stopPropagation={(e) => e.key === 'Enter' && deleteJourney(journey_id2)}
+                                tabindex="0"
+                                role="button"
+                                aria-label="Delete journey"
+                            >
+                                delete
+                            </span>
+                        </div>
                         <div class="h-full w-12 max-w-[48px] flex-shrink-0">
                             <!-- No image needed here since we're using background image -->
                         </div>
@@ -285,6 +334,18 @@
                             <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{drink3}</p>
                             <div class="h-3 border-r border-slate-300"></div> <!-- Shorter divider -->
                             <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{coffeeBeans3}</p>
+                        </div>
+                        <div>
+                            <span 
+                                class="btn-icon variant-filled-primary cursor-pointer"
+                                on:click|stopPropagation={() => deleteJourney(journey_id3)}
+                                on:keydown|stopPropagation={(e) => e.key === 'Enter' && deleteJourney(journey_id3)}
+                                tabindex="0"
+                                role="button"
+                                aria-label="Delete journey"
+                            >
+                                delete
+                            </span>
                         </div>
                         <div class="h-full w-12 max-w-[48px] flex-shrink-0">
                             <!-- No image needed here since we're using background image -->

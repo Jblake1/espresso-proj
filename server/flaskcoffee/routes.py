@@ -285,3 +285,31 @@ def journey_card_delete():
     except Exception as e:
         print("Error:", str(e))
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/journeyDelete', methods=['POST'])
+def journey_delete():
+    try:
+        print(request)
+        data = request.get_json()
+        print("Received data:", data)
+        journey_id = data.get('id')
+        print("Journey ID:", journey_id)
+        
+        # First, delete all journey cards associated with this journey
+        JourneyCard.query.filter_by(journey_id=journey_id).delete()
+        
+        # Then delete the journey itself
+        journey = CoffeeJourney.query.get(journey_id)
+        db.session.delete(journey)
+        
+        # Commit all changes at once
+        db.session.commit()
+
+        return jsonify({
+            "message": "Journey and all associated cards deleted successfully"
+        }), 200
+    except Exception as e:
+        print("Error:", str(e))
+        # Roll back in case of error
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
