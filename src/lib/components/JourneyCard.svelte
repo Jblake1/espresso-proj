@@ -147,47 +147,47 @@
             {#if card.cardID !== ''}
                 <!-- Each card is a snap point -->
                 <div class="snap-start shrink-0 w-80">
-                    <form class="border border-gray-200 rounded-lg shadow-sm bg-white p-4 w-full">
+                    <form class="border border-primary-200 rounded-lg shadow-sm bg-tertiary-900 p-4 w-full">
                         <div class="mb-4">
-                            <p class="text-sm font-medium text-gray-500">{formatDate(card.datePosted)}</p>
+                            <p class="text-sm font-medium text-tertiary-500">{formatDate(card.datePosted)}</p>
                         </div>
                         
                         <div class="mb-3">
-                            <label for={`grindSetting${index + 1}`} class="block text-sm font-medium text-gray-700 mb-1">Grind Setting</label>
+                            <label for={`grindSetting${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">Grind Setting</label>
                             <input 
                                 type="text" 
                                 id={`grindSetting${index + 1}`} 
                                 bind:value={card.grindSetting} 
                                 required
-                                class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" 
+                                class="w-full p-2 border border-primary-200 rounded-md text-tertiary-200 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500" 
                             />
                         </div>
                         
                         <div class="mb-3">
-                            <label for={`shotTime${index + 1}`} class="block text-sm font-medium text-gray-700 mb-1">Shot Time</label>
+                            <label for={`shotTime${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">Shot Time</label>
                             <input 
                                 type="text" 
                                 id={`shotTime${index + 1}`} 
                                 bind:value={card.shotTime} 
                                 required 
-                                class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                class="w-full p-2 border border-primary-200 rounded-md text-tertiary-200 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500"
                             />
                         </div>
                         
                         <div class="mb-4">
-                            <label for={`notes${index + 1}`} class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                            <label for={`notes${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">Notes</label>
                             <textarea 
                                 id={`notes${index + 1}`} 
                                 bind:value={card.notes} 
                                 required
-                                class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 min-h-[80px]"
+                                class="w-full p-2 border border-primary-200 rounded-md text-tertiary-200 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500 min-h-[80px]"
                             ></textarea>
                         </div>
                         
                         <button 
                             type="button" 
                             onclick={() => updateJourneyCard(index)}
-                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md shadow-sm">
+                            class="w-full bg-primary-500 hover:bg-primary-600 text-white font-medium py-2 px-4 rounded-md shadow-sm">
                             Update
                         </button>
                     </form>
