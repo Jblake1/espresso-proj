@@ -13,10 +13,10 @@
     // Props that can be passed from the parent Archive component
     let props = $props();
     let cardData = $state([
-        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' },
-        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' },
-        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' },
-        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '' }
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '' },
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '' },
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '' },
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '' }
     ]);
 
     
@@ -66,6 +66,7 @@
                         
                         cardData[index].cardID = card.id;
                         cardData[index].datePosted = card.datePosted;
+                        cardData[index].iteration = card.iteration;
                         cardData[index].notes = card.notes;
                         cardData[index].grindSetting = card.grindSetting;
                         cardData[index].shotTime = card.shotTime;
@@ -148,10 +149,14 @@
                 <!-- Each card is a snap point -->
                 <div class="snap-start shrink-0 w-80">
                     <form class="border border-primary-200 rounded-lg shadow-sm bg-tertiary-900 p-4 w-full">
+
                         <div class="mb-4">
-                            <p class="text-sm font-medium text-tertiary-500">{formatDate(card.datePosted)}</p>
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm font-medium text-tertiary-500">Iteration #{card.iteration}</p>
+                                <p class="text-sm font-medium text-tertiary-500">{formatDate(card.datePosted)}</p>
+                            </div>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for={`grindSetting${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">Grind Setting</label>
                             <input 

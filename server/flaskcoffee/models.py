@@ -51,11 +51,25 @@ class CoffeeJourney(db.Model):
 class JourneyCard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     grind_setting = db.Column(db.String(100), nullable=False, default='(grind setting)')
-    iteration = db.Column(db.Integer, nullable=False, default=2)
+    iteration = db.Column(db.Integer, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     journey_id = db.Column(db.Integer, db.ForeignKey('coffee_journey.id'), nullable=False)
     shot_time = db.Column(db.String(10), nullable=True, default='(shot time)')
     notes = db.Column(db.Text, nullable=True, default='(notes)')
+
+    def __init__(self, **kwargs):
+        # Remove iteration if it's provided so we can calculate it
+        if 'iteration' in kwargs:
+            del kwargs['iteration']
+            
+        # Initialize all other attributes
+        super(JourneyCard, self).__init__(**kwargs)
+        
+        # Calculate the iteration based on existing cards count
+        if hasattr(self, 'journey_id') and self.journey_id is not None:
+            # Count existing cards with the same journey_id
+            count = JourneyCard.query.filter_by(journey_id=self.journey_id).count()
+            self.iteration = count + 1
     
     def __repr__(self):
         return f"JourneyCard('{self.grind_setting}', '{self.iteration}', '{self.date_posted}', '{self.notes}', '{self.shot_time}', '{self.journey_id}')"

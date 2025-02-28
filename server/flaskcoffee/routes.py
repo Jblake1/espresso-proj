@@ -204,8 +204,9 @@ def journey_card():
             grind_setting = data.get('grindSetting', None)
             notes = data.get('notes', None)
             shot_time = data.get('shotTime', None)
+            iteration = data.get('iteration', None)
            
-            card = JourneyCard(journey_id=journey_id, grind_setting=grind_setting, iteration=2, notes=notes, shot_time=shot_time)
+            card = JourneyCard(journey_id=journey_id, grind_setting=grind_setting, iteration=iteration, notes=notes, shot_time=shot_time)
             
             db.session.add(card)
             db.session.commit()
