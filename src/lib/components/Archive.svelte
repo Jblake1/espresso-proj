@@ -75,9 +75,18 @@
             });
 
             if (response.ok) {
+                journey_id1 = '';
+                journey_id2 = '';
+                journey_id3 = '';
+
+                drink1 = drink2 = drink3 = '';
+                grinder1 = grinder2 = grinder3 = '';
+                coffeeBeans1 = coffeeBeans2 = coffeeBeans3 = '';
+                brewingDevice1 = brewingDevice2 = brewingDevice3 = '';
+
                 const data = await response.json();
                 console.log('Journey deleted:', data);
-                displayArchive()
+                displayArchive();
             } else {
                 const error = await response.json();
                 console.error('Failed to delete journey:', error.message);

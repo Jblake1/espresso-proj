@@ -68,6 +68,11 @@
             cardData[index].grindSetting = '';
             cardData[index].shotTime = '';
             cardData[index].journeyID = '';
+
+            // Refresh all journey cards to ensure proper iteration numbers and display
+            if (props.journeyData.journeyID) {
+                displayJourneyCard(props.journeyData.journeyID);
+            }
             
         } catch (err) {
             console.error('Error getting journey:', err);
@@ -91,6 +96,19 @@
                 console.log('JourneyCards:', data);
                 const journeyCards = data.journeyCards;
                 console.log('JourneyCardsData:', journeyCards);
+
+                // IMPORTANT: Reset all card data before repopulating
+                for (let i = 0; i < cardData.length; i++) {
+                    cardData[i] = { 
+                        datePosted: '', 
+                        notes: '', 
+                        grindSetting: '', 
+                        shotTime: '', 
+                        cardID: '', 
+                        journeyID: '', 
+                        iteration: '' 
+                    };
+                }
 
                 journeyCards.forEach((card, index) => {
                     if (index < cardData.length) {
