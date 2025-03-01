@@ -19,8 +19,19 @@
         { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '' }
     ]);
 
-    
+    // Track which fields have been modified
+    let modifiedCards = $state({});
 
+    // Handle input field blur event
+    const handleBlur = async (index, fieldName) => {
+        // Mark this card as needing update
+        if (!modifiedCards[index]) {
+            modifiedCards[index] = true;
+        }
+        
+        // Update the card when any field loses focus
+        await updateJourneyCard(index);
+    };
 
     const createJourneyCard = async () => {
         try {
@@ -148,7 +159,10 @@
                 throw new Error('Network response of journeyCard update not ok');
             }
 
-            } catch (err) {
+            // Reset the modified flag after successful update
+            modifiedCards[index] = false;
+
+        } catch (err) {
             console.error('Error getting journey:', err);
             alert('An error occurred while updating card.');
         }
@@ -222,6 +236,7 @@
                                     type="text" 
                                     id={`grindSetting${index + 1}`} 
                                     bind:value={card.grindSetting} 
+                                    onblur={() => handleBlur(index, 'grindSetting')}
                                     required
                                     class="w-full p-2 border-0 rounded-md text-tertiary-500 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500" 
                                 />
@@ -236,6 +251,7 @@
                                     type="text" 
                                     id={`shotTime${index + 1}`} 
                                     bind:value={card.shotTime} 
+                                    onblur={() => handleBlur(index, 'shotTime')}
                                     required 
                                     class="w-full p-2 border-0 rounded-md text-tertiary-500 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500"
                                 />
@@ -249,18 +265,12 @@
                                 <textarea 
                                     id={`notes${index + 1}`} 
                                     bind:value={card.notes} 
+                                    onblur={() => handleBlur(index, 'notes')}
                                     required
                                     class="w-full p-2 border-0 rounded-md text-tertiary-500 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500 min-h-[80px]"
                                 ></textarea>
                             </div>
                         </div>
-                        
-                        <button 
-                            type="button" 
-                            onclick={() => updateJourneyCard(index)}
-                            class="w-full bg-primary-500 hover:bg-primary-600 text-white font-medium py-2 px-4 rounded-md shadow-sm">
-                            Update
-                        </button>
                     </form>
                 </div>
             {/if}

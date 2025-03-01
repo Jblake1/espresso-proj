@@ -1,14 +1,11 @@
-<!-- base component of the archive page
- intends to show archived espresso setups 
- and allow for repeated updates to "journey cards" -->
-
- <script lang="ts">
+<script lang="ts">
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
     import JourneyCard from './JourneyCard.svelte';
-
-    let color = 'primary';
+    
+    // Add loading state
+    let isLoading = true;
 
     let journeyImage1 = '/images/espresso1.jpg';
     let journeyImage2 = '/images/espresso2.jpg';
@@ -97,6 +94,7 @@
     }
 
     const displayArchive = async () => {
+        isLoading = true;
         try {
             const response = await fetch('http://localhost:4000/archiveSetup', {
                 method: 'GET',
@@ -152,6 +150,8 @@
             }
         } catch (err) {
             console.error('Error fetching journeys:', err);
+        } finally {
+            isLoading = false;
         }
     }
 
@@ -160,45 +160,14 @@
     });
 </script>
 
-<style>
-    :global(.accordion-item) {
-        margin-top: 0 !important;
-        margin-bottom: 0 !important;
-    }
-    
-    /* If you want a tiny bit of spacing */
-    :global(.accordion-item + .accordion-item) {
-        margin-top: 1px !important;
-    }
-
-    .outerContainer {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 20px;
-        width: 100%;
-    }
-
-    .innerContainer {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 30px;
-        width: 100%;
-    }
-
-    /* Each journey container will be a column */
-    /* Card will take full width of its container */
-    .journeyInfoCard {
-        width: 100%;
-    }
-
-</style>
-
-<div class="outerContainer">
-    <div class="innerContainer">
-        {#if journey_id1 || journey_id2 || journey_id3}
-            <Accordion>
+<div class="flex flex-row w-full">
+    <div class="flex flex-col items-start gap-7 w-3/4">
+        {#if isLoading}
+            <div class="w-full flex justify-center items-center p-10">
+                <div class="border-4 border-transparent border-t-primary-500 rounded-full w-10 h-10 animate-spin"></div>
+            </div>
+        {:else if journey_id1 || journey_id2 || journey_id3}
+            <Accordion class="w-full">
                 {#if journey_id1}
                     <!-- First Journey -->
                     <AccordionItem open={openItem === 0}>
@@ -215,9 +184,9 @@
                                 on:click|stopPropagation={() => toggleAccordion(0)}
                                 on:keydown={(e) => e.key === 'Enter' && toggleAccordion(0)}
                             >
-                                <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow"> <!-- No vertical padding -->
+                                <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow">
                                     <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{drink1}</p>
-                                    <div class="h-3 border-r border-slate-300"></div> <!-- Shorter divider -->
+                                    <div class="h-3 border-r border-slate-300"></div>
                                     <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{coffeeBeans1}</p>
                                 </div>
                                 <div>
@@ -232,14 +201,12 @@
                                         delete
                                     </span>
                                 </div>
-                                <div class="h-full w-12 max-w-[48px] flex-shrink-0">
-                                    <!-- No image needed here since we're using background image -->
-                                </div>
+                                <div class="h-full w-12 max-w-[48px] flex-shrink-0"></div>
                             </button>
                         </svelte:fragment>
                         <svelte:fragment slot="content">
                             <div class="journey-content">
-                                <div class="journeyInfoCard rounded-md overflow-hidden">
+                                <div class="w-full rounded-md overflow-hidden">
                                     <div class="p-4">
                                         <div class="flex items-center justify-center">
                                             <div class="flex items-center space-x-3 flex-wrap">
@@ -263,68 +230,67 @@
                         </svelte:fragment>
                     </AccordionItem>
                 {/if}
+                
                 <!-- Second Journey -->
                 {#if journey_id2}
                     <AccordionItem open={openItem === 1}>
-                    <svelte:fragment slot="lead">
-                        <div class="flex items-center space-x-2">
-                            <span class="badge bg-primary-500">2</span>
-                        </div>
-                    </svelte:fragment>
-                    <svelte:fragment slot="summary">
-                        <button
-                            type="button"
-                            class="flex items-center space-x-3 w-full text-left h-10 p-0 overflow-hidden" 
-                            style="background-image: url({journeyImage2}); background-size: cover; background-position: center;"
-                            on:click|stopPropagation={() => toggleAccordion(1)}
-                            on:keydown={(e) => e.key === 'Enter' && toggleAccordion(1)}
-                        >
-                            <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow"> <!-- No vertical padding -->
-                                <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{drink2}</p>
-                                <div class="h-3 border-r border-slate-300"></div> <!-- Shorter divider -->
-                                <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{coffeeBeans2}</p>
+                        <svelte:fragment slot="lead">
+                            <div class="flex items-center space-x-2">
+                                <span class="badge bg-primary-500">2</span>
                             </div>
-                            <div>
-                                <span 
-                                    class="btn-icon variant-filled-primary cursor-pointer"
-                                    on:click|stopPropagation={() => deleteJourney(journey_id2)}
-                                    on:keydown|stopPropagation={(e) => e.key === 'Enter' && deleteJourney(journey_id2)}
-                                    tabindex="0"
-                                    role="button"
-                                    aria-label="Delete journey"
-                                >
-                                    delete
-                                </span>
-                            </div>
-                            <div class="h-full w-12 max-w-[48px] flex-shrink-0">
-                                <!-- No image needed here since we're using background image -->
-                            </div>
-                        </button>
-                    </svelte:fragment>
-                    <svelte:fragment slot="content">
-                        <div class="journey-content">
-                            <div class="journeyInfoCard rounded-md overflow-hidden">
-                                <div class="p-4">
-                                    <div class="flex items-center justify-center">
-                                        <div class="flex items-center space-x-3 flex-wrap">
-                                            <p class="whitespace-nowrap">{drink2}</p>
-                                            <div class="h-4 border-r border-slate-300"></div>
-                                            <p class="whitespace-nowrap">{coffeeBeans2}</p>
-                                            <div class="h-4 border-r border-slate-300"></div>
-                                            <p class="whitespace-nowrap">{grinder2}</p>
-                                            <div class="h-4 border-r border-slate-300"></div>
-                                            <p class="whitespace-nowrap">{brewingDevice2}</p>
+                        </svelte:fragment>
+                        <svelte:fragment slot="summary">
+                            <button
+                                type="button"
+                                class="flex items-center space-x-3 w-full text-left h-10 p-0 overflow-hidden" 
+                                style="background-image: url({journeyImage2}); background-size: cover; background-position: center;"
+                                on:click|stopPropagation={() => toggleAccordion(1)}
+                                on:keydown={(e) => e.key === 'Enter' && toggleAccordion(1)}
+                            >
+                                <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow">
+                                    <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{drink2}</p>
+                                    <div class="h-3 border-r border-slate-300"></div>
+                                    <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{coffeeBeans2}</p>
+                                </div>
+                                <div>
+                                    <span 
+                                        class="btn-icon variant-filled-primary cursor-pointer"
+                                        on:click|stopPropagation={() => deleteJourney(journey_id2)}
+                                        on:keydown|stopPropagation={(e) => e.key === 'Enter' && deleteJourney(journey_id2)}
+                                        tabindex="0"
+                                        role="button"
+                                        aria-label="Delete journey"
+                                    >
+                                        delete
+                                    </span>
+                                </div>
+                                <div class="h-full w-12 max-w-[48px] flex-shrink-0"></div>
+                            </button>
+                        </svelte:fragment>
+                        <svelte:fragment slot="content">
+                            <div class="journey-content">
+                                <div class="w-full rounded-md overflow-hidden">
+                                    <div class="p-4">
+                                        <div class="flex items-center justify-center">
+                                            <div class="flex items-center space-x-3 flex-wrap">
+                                                <p class="whitespace-nowrap">{drink2}</p>
+                                                <div class="h-4 border-r border-slate-300"></div>
+                                                <p class="whitespace-nowrap">{coffeeBeans2}</p>
+                                                <div class="h-4 border-r border-slate-300"></div>
+                                                <p class="whitespace-nowrap">{grinder2}</p>
+                                                <div class="h-4 border-r border-slate-300"></div>
+                                                <p class="whitespace-nowrap">{brewingDevice2}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="flex justify-center w-full">
-                                <div class="w-full md:w-3/4">
-                                    <JourneyCard journeyData={cardPropData2}/>
+                                <div class="flex justify-center w-full">
+                                    <div class="w-full md:w-3/4">
+                                        <JourneyCard journeyData={cardPropData2}/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </svelte:fragment>
+                        </svelte:fragment>
                     </AccordionItem>
                 {/if}
 
@@ -344,9 +310,9 @@
                                 on:click|stopPropagation={() => toggleAccordion(2)}
                                 on:keydown={(e) => e.key === 'Enter' && toggleAccordion(2)}
                             >
-                                <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow"> <!-- No vertical padding -->
+                                <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow">
                                     <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{drink3}</p>
-                                    <div class="h-3 border-r border-slate-300"></div> <!-- Shorter divider -->
+                                    <div class="h-3 border-r border-slate-300"></div>
                                     <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{coffeeBeans3}</p>
                                 </div>
                                 <div>
@@ -361,14 +327,12 @@
                                         delete
                                     </span>
                                 </div>
-                                <div class="h-full w-12 max-w-[48px] flex-shrink-0">
-                                    <!-- No image needed here since we're using background image -->
-                                </div>
+                                <div class="h-full w-12 max-w-[48px] flex-shrink-0"></div>
                             </button>
                         </svelte:fragment>
                         <svelte:fragment slot="content">
                             <div class="journey-content">
-                                <div class="journeyInfoCard rounded-md overflow-hidden">
+                                <div class="w-full rounded-md overflow-hidden">
                                     <div class="p-4">
                                         <div class="flex items-center justify-center">
                                             <div class="flex items-center space-x-3 flex-wrap">
@@ -402,3 +366,14 @@
         {/if}
     </div>
 </div>
+
+<style>
+    :global(.accordion-item) {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    
+    :global(.accordion-item + .accordion-item) {
+        margin-top: 1px !important;
+    }
+</style>

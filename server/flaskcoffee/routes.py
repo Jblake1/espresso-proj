@@ -172,13 +172,13 @@ def archive_setup():
             initial_card = JourneyCard(
                 journey_id=journey.id,
                 grind_setting=grind_setting,
-                notes="Initial settings",
-                shot_time="0:00"
+                notes="(notes)",
+                shot_time="(shot time)"
             )
             
             db.session.add(initial_card)
             db.session.commit()  # Commit both the journey and the card
-            
+
             return jsonify({
                 "message": "Journey archived successfully"
             }), 200

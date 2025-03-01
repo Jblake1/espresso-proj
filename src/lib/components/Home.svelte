@@ -20,6 +20,8 @@
   let beanDescription = $state('');
   let snapPropData = $state({});
 
+  let canvas;
+
   let messageBind = $state('');
 
   let snapProp = () => ({
@@ -88,6 +90,16 @@
 
   
   onMount(() => autofocus && nameEl.focus && nameEl.focus())    // if autofocus is true, we run nameEl.focus()
+  onMount(() => {
+    const ctx = canvas.getContext('2d');
+    ctx.font = '3rem Arial';
+    ctx.fillStyle = 'rgba(0,0,0,0.1)';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.translate(canvas.width/2, canvas.height/2);
+    ctx.rotate(-Math.PI/4);
+    ctx.fillText('Watermark', 0, 0);
+  });
 
 </script>
 
@@ -108,6 +120,16 @@
   flex-direction: column; /* Arrange elements in a row */
   align-items: flex-start; /* Align items at the top */
   gap: 10px;
+  }
+
+  .watermark {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
   }
 
   .outerContainer {
@@ -145,6 +167,8 @@
 </style>
 
 <h1>Home</h1>
+
+
 
 <div class="outerContainer">
   <div class="innerContainer">
