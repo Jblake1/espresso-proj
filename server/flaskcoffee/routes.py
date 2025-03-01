@@ -163,8 +163,22 @@ def archive_setup():
             
             journey = CoffeeJourney(drink=drink, coffee_beans=coffee_beans, brewing_device=brewing_device, grinder=grinder, grind_setting=grind_setting, iteration=1)
             
+            
+
             db.session.add(journey)
-            db.session.commit()
+            db.session.flush()  # This assigns the ID to journey without committing
+            
+            # Now create the first journey card using the journey's ID and grind setting
+            initial_card = JourneyCard(
+                journey_id=journey.id,
+                grind_setting=grind_setting,
+                notes="Initial settings",
+                shot_time="0:00"
+            )
+            
+            db.session.add(initial_card)
+            db.session.commit()  # Commit both the journey and the card
+            
             return jsonify({
                 "message": "Journey archived successfully"
             }), 200

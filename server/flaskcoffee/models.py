@@ -65,11 +65,14 @@ class JourneyCard(db.Model):
         # Initialize all other attributes
         super(JourneyCard, self).__init__(**kwargs)
         
-        # Calculate the iteration based on existing cards count
+        # Calculate the iteration based on the highest iteration number + 1
         if hasattr(self, 'journey_id') and self.journey_id is not None:
-            # Count existing cards with the same journey_id
-            count = JourneyCard.query.filter_by(journey_id=self.journey_id).count()
-            self.iteration = count + 1
+            # Find the highest iteration number for this journey
+            highest_card = JourneyCard.query.filter_by(journey_id=self.journey_id).order_by(JourneyCard.iteration.desc()).first()
+            if highest_card:
+                self.iteration = highest_card.iteration + 1
+            else:
+                self.iteration = 1
     
     def __repr__(self):
         return f"JourneyCard('{self.grind_setting}', '{self.iteration}', '{self.date_posted}', '{self.notes}', '{self.shot_time}', '{self.journey_id}')"
