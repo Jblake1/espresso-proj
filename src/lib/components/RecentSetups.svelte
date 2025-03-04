@@ -25,6 +25,12 @@
     let coffeeBeans3 = $state('');
     let brewingDevice3 = $state('');
 
+    let drink4 = $state('');
+    let grinder4 = $state('');
+    let grindSetting4 = $state('');
+    let coffeeBeans4 = $state('');
+    let brewingDevice4 = $state('');
+
     let archiveProp1 = () => ({
       drink: drink1,
       grinder: grinder1,
@@ -49,9 +55,18 @@
       brewingDevice: brewingDevice3
     });
 
+    let archiveProp4 = () => ({
+      drink: drink4,
+      grinder: grinder4,
+      grindSetting: grindSetting4,
+      coffeeBeans: coffeeBeans4,
+      brewingDevice: brewingDevice4
+    });
+
     let archivePropData1 = $state({});
     let archivePropData2 = $state({});
     let archivePropData3 = $state({});
+    let archivePropData4 = $state({});
 
 
     const displaySetups = async () => {
@@ -98,6 +113,16 @@
                 brewingDevice3 = setups[2].brewingDevice;
                 archivePropData3 = archiveProp3();
             }
+
+            if (setups.length > 3) {
+                // Destructure the fourth setup object
+                drink4 = setups[3].drink;
+                grinder4 = setups[3].grinder;
+                grindSetting4 = setups[3].grindSetting;
+                coffeeBeans4 = setups[3].coffeeBeans;
+                brewingDevice4 = setups[3].brewingDevice;
+                archivePropData4 = archiveProp4();
+            }
             } else {
                 const error = await response.json();
                 console.error('Failed to fetch recent setups:', error.message);
@@ -121,9 +146,17 @@
 </script>
 
 <style>
-    .container {
+    .container1 {
       display: flex;
       flex-direction: column;
+      width: 200%;
+      align-items: flex-start; /* Aligns items to the right */
+      padding: 10px;
+    }
+
+    .container2 {
+      display: flex;
+      flex-direction: row;
       width: 200%;
       align-items: flex-start; /* Aligns items to the right */
       padding: 10px;
@@ -135,45 +168,70 @@
     }
 </style>
 
-<div class="container">
-  
-  {#if drink1 !== ''}
+<div class="container1">
+  <div class="container2">
+    {#if drink1 !== ''}
+      <div class="setup">
+        <div class="card p-4">
+          <header class="card-header">Recent Setup 1</header>
+          <section class="p-4">Drink: {drink1}</section>
+          <section class="p-4">Brewing Device: {brewingDevice1}</section>
+          <section class="p-4">Grinder: {grinder1}</section>
+          <section class="p-4">Coffee Beans: {coffeeBeans1}</section>
+          <footer class="card-footer">Grind Setting: {grindSetting1}</footer>
+        </div>
+        <div class="ArchiveButton">
+          <ArchiveButton drink={archivePropData1} />
+        </div>
+      </div>
+    {/if}
+    {#if drink2 !== ''}
     <div class="setup">
-      <h2>Recent Setup 1</h2>
-      <p>Drink: {drink1}</p>
-      <p>Brewing Device: {brewingDevice1}</p>
-      <p>Grinder: {grinder1}</p>
-      <p>Coffee Beans: {coffeeBeans1}</p>
-      <p>Grind Setting: {grindSetting1}</p>
+      <div class="card p-4">
+        <header class="card-header">Recent Setup 2</header>
+        <section class="p-4">Drink: {drink2}</section>
+        <section class="p-4">Brewing Device: {brewingDevice2}</section>
+        <section class="p-4">Grinder: {grinder2}</section>
+        <section class="p-4">Coffee Beans: {coffeeBeans2}</section>
+        <footer class="card-footer">Grind Setting: {grindSetting2}</footer>
+      </div>
+      <div class="ArchiveButton">
+        <ArchiveButton drink={archivePropData2} />
+      </div>  
     </div>
-    <div class="ArchiveButton">
-      <ArchiveButton drink={archivePropData1} />
+    {/if}
+  </div>
+  <div class="container2">
+    {#if drink3 !== ''}
+      <div class="setup">
+        <div class="card p-4">
+          <header class="card-header">Recent Setup 3</header>
+          <section class="p-4">Drink: {drink3}</section>
+          <section class="p-4">Brewing Device: {brewingDevice3}</section>
+          <section class="p-4">Grinder: {grinder3}</section>
+          <section class="p-4">Coffee Beans: {coffeeBeans3}</section>
+          <footer class="card-footer">Grind Setting: {grindSetting3}</footer>
+        </div>
+      
+        <div class="ArchiveButton">
+          <ArchiveButton drink={archivePropData3} />
+        </div>
+      </div>
+    {/if}
+    {#if drink4 !== ''}
+        <div class="setup">
+          <div class="card p-4">
+            <header class="card-header">Recent Setup 4</header>
+            <section class="p-4">Drink: {drink4}</section>
+            <section class="p-4">Brewing Device: {brewingDevice4}</section>
+            <section class="p-4">Grinder: {grinder4}</section>
+            <section class="p-4">Coffee Beans: {coffeeBeans4}</section>
+            <footer class="card-footer">Grind Setting: {grindSetting4}</footer>
+          </div>
+          <div class="ArchiveButton">
+            <ArchiveButton drink={archivePropData4} />
+          </div>
+        </div>
+      {/if}
     </div>
-  {/if}
-  {#if drink2 !== ''}
-    <div class="setup">
-      <h2>Recent Setup 2</h2>
-      <p>Drink: {drink2}</p>
-      <p>Brewing Device: {brewingDevice2}</p>
-      <p>Grinder: {grinder2}</p>
-      <p>Coffee Beans: {coffeeBeans2}</p>
-      <p>Grind Setting: {grindSetting2}</p>
-    </div>
-    <div class="ArchiveButton">
-      <ArchiveButton drink={archivePropData2} />
-    </div>
-  {/if}
-  {#if drink3 !== ''}
-    <div class="setup">
-      <h2>Recent Setup 3</h2>
-      <p>Drink: {drink3}</p>
-      <p>Brewing Device: {brewingDevice3}</p>
-      <p>Grinder: {grinder3}</p>
-      <p>Coffee Beans: {coffeeBeans3}</p>
-      <p>Grind Setting: {grindSetting3}</p>
-    </div>
-    <div class="ArchiveButton">
-      <ArchiveButton drink={archivePropData3} />
-    </div>
-  {/if}
 </div>

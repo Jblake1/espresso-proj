@@ -125,7 +125,7 @@ def save_setup():
 @app.route('/getSetup', methods=['GET'])
 def get_setup():
     try:
-        setups = CoffeeSetup.query.order_by(CoffeeSetup.id.desc()).limit(3).all()
+        setups = CoffeeSetup.query.order_by(CoffeeSetup.id.desc()).limit(4).all()
         setup_list = []
         for setup in setups:
             setup_list.append({

@@ -37,5 +37,5 @@
 </script>
 
 <div>
-    <button onclick={() => archiveSetup()}>Archive</button>
+    <button type="button" class="btn btn-sm variant-filled" onclick={() => archiveSetup()}>Archive</button>
 </div>
