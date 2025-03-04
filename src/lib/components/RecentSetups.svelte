@@ -161,6 +161,21 @@
       align-items: flex-start; /* Aligns items to the right */
       padding: 10px;
     }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background-color: #ccc;
+      margin: 10px 0;
+    }
+
+    .vertical-divider {
+      width: 1px;
+      height: auto;
+      align-self: stretch;
+      background-color: #ccc;
+      margin: 0 15px;
+    }
   
     .setup {
       text-align: left; /* Aligns text to the right */
@@ -185,6 +200,9 @@
         </div>
       </div>
     {/if}
+
+    <div class="vertical-divider"></div>
+
     {#if drink2 !== ''}
     <div class="setup">
       <div class="card p-4">
@@ -201,6 +219,9 @@
     </div>
     {/if}
   </div>
+
+  <div class="divider"></div>
+
   <div class="container2">
     {#if drink3 !== ''}
       <div class="setup">
@@ -218,6 +239,9 @@
         </div>
       </div>
     {/if}
+
+    <div class="vertical-divider"></div>
+
     {#if drink4 !== ''}
         <div class="setup">
           <div class="card p-4">
