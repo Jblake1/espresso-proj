@@ -115,16 +115,6 @@
   gap: 10px;
   }
 
-  .watermark {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-  }
-
   .outerContainer {
       display: flex;
       flex-direction: row; /* Arrange elements in a row */
@@ -194,16 +184,13 @@
         type="text" id="coffeeBeans" autoComplete="off" class="input input__lg" 
       />
 
-      <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={submit} >Submit</button>
+      <!-- <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={submit} >Submit</button> -->
 
       <!-- <h1 class="visible-heading">
         Bean Description:{beanDescription}
       </h1> -->
-
-      <h1 class="visible-heading">
-        Grind Setting:{grindSetting}
-      </h1>
       
+      <button type="button" class="btn variant-filled" onclick={submit} >Submit</button>
       
       
 

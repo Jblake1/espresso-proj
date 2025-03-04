@@ -141,10 +141,10 @@
     <div class="setup">
       <h2>Recent Setup 1</h2>
       <p>Drink: {drink1}</p>
-      <p>Grinder: {grinder1}</p>
-      <p>Grind Setting: {grindSetting1}</p>
-      <p>Coffee Beans: {coffeeBeans1}</p>
       <p>Brewing Device: {brewingDevice1}</p>
+      <p>Grinder: {grinder1}</p>
+      <p>Coffee Beans: {coffeeBeans1}</p>
+      <p>Grind Setting: {grindSetting1}</p>
     </div>
     <div class="ArchiveButton">
       <ArchiveButton drink={archivePropData1} />
@@ -154,10 +154,10 @@
     <div class="setup">
       <h2>Recent Setup 2</h2>
       <p>Drink: {drink2}</p>
-      <p>Grinder: {grinder2}</p>
-      <p>Grind Setting: {grindSetting2}</p>
-      <p>Coffee Beans: {coffeeBeans2}</p>
       <p>Brewing Device: {brewingDevice2}</p>
+      <p>Grinder: {grinder2}</p>
+      <p>Coffee Beans: {coffeeBeans2}</p>
+      <p>Grind Setting: {grindSetting2}</p>
     </div>
     <div class="ArchiveButton">
       <ArchiveButton drink={archivePropData2} />
@@ -167,13 +167,13 @@
     <div class="setup">
       <h2>Recent Setup 3</h2>
       <p>Drink: {drink3}</p>
-      <p>Grinder: {grinder3}</p>
-      <p>Grind Setting: {grindSetting3}</p>
-      <p>Coffee Beans: {coffeeBeans3}</p>
       <p>Brewing Device: {brewingDevice3}</p>
+      <p>Grinder: {grinder3}</p>
+      <p>Coffee Beans: {coffeeBeans3}</p>
+      <p>Grind Setting: {grindSetting3}</p>
     </div>
     <div class="ArchiveButton">
       <ArchiveButton drink={archivePropData3} />
     </div>
   {/if}
-  </div>
+</div>
