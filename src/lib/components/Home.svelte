@@ -67,6 +67,8 @@
         beanDescription = advice.bean_analysis; // Extract bean description
         console.log('Bean Description:', beanDescription);
         snapPropData = snapProp();
+        
+
       }
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
@@ -89,17 +91,8 @@
   }
 
   
-  onMount(() => autofocus && nameEl.focus && nameEl.focus())    // if autofocus is true, we run nameEl.focus()
-  onMount(() => {
-    const ctx = canvas.getContext('2d');
-    ctx.font = '3rem Arial';
-    ctx.fillStyle = 'rgba(0,0,0,0.1)';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.translate(canvas.width/2, canvas.height/2);
-    ctx.rotate(-Math.PI/4);
-    ctx.fillText('Watermark', 0, 0);
-  });
+  onMount(() => autofocus && nameEl.focus && nameEl.focus());    // if autofocus is true, we run nameEl.focus()
+  
 
 </script>
 

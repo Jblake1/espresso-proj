@@ -35,8 +35,17 @@
         alert('An error occurred while saving the setup.');
       }
     }
+
+    $effect(() => {
+      // Only trigger save if we have all required props
+      if (props && props.drink && props.brewingDevice && 
+          props.grinder && props.grindSetting && props.coffeeBeans) {
+        saveSetup();
+      }
+    });
+    
   </script>
   
-  <div>
+  <!-- <div>
     <button onclick={() => saveSetup()}>Save Setup</button>
-  </div>
+  </div> -->
