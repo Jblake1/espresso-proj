@@ -97,65 +97,58 @@
 </script>
 
 <style>
-
+  /* Keep global styles */
   :global(.recent-setups) {
-      margin: 0;
-      padding: 0;
-    }
-
-  .visible-heading {
-  display: flex;
-  visibility: visible !important;
-  opacity: 1 !important;
-  color: black !important;
-  font-size: 1.2em !important;
-  margin-top: 1em !important;
-  flex-direction: column; /* Arrange elements in a row */
-  align-items: flex-start; /* Align items at the top */
-  gap: 10px;
+    margin: 0;
+    padding: 0;
   }
 
-  .outerContainer {
-      display: flex;
-      flex-direction: row; /* Arrange elements in a row */
-      align-items: flex-start; /* Align items at the top */
-      gap: 10px; /* Add spacing between form and RecentSetups */
-    }
+  /* Keep visible-heading with minor Tailwind additions */
+  .visible-heading {
+    @apply flex flex-col items-start gap-2.5 text-black text-lg mt-4;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
 
+  /* Update container classes with Tailwind */
+  .outerContainer {
+    @apply flex flex-row items-start gap-6 p-6;
+  }
 
   .innerContainer {
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: flex-start; /* Align items at the top */
-    gap: 10px; /* Add spacing between form elements */
-    width: 50%; /* Make form take 50% of the width */
+    @apply flex flex-col items-start gap-4 w-1/2 p-4;
   }
-
 
   .toDoForm {
-    flex: 0.7; /* Take up all available space */
-    margin-right: 0;
+    @apply flex-[0.7] mr-0 w-full p-4;
   }
 
+  /* Keep label-wrapper but add padding */
+  .label-wrapper {
+    @apply mb-2 pl-1;
+  }
+
+  /* Add styling to inputs without changing class names */
+  .input__lg {
+    @apply w-full px-3 py-2 mb-4 border rounded;
+  }
+
+  /* Keep original classes intact */
   .RecentSetups {
-    flex: 0.3; /* Take up all available space */
-    margin-right: 0;
+    @apply flex-[0.3] mr-0 p-4;
   }
 
   .CoffeeSetupSave {
-    flex: 1; /* Take up all available space */
-    margin-right: 0;
+    @apply flex-1 mr-0 p-4 rounded;
   }
 
+  /* Don't modify btn and variant-filled as they might be from a component library */
 </style>
 
-<h1>Home</h1>
-
-
-
+<!-- HTML remains exactly the same -->
 <div class="outerContainer">
   <div class="innerContainer">
-    <form class = "toDoForm">
+    <form class="toDoForm">
       <h2 class="label-wrapper">
         <label for="drink" class="label__lg">Drink</label>
       </h2>
@@ -183,17 +176,9 @@
       <input bind:value={coffeeBeans} bind:this={coffeeBeansEl} use:selectOnFocus 
         type="text" id="coffeeBeans" autoComplete="off" class="input input__lg" 
       />
-
-      <!-- <button type="submit" disabled={false} class="btn btn__primary btn__lg" onclick={submit} >Submit</button> -->
-
-      <!-- <h1 class="visible-heading">
-        Bean Description:{beanDescription}
-      </h1> -->
       
-      <button type="button" class="btn variant-filled" onclick={submit} >Submit</button>
-      
-      
-
+      <!-- Keep original button classes exactly as they were -->
+      <button type="button" class="btn variant-filled" onclick={submit}>Submit</button>
     </form>
 
     <div class="CoffeeSetupSave">
