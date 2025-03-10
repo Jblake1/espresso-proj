@@ -185,7 +185,7 @@
                                 on:keydown={(e) => e.key === 'Enter' && toggleAccordion(0)}
                             >
                                 <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow">
-                                    <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{drink1}</p>
+                                    <p class="whitespace-nowrap bg-primary-500/80 rounded px-2 py-0.5 rounded text-white text-sm">{drink1}</p>
                                     <div class="h-3 border-r border-slate-300"></div>
                                     <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{coffeeBeans1}</p>
                                 </div>

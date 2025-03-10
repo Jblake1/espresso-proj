@@ -5,6 +5,10 @@
     import { onMount } from 'svelte';
     import ArchiveButton from './ArchiveButton.svelte';
 
+    let Image1 = '/images/espresso1.jpg';
+    let Image2 = '/images/espresso2.jpg';
+    let Image3 = '/images/espresso3.jpg';
+
     let {props, trigger} = $props();
 
     let drink1 = $state('');
@@ -180,14 +184,18 @@
   <div class="container2">
     {#if drink1 !== ''}
       <div class="setup">
-        <div class="card p-3">
-          <header class="card-header py-5 px-3">{coffeeBeans1} | {drink1}</header>
+        <div class="card">
+          <header class="card-header py-5 px-3 bg-cover bg-center" style="background-image: url('{Image1}');">
+            <span class="font-medium text-white drop-shadow-md bg-primary-500/80 rounded">{coffeeBeans1} | {drink1}</span>
+          </header>
           <section class="py-1 px-3">Brewing Device: {brewingDevice1}</section>
           <section class="py-1 px-3">Grinder: {grinder1}</section>
-          <footer class="card-footer py-5 px-3">Grind Setting: {grindSetting1}</footer>
-        </div>
-        <div class="ArchiveButton">
-          <ArchiveButton drink={archivePropData1} />
+          <div class="flex flex-row items-center justify-between py-2 px-3 cardfooter">
+            <footer class="card-footer py-2">Grind Setting: {grindSetting1}</footer>
+            <div class="ArchiveButton">
+              <ArchiveButton drink={archivePropData1} />
+            </div>
+          </div>
         </div>
       </div>
     {/if}
@@ -196,15 +204,19 @@
 
     {#if drink2 !== ''}
     <div class="setup">
-      <div class="card p-3">
-        <header class="card-header py-5 px-3">{coffeeBeans2} | {drink2}</header>
+      <div class="card">
+        <header class="card-header py-5 px-3 bg-cover bg-center" style="background-image: url('{Image1}');">
+          <span class="font-medium text-white drop-shadow-md bg-primary-500/80 rounded">{coffeeBeans2} | {drink2}</span>
+        </header>
         <section class="py-1 px-3">Brewing Device: {brewingDevice2}</section>
         <section class="py-1 px-3">Grinder: {grinder2}</section>
-        <footer class="card-footer py-5 px-3">Grind Setting: {grindSetting2}</footer>
+        <div class="flex flex-row items-center justify-between py-2 px-3 cardfooter">
+          <footer class="card-footer py-2">Grind Setting: {grindSetting2}</footer>
+          <div class="ArchiveButton">
+            <ArchiveButton drink={archivePropData2} />
+          </div>
+        </div>
       </div>
-      <div class="ArchiveButton">
-        <ArchiveButton drink={archivePropData2} />
-      </div>  
     </div>
     {/if}
   </div>
@@ -214,14 +226,18 @@
   <div class="container2">
     {#if drink3 !== ''}
       <div class="setup">
-        <div class="card p-3">
-          <header class="card-header py-5 px-3">{coffeeBeans3} | {drink3}</header>
+        <div class="card">
+          <header class="card-header py-5 px-3 bg-cover bg-center" style="background-image: url('{Image1}');">
+            <span class="font-medium text-white drop-shadow-md bg-primary-500/80 rounded">{coffeeBeans3} | {drink3}</span>
+          </header>
           <section class="py-1 px-3">Brewing Device: {brewingDevice3}</section>
           <section class="py-1 px-3">Grinder: {grinder3}</section>
-          <footer class="card-footer py-5 px-3">Grind Setting: {grindSetting3}</footer>
-        </div>
-        <div class="ArchiveButton">
-          <ArchiveButton drink={archivePropData3} />
+          <div class="flex flex-row items-center justify-between py-2 px-3 cardfooter">
+            <footer class="card-footer py-2">Grind Setting: {grindSetting3}</footer>
+            <div class="ArchiveButton">
+              <ArchiveButton drink={archivePropData3} />
+            </div>
+          </div>
         </div>
       </div>
     {/if}
@@ -230,14 +246,18 @@
 
     {#if drink4 !== ''}
       <div class="setup">
-        <div class="card p-3">
-          <header class="card-header py-5 px-3">{coffeeBeans4} | {drink4}</header>
+        <div class="card">
+          <header class="card-header py-5 px-3 bg-cover bg-center" style="background-image: url('{Image1}');">
+            <span class="font-medium text-white drop-shadow-md bg-primary-500/80 rounded">{coffeeBeans4} | {drink4}</span>
+          </header>
           <section class="py-1 px-3">Brewing Device: {brewingDevice4}</section>
           <section class="py-1 px-3">Grinder: {grinder4}</section>
-          <footer class="card-footer py-5 px-3">Grind Setting: {grindSetting4}</footer>
-        </div>
-        <div class="ArchiveButton">
-          <ArchiveButton drink={archivePropData4} />
+          <div class="flex flex-row items-center justify-between py-2 px-3 cardfooter">
+            <footer class="card-footer py-2">Grind Setting: {grindSetting4}</footer>
+            <div class="ArchiveButton">
+              <ArchiveButton drink={archivePropData4} />
+            </div>
+          </div>
         </div>
       </div>
     {/if}
