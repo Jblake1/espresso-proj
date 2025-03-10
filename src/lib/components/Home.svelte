@@ -103,12 +103,6 @@
     padding: 0;
   }
 
-  /* Keep visible-heading with minor Tailwind additions */
-  .visible-heading {
-    @apply flex flex-col items-start gap-2.5 text-black text-lg mt-4;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
 
   /* Update container classes with Tailwind */
   .outerContainer {
@@ -116,7 +110,7 @@
   }
 
   .innerContainer {
-    @apply flex flex-col items-start gap-4 w-1/2 p-4;
+    @apply flex flex-col items-start gap-4 w-1/5 p-4; /* Changed from w-2/5 to w-1/5 */
   }
 
   .toDoForm {
@@ -135,9 +129,9 @@
 
   /* Keep original classes intact */
   .RecentSetups {
-    @apply flex-[0.3] mr-0 p-4;
+    @apply flex-[0.3] mr-0 p-4 pl-8 ; /* Added pl-8 for left padding */
   }
-
+  
   .CoffeeSetupSave {
     @apply flex-1 mr-0 p-4 rounded;
   }

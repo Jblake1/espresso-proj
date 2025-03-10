@@ -162,13 +162,6 @@
       padding: 10px;
     }
 
-    .divider {
-      width: 100%;
-      height: 1px;
-      background-color: #ccc;
-      margin: 10px 0;
-    }
-
     .vertical-divider {
       width: 1px;
       height: auto;
@@ -187,13 +180,11 @@
   <div class="container2">
     {#if drink1 !== ''}
       <div class="setup">
-        <div class="card p-4">
-          <header class="card-header">Recent Setup 1</header>
-          <section class="p-4">Drink: {drink1}</section>
-          <section class="p-4">Brewing Device: {brewingDevice1}</section>
-          <section class="p-4">Grinder: {grinder1}</section>
-          <section class="p-4">Coffee Beans: {coffeeBeans1}</section>
-          <footer class="card-footer">Grind Setting: {grindSetting1}</footer>
+        <div class="card p-3">
+          <header class="card-header py-5 px-3">{coffeeBeans1} | {drink1}</header>
+          <section class="py-1 px-3">Brewing Device: {brewingDevice1}</section>
+          <section class="py-1 px-3">Grinder: {grinder1}</section>
+          <footer class="card-footer py-5 px-3">Grind Setting: {grindSetting1}</footer>
         </div>
         <div class="ArchiveButton">
           <ArchiveButton drink={archivePropData1} />
@@ -205,13 +196,11 @@
 
     {#if drink2 !== ''}
     <div class="setup">
-      <div class="card p-4">
-        <header class="card-header">Recent Setup 2</header>
-        <section class="p-4">Drink: {drink2}</section>
-        <section class="p-4">Brewing Device: {brewingDevice2}</section>
-        <section class="p-4">Grinder: {grinder2}</section>
-        <section class="p-4">Coffee Beans: {coffeeBeans2}</section>
-        <footer class="card-footer">Grind Setting: {grindSetting2}</footer>
+      <div class="card p-3">
+        <header class="card-header py-5 px-3">{coffeeBeans2} | {drink2}</header>
+        <section class="py-1 px-3">Brewing Device: {brewingDevice2}</section>
+        <section class="py-1 px-3">Grinder: {grinder2}</section>
+        <footer class="card-footer py-5 px-3">Grind Setting: {grindSetting2}</footer>
       </div>
       <div class="ArchiveButton">
         <ArchiveButton drink={archivePropData2} />
@@ -220,20 +209,17 @@
     {/if}
   </div>
 
-  <div class="divider"></div>
-
+  <div class="w-full h-px bg-gray-300 my-4 mx-auto max-w-3xl"></div>
+  
   <div class="container2">
     {#if drink3 !== ''}
       <div class="setup">
-        <div class="card p-4">
-          <header class="card-header">Recent Setup 3</header>
-          <section class="p-4">Drink: {drink3}</section>
-          <section class="p-4">Brewing Device: {brewingDevice3}</section>
-          <section class="p-4">Grinder: {grinder3}</section>
-          <section class="p-4">Coffee Beans: {coffeeBeans3}</section>
-          <footer class="card-footer">Grind Setting: {grindSetting3}</footer>
+        <div class="card p-3">
+          <header class="card-header py-5 px-3">{coffeeBeans3} | {drink3}</header>
+          <section class="py-1 px-3">Brewing Device: {brewingDevice3}</section>
+          <section class="py-1 px-3">Grinder: {grinder3}</section>
+          <footer class="card-footer py-5 px-3">Grind Setting: {grindSetting3}</footer>
         </div>
-      
         <div class="ArchiveButton">
           <ArchiveButton drink={archivePropData3} />
         </div>
@@ -243,19 +229,17 @@
     <div class="vertical-divider"></div>
 
     {#if drink4 !== ''}
-        <div class="setup">
-          <div class="card p-4">
-            <header class="card-header">Recent Setup 4</header>
-            <section class="p-4">Drink: {drink4}</section>
-            <section class="p-4">Brewing Device: {brewingDevice4}</section>
-            <section class="p-4">Grinder: {grinder4}</section>
-            <section class="p-4">Coffee Beans: {coffeeBeans4}</section>
-            <footer class="card-footer">Grind Setting: {grindSetting4}</footer>
-          </div>
-          <div class="ArchiveButton">
-            <ArchiveButton drink={archivePropData4} />
-          </div>
+      <div class="setup">
+        <div class="card p-3">
+          <header class="card-header py-5 px-3">{coffeeBeans4} | {drink4}</header>
+          <section class="py-1 px-3">Brewing Device: {brewingDevice4}</section>
+          <section class="py-1 px-3">Grinder: {grinder4}</section>
+          <footer class="card-footer py-5 px-3">Grind Setting: {grindSetting4}</footer>
         </div>
-      {/if}
-    </div>
+        <div class="ArchiveButton">
+          <ArchiveButton drink={archivePropData4} />
+        </div>
+      </div>
+    {/if}
+  </div>
 </div>
