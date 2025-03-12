@@ -20,7 +20,54 @@
   let beanDescription = $state('');
   let snapPropData = $state({});
 
-  let canvas;
+  let espressoDevices = [
+    "Gaggia Classic Pro", 
+    "AeroPress", 
+    "Moka Pot",
+    "Lever Machine"
+  ];
+  
+  let coffeeDevices = [
+    "Pour Over", 
+    "French Press", 
+    "Chemex", 
+    "AeroPress", 
+    "Drip Machine",
+    "Cold Brew",
+    "Siphon"
+  ];
+
+  let coffeeGrinders = [
+    "DF 54", 
+    "DF 64",
+    "Baratza Encore",
+    "Baratza Virtuoso"
+  ];
+
+  let espressoGrinders = [
+    "DF 54", 
+    "DF 64",
+    "Baratza Encore",
+    "Baratza Virtuoso"
+  ];
+
+  // Create a reactive variable that updates when drink changes
+  let deviceOptions = $derived(
+  drink === "Espresso" ? espressoDevices : 
+  drink === "Coffee" ? coffeeDevices : []
+  );
+
+  let grinderOptions = $derived(
+  drink === "Espresso" ? espressoGrinders : 
+  drink === "Coffee" ? coffeeGrinders : []
+  );
+
+  // Using $effect to reset brewing device when drink changes
+  $effect(() => {
+    if (drink) {
+      brewingDevice = "";  // Clear the brewing device when drink changes
+    }
+  });
 
   let messageBind = $state('');
 
@@ -155,16 +202,29 @@
       <h2 class="label-wrapper">
         <label for="brewing_device" class="label__lg">Brewing Device</label>
       </h2>
-      <input bind:value={brewingDevice} bind:this={brewingDeviceEl} use:selectOnFocus 
-        type="text" id="brewingDevice" autoComplete="off" class="input input__lg" 
-      />
+      <select bind:value={brewingDevice} id="brewingDevice" class="select w-full px-3 py-2 mb-4 border rounded" disabled={!drink}>
+        <option value="">Select a device</option>
+        {#each deviceOptions as device}
+          <option value={device}>{device}</option>
+        {/each}
+      </select>
 
       <h2 class="label-wrapper">
         <label for="grinder" class="label__lg">Grinder</label>
       </h2>
+      <select bind:value={grinder} id="grinder" class="select w-full px-3 py-2 mb-4 border rounded" disabled={!drink}>
+        <option value="">Select a grinder</option>
+        {#each grinderOptions as grinder}
+          <option value={grinder}>{grinder}</option>
+        {/each}
+      </select>
+      <!-- old grinder code -->
+      <!-- <h2 class="label-wrapper">
+        <label for="grinder" class="label__lg">Grinder</label>
+      </h2>
       <input bind:value={grinder} bind:this={grinderEl} use:selectOnFocus 
         type="text" id="grinder" autoComplete="off" class="input input__lg" 
-      />
+      /> -->
 
       <h2 class="label-wrapper">
         <label for="coffeeBeans" class="label__lg">Bean</label>
