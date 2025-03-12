@@ -146,9 +146,11 @@
       <h2 class="label-wrapper">
         <label for="drink" class="label__lg">Drink</label>
       </h2>
-      <input bind:value={drink} bind:this={drinkEl} use:selectOnFocus 
-        type="text" id="drink" autoComplete="off" class="input input__lg" 
-      />
+      <select bind:value={drink} id="drink" class="select w-full px-3 py-2 mb-4 border rounded">
+        <option value="">Select a drink</option>
+        <option value="Espresso">Espresso</option>
+        <option value="Coffee">Coffee</option>
+      </select>
 
       <h2 class="label-wrapper">
         <label for="brewing_device" class="label__lg">Brewing Device</label>

@@ -150,6 +150,15 @@
 </script>
 
 <style>
+    .card {
+      @apply w-full max-w-xs; /* Set a fixed maximum width */
+      --card-width: 20rem; /* This variable helps set the divider width */
+    }
+
+    .card-header {
+      @apply w-full; /* Ensure header takes full width of card */
+    }
+
     .container1 {
       display: flex;
       flex-direction: column;
@@ -159,11 +168,11 @@
     }
 
     .container2 {
-      display: flex;
-      flex-direction: row;
-      width: 200%;
-      align-items: flex-start; /* Aligns items to the right */
-      padding: 10px;
+    display: flex;
+    flex-direction: row;
+    width: 100%; 
+    align-items: flex-start;
+    padding: 10px;
     }
 
     .vertical-divider {
@@ -186,7 +195,10 @@
       <div class="setup">
         <div class="card">
           <header class="card-header py-5 px-3 bg-cover bg-center" style="background-image: url('{Image1}');">
-            <span class="font-medium text-white drop-shadow-md bg-primary-500/80 rounded">{coffeeBeans1} | {drink1}</span>
+            <div class="font-medium text-white drop-shadow-md bg-primary-500/80 rounded px-2 py-1 w-auto inline-block">
+              <span class="truncate inline-block max-w-[150px] align-middle">{coffeeBeans1}</span>
+              <span class="align-middle"> | {drink1}</span>
+            </div>
           </header>
           <section class="py-1 px-3">Brewing Device: {brewingDevice1}</section>
           <section class="py-1 px-3">Grinder: {grinder1}</section>
@@ -200,13 +212,18 @@
       </div>
     {/if}
 
-    <div class="vertical-divider"></div>
+    {#if drink1 !== '' && drink2 !== ''}
+      <div class="vertical-divider"></div>
+    {/if}
 
     {#if drink2 !== ''}
     <div class="setup">
       <div class="card">
         <header class="card-header py-5 px-3 bg-cover bg-center" style="background-image: url('{Image1}');">
-          <span class="font-medium text-white drop-shadow-md bg-primary-500/80 rounded">{coffeeBeans2} | {drink2}</span>
+          <div class="font-medium text-white drop-shadow-md bg-primary-500/80 rounded px-2 py-1 w-auto inline-block">
+            <span class="truncate inline-block max-w-[150px] align-middle">{coffeeBeans2}</span>
+            <span class="align-middle"> | {drink2}</span>
+          </div>
         </header>
         <section class="py-1 px-3">Brewing Device: {brewingDevice2}</section>
         <section class="py-1 px-3">Grinder: {grinder2}</section>
@@ -221,14 +238,15 @@
     {/if}
   </div>
 
-  <div class="w-full h-px bg-gray-300 my-4 mx-auto max-w-3xl"></div>
-  
   <div class="container2">
     {#if drink3 !== ''}
       <div class="setup">
         <div class="card">
           <header class="card-header py-5 px-3 bg-cover bg-center" style="background-image: url('{Image1}');">
-            <span class="font-medium text-white drop-shadow-md bg-primary-500/80 rounded">{coffeeBeans3} | {drink3}</span>
+            <div class="font-medium text-white drop-shadow-md bg-primary-500/80 rounded px-2 py-1 w-auto inline-block">
+              <span class="truncate inline-block max-w-[150px] align-middle">{coffeeBeans3}</span>
+              <span class="align-middle"> | {drink3}</span>
+            </div>
           </header>
           <section class="py-1 px-3">Brewing Device: {brewingDevice3}</section>
           <section class="py-1 px-3">Grinder: {grinder3}</section>
@@ -242,13 +260,18 @@
       </div>
     {/if}
 
-    <div class="vertical-divider"></div>
+    {#if drink3 !== '' && drink4 !== ''}
+      <div class="vertical-divider"></div>
+    {/if}
 
     {#if drink4 !== ''}
       <div class="setup">
         <div class="card">
           <header class="card-header py-5 px-3 bg-cover bg-center" style="background-image: url('{Image1}');">
-            <span class="font-medium text-white drop-shadow-md bg-primary-500/80 rounded">{coffeeBeans4} | {drink4}</span>
+            <div class="font-medium text-white drop-shadow-md bg-primary-500/80 rounded px-2 py-1 w-auto inline-block">
+              <span class="truncate inline-block max-w-[150px] align-middle">{coffeeBeans4}</span>
+              <span class="align-middle"> | {drink4}</span>
+            </div>
           </header>
           <section class="py-1 px-3">Brewing Device: {brewingDevice4}</section>
           <section class="py-1 px-3">Grinder: {grinder4}</section>
