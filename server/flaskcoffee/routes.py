@@ -187,7 +187,7 @@ def archive_setup():
             return jsonify({"error": str(e)}), 500
     elif request.method == 'GET':
         try:
-            journeys = CoffeeJourney.query.order_by(CoffeeJourney.id.desc()).limit(3).all()
+            journeys = CoffeeJourney.query.order_by(CoffeeJourney.id.desc()).limit(5).all()
             journey_list = []
             for journey in journeys:
                 journey_list.append({
