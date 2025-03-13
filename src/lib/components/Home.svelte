@@ -19,6 +19,8 @@
   let advice = $state('');
   let beanDescription = $state('');
   let snapPropData = $state({});
+  let formErrors = $state('');
+  let isSubmitting = $state(false);
 
   let espressoDevices = [
     "Gaggia Classic Pro", 
@@ -41,14 +43,24 @@
     "DF 54", 
     "DF 64",
     "Baratza Encore",
-    "Baratza Virtuoso"
+    "Baratza Encore ESP",
+    "Baratza Sette 270",
+    "Baratza Virtuoso",
+    "Breville Smart Grinder Pro",
+    "Eureka Mignon Specialita",
+    "1Zpresso JX Pro"
   ];
 
   let espressoGrinders = [
     "DF 54", 
     "DF 64",
     "Baratza Encore",
-    "Baratza Virtuoso"
+    "Baratza Encore ESP",
+    "Baratza Sette 270",
+    "Baratza Virtuoso",
+    "Breville Smart Grinder Pro",
+    "Eureka Mignon Specialita",
+    "1Zpresso JX Pro"
   ];
 
   // Create a reactive variable that updates when drink changes
@@ -87,6 +99,33 @@
 
 
   const submit = async () => {
+     // Reset error message
+     formErrors = '';
+    
+    // Validate all required fields
+    if (!drink) {
+      formErrors = 'Please select a drink type';
+      return;
+    }
+    
+    if (!brewingDevice) {
+      formErrors = 'Please select a brewing device';
+      return;
+    }
+    
+    if (!grinder) {
+      formErrors = 'Please select a grinder';
+      return;
+    }
+    
+    if (!coffeeBeans || coffeeBeans.trim() === '') {
+      formErrors = 'Please enter coffee bean information';
+      return;
+    }
+
+    // Proceed with submission if all validations pass
+    isSubmitting = true;
+
     try {
       const response = await fetch('http://localhost:4000/recommendation', {
         method: 'POST',
@@ -119,6 +158,9 @@
       }
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
+      formErrors = 'Error submitting data. Please try again.';
+    } finally {
+      isSubmitting = false;
     }
   }
   
@@ -218,24 +260,36 @@
           <option value={grinder}>{grinder}</option>
         {/each}
       </select>
-      <!-- old grinder code -->
-      <!-- <h2 class="label-wrapper">
-        <label for="grinder" class="label__lg">Grinder</label>
-      </h2>
-      <input bind:value={grinder} bind:this={grinderEl} use:selectOnFocus 
-        type="text" id="grinder" autoComplete="off" class="input input__lg" 
-      /> -->
 
       <h2 class="label-wrapper">
         <label for="coffeeBeans" class="label__lg">Bean</label>
       </h2>
-      <input bind:value={coffeeBeans} bind:this={coffeeBeansEl} use:selectOnFocus 
-        type="text" id="coffeeBeans" autoComplete="off" class="input input__lg" 
-      />
+      <div class="relative w-full">
+        <input bind:value={coffeeBeans} bind:this={coffeeBeansEl} use:selectOnFocus 
+          type="text" id="coffeeBeans" autoComplete="off" class="input input__lg" 
+          maxlength="40" placeholder="Enter coffee bean" 
+        />
+        <div class="text-xs text-gray-500 absolute right-2 bottom-6">
+          {coffeeBeans.length}/40
+        </div>
+      </div>
       
       <!-- Keep original button classes exactly as they were -->
-      <button type="button" class="btn variant-filled" onclick={submit}>Submit</button>
+      <button 
+        type="button" class="btn variant-filled" onclick={submit} disabled={isSubmitting}>
+        {#if isSubmitting}
+          Submitting...
+        {:else}
+          Submit
+        {/if}
+      </button>
     </form>
+
+    {#if formErrors}
+      <div class="text-red-500 mb-4 p-2 bg-red-100 border border-red-300 rounded">
+        {formErrors}
+      </div>
+    {/if}
 
     <div class="CoffeeSetupSave">
       <CoffeeSetupSave bind:value={messageBind} props={snapPropData}/>
