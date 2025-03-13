@@ -1,5 +1,4 @@
 #coffee_advisor.py
-# To do - connect the output of coffee advisor to variables in the main.py file
 
 from dotenv import load_dotenv, find_dotenv
 _ = load_dotenv(find_dotenv()) # read local .env file
