@@ -86,9 +86,9 @@ def get_coffee_advice(drink, coffee_beans, brewing_device, grinder):
     Context: {context}\n
     Bean Segmentation: {bean_segmentation}\n
 
-    Question: What {drink} grind range would you recommend to brew {drink} using the {grinder} grinder?
+    Question: What grind range would you recommend to brew {drink} using the {grinder} grinder and {brewing_device}?
 
-    Example response: 12 to 18
+    Example response (Do not restate inputs): 12 to 18
     """)
 
     #Post-processing
@@ -100,7 +100,7 @@ def get_coffee_advice(drink, coffee_beans, brewing_device, grinder):
     grind_recommendation_chain = grind_recommendation_prompt | llm | StrOutputParser()
 
     chain = (
-        {"bean_analysis" : bean_analysis_chain, "grinder": RunnablePassthrough(), "drink": RunnablePassthrough()} 
+        {"bean_analysis" : bean_analysis_chain, "grinder": RunnablePassthrough(), "drink": RunnablePassthrough(), "brewing_device": RunnablePassthrough()} 
         | RunnablePassthrough.assign(bean_segmentation=bean_segmentation_chain)
         | RunnablePassthrough.assign(context=lambda x: format_docs(vector_store.similarity_search("What grind setting would you recommend to brew {drink} using the {grinder} grinder?")))
         | RunnablePassthrough.assign(grind_recommendation=grind_recommendation_chain)
