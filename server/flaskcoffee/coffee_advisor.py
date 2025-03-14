@@ -86,7 +86,7 @@ def get_coffee_advice(drink, coffee_beans, brewing_device, grinder):
     Context: {context}\n
     Bean Segmentation: {bean_segmentation}\n
 
-    Question: What espresso grind range would you recommend to brew {drink} using the {grinder} grinder?
+    Question: What {drink} grind range would you recommend to brew {drink} using the {grinder} grinder?
 
     Example response: 12 to 18
     """)

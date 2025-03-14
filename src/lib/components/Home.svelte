@@ -32,11 +32,8 @@
   let coffeeDevices = [
     "Pour Over", 
     "French Press", 
-    "Chemex", 
-    "AeroPress", 
     "Drip Machine",
-    "Cold Brew",
-    "Siphon"
+    "Cold Brew"
   ];
 
   let coffeeGrinders = [
@@ -44,10 +41,8 @@
     "DF 64",
     "Baratza Encore",
     "Baratza Encore ESP",
-    "Baratza Sette 270",
     "Baratza Virtuoso",
     "Breville Smart Grinder Pro",
-    "Eureka Mignon Specialita",
     "1Zpresso JX Pro"
   ];
 

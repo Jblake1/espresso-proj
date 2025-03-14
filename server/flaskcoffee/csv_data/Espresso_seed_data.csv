@@ -1,22 +1,66 @@
-﻿Drink ,Grinder,Espresso Grind Segment,Espresso Grind Range,Total Grind Range
-Espresso,DF 54,Fine,5 to 10,0 to 90
-Espresso,DF 54,Medium,11 to 16,0 to 90
-Espresso,DF 54,Coarse,17 to 25,0 to 90
-Espresso,DF 64,Fine,5 to 10,0 to 90
-Espresso,DF 64,Medium,11 to 16,0 to 90
-Espresso,DF 64,Coarse,17 to 25,0 to 90
-Espresso,Baratza Sette 270,Fine,2 to 3,1 to 270
-Espresso,Baratza Sette 270,Medium,4 to 5,1 to 270
-Espresso,Baratza Sette 270,Coarse,6 to 7,1 to 270
-Espresso,Baratza Encore ESP,Fine,1 to 7,1 to 40
-Espresso,Baratza Encore ESP,Medium,8 to 14,1 to 40
-Espresso,Baratza Encore ESP,Coarse,15 to 20,1 to 40
-Espresso,Breville Smart Grinder Pro,Fine,5 to 11,1 to 60
-Espresso,Breville Smart Grinder Pro,Medium,12 to 18,1 to 60
-Espresso,Breville Smart Grinder Pro,Coarse,19 to 25,1 to 60
-Espresso,Eureka Mignon Specialita,Fine,Na,Na
-Espresso,Eureka Mignon Specialita,Medium,Na,Na
-Espresso,Eureka Mignon Specialita,Coarse,Na,Na
-Espresso,1Zpresso JX Pro,Fine,90 to 110,30 to 300
-Espresso,1Zpresso JX Pro,Medium,111 to 130,30 to 300
-Espresso,1Zpresso JX Pro,Coarse,131 to 150,30 to 300
+﻿Drink ,Brewing Device,Grinder,Grind Segment,Grind Range,Total Machine Grind Range
+Espresso,Espresso Machine,DF 54,Fine,5 to 10,0 to 90
+Espresso,Espresso Machine,DF 54,Medium,11 to 16,0 to 90
+Espresso,Espresso Machine,DF 54,Coarse,17 to 25,0 to 90
+Espresso,Espresso Machine,DF 64,Fine,5 to 10,0 to 90
+Espresso,Espresso Machine,DF 64,Medium,11 to 16,0 to 90
+Espresso,Espresso Machine,DF 64,Coarse,17 to 25,0 to 90
+Espresso,Espresso Machine,Baratza Sette 270,Fine,2 to 3,1 to 270
+Espresso,Espresso Machine,Baratza Sette 270,Medium,4 to 5,1 to 270
+Espresso,Espresso Machine,Baratza Sette 270,Coarse,6 to 7,1 to 270
+Espresso,Espresso Machine,Baratza Encore ESP,Fine,1 to 7,1 to 40
+Espresso,Espresso Machine,Baratza Encore ESP,Medium,8 to 14,1 to 40
+Espresso,Espresso Machine,Baratza Encore ESP,Coarse,15 to 20,1 to 40
+Espresso,Espresso Machine,Breville Smart Grinder Pro,Fine,5 to 11,1 to 60
+Espresso,Espresso Machine,Breville Smart Grinder Pro,Medium,12 to 18,1 to 60
+Espresso,Espresso Machine,Breville Smart Grinder Pro,Coarse,19 to 25,1 to 60
+Espresso,Espresso Machine,Eureka Mignon Specialita,Fine,Na,Na
+Espresso,Espresso Machine,Eureka Mignon Specialita,Medium,Na,Na
+Espresso,Espresso Machine,Eureka Mignon Specialita,Coarse,Na,Na
+Espresso,Espresso Machine,1Zpresso JX Pro,Fine,10 to 11,30 to 300
+Espresso,Espresso Machine,1Zpresso JX Pro,Medium,12 to 13,30 to 300
+Espresso,Espresso Machine,1Zpresso JX Pro,Coarse,14 to 15,30 to 300
+Coffee,Pour Over/Drip,DF 54,Fine,25 to 28,0 to 90
+Coffee,Pour Over/Drip,DF 54,Medium,29 to 32,0 to 90
+Coffee,Pour Over/Drip,DF 54,Coarse,33 to 35,0 to 90
+Coffee,Pour Over/Drip,DF 64,Fine,25 to 28,0 to 90
+Coffee,Pour Over/Drip,DF 64,Medium,29 to 32,0 to 90
+Coffee,Pour Over/Drip,DF 64,Coarse,33 to 35,0 to 90
+Coffee,Pour Over/Drip,Baratza Sette 270,Fine,na,1 to 270
+Coffee,Pour Over/Drip,Baratza Sette 270,Medium,na,1 to 270
+Coffee,Pour Over/Drip,Baratza Sette 270,Coarse,na,1 to 270
+Coffee,Pour Over/Drip,Baratza Encore ESP,Fine,12 to 14,1 to 40
+Coffee,Pour Over/Drip,Baratza Encore ESP,Medium,15 to 16,1 to 40
+Coffee,Pour Over/Drip,Baratza Encore ESP,Coarse,17 to 18,1 to 40
+Coffee,Pour Over/Drip,Breville Smart Grinder Pro,Fine,35 to 36,1 to 60
+Coffee,Pour Over/Drip,Breville Smart Grinder Pro,Medium,37 to 38,1 to 60
+Coffee,Pour Over/Drip,Breville Smart Grinder Pro,Coarse,39 to 40,1 to 60
+Coffee,Pour Over/Drip,Eureka Mignon Specialita,Fine,na,Na
+Coffee,Pour Over/Drip,Eureka Mignon Specialita,Medium,na,Na
+Coffee,Pour Over/Drip,Eureka Mignon Specialita,Coarse,na,Na
+Coffee,Pour Over/Drip,1Zpresso JX Pro,Fine,20 to 21,30 to 300
+Coffee,Pour Over/Drip,1Zpresso JX Pro,Medium,22 to 23,30 to 300
+Coffee,Pour Over/Drip,1Zpresso JX Pro,Coarse,24 to 25,30 to 300
+Coffee,French Press,DF 54,Fine,45 to 48,0 to 90
+Coffee,French Press,DF 54,Medium,49 to 52 ,0 to 90
+Coffee,French Press,DF 54,Coarse,53 to 55,0 to 90
+Coffee,French Press,DF 64,Fine,45 to 48,0 to 90
+Coffee,French Press,DF 64,Medium,49 to 52 ,0 to 90
+Coffee,French Press,DF 64,Coarse,53 to 55,0 to 90
+Coffee,French Press,Baratza Sette 270,Fine,na,1 to 270
+Coffee,French Press,Baratza Sette 270,Medium,na,1 to 270
+Coffee,French Press,Baratza Sette 270,Coarse,na,1 to 270
+Coffee,French Press,Baratza Encore ESP,Fine,25 to 26,1 to 40
+Coffee,French Press,Baratza Encore ESP,Medium,27 to 28,1 to 40
+Coffee,French Press,Baratza Encore ESP,Coarse,29 to 30,1 to 40
+Coffee,French Press,Breville Smart Grinder Pro,Fine,50 to 53,1 to 60
+Coffee,French Press,Breville Smart Grinder Pro,Medium,54 to 57,1 to 60
+Coffee,French Press,Breville Smart Grinder Pro,Coarse,58 to 60,1 to 60
+Coffee,French Press,Eureka Mignon Specialita,Fine,na,Na
+Coffee,French Press,Eureka Mignon Specialita,Medium,na,Na
+Coffee,French Press,Eureka Mignon Specialita,Coarse,na,Na
+Coffee,French Press,1Zpresso JX Pro,Fine,30 to 31,30 to 300
+Coffee,French Press,1Zpresso JX Pro,Medium,32 to 33,30 to 300
+Coffee,French Press,1Zpresso JX Pro,Coarse,34 to 35,30 to 300
+,,,,,
+,,,`,,
