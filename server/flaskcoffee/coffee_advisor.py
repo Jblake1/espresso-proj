@@ -39,7 +39,7 @@ loader = CSVLoader(file_path=file,
     csv_args={
     'delimiter': ',',
     'quotechar': '"',
-    'fieldnames': ['Drink', 'Grinder','Espresso Grind Segment', 'Espresso Grind Range', 'Total Machine Grind Range']
+    'fieldnames': ['Drink', 'Brewing Device', 'Grinder', 'Grind Segment', 'Grind Range', 'Total Machine Grind Range']
 })
 
 docs = loader.load()
@@ -65,7 +65,7 @@ def get_coffee_advice(drink, coffee_beans, brewing_device, grinder):
     
 
     bean_analysis_prompt = PromptTemplate.from_template(
-    """You are an expert barista answering questions for a customer making {drink} at home using the {grinder} grinder and {brewing_device} {drink} machine. 
+    """You are an expert barista answering questions for a customer brewing {drink} at home and grinding the beans with the {grinder} grinder. 
     The customer has purchased {coffee_beans} beans, but would like to understand the beans' characteristics. Provide a comprehensive description of 
     {coffee_beans} beans including its roast type (light, medium, dark) and density. The following is an example response to a customer who purchased Red Bird 
     Blue Jaguar Espresso beans: \n 
@@ -102,7 +102,8 @@ def get_coffee_advice(drink, coffee_beans, brewing_device, grinder):
     chain = (
         {"bean_analysis" : bean_analysis_chain, "grinder": RunnablePassthrough(), "drink": RunnablePassthrough(), "brewing_device": RunnablePassthrough()} 
         | RunnablePassthrough.assign(bean_segmentation=bean_segmentation_chain)
-        | RunnablePassthrough.assign(context=lambda x: format_docs(vector_store.similarity_search("What grind setting would you recommend to brew {drink} using the {grinder} grinder?")))
+        | RunnablePassthrough.assign(context=lambda x: format_docs(vector_store.similarity_search(
+            f"What {x['drink']} grind setting would you recommend to brew {x['drink']} using the {x['grinder']} grinder with a {x['brewing_device'] if x['drink'] != 'Espresso' else 'Espresso Machine'}?")))
         | RunnablePassthrough.assign(grind_recommendation=grind_recommendation_chain)
     )
 

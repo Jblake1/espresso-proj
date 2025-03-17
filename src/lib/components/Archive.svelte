@@ -16,6 +16,8 @@
         '/images/espresso2.jpg',
         '/images/espresso3.jpg'
     ];
+
+    const espresso_machine = '/images/espresso_machine.png';
     
     // Add state to track which accordion item is open
     let openItem = -1; // -1 means all closed
@@ -170,6 +172,13 @@
             </div>
         {/if}
     </div>
+
+    <!-- Right side: Fixed espresso machine image -->
+    <div class="hidden md:block w-1/4 relative">
+        <div class="p-4">
+            <img src={espresso_machine} alt="Espresso Machine" class="w-full max-w-xs mx-auto drop-shadow-xl" />
+        </div>
+    </div>
 </div>
 
 <style>
@@ -181,4 +190,12 @@
     :global(.accordion-item + .accordion-item) {
         margin-top: 1px !important;
     }
+
+    /* Add styles for the espresso machine image */
+    img {
+        max-height: 70vh;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+    
 </style>
