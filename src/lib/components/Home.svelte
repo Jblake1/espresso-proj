@@ -23,7 +23,7 @@
   let isSubmitting = $state(false);
 
   let espressoDevices = [
-    "Gaggia Classic Pro", 
+    "Espresso Machine", 
     "AeroPress", 
     "Moka Pot",
     "Lever Machine"

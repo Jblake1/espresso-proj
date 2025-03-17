@@ -94,6 +94,25 @@
     });
 </script>
 
+<style>
+    :global(.accordion-item) {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    
+    :global(.accordion-item + .accordion-item) {
+        margin-top: 1px !important;
+    }
+
+    /* Add styles for the espresso machine image */
+    img {
+        max-height: 70vh;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+    
+</style>
+
 <div class="flex flex-row w-full">
     <div class="flex flex-col items-start gap-7 w-3/4">
         {#if isLoading}
@@ -181,21 +200,3 @@
     </div>
 </div>
 
-<style>
-    :global(.accordion-item) {
-        margin-top: 0 !important;
-        margin-bottom: 0 !important;
-    }
-    
-    :global(.accordion-item + .accordion-item) {
-        margin-top: 1px !important;
-    }
-
-    /* Add styles for the espresso machine image */
-    img {
-        max-height: 70vh;
-        object-fit: contain;
-        transition: transform 0.3s ease;
-    }
-    
-</style>
