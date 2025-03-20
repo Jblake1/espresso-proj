@@ -110,7 +110,15 @@ def save_setup():
         grind_setting = data.get('grindSetting')
         print("Grind Setting:", grind_setting)
         
-        setup = CoffeeSetup(drink=drink, coffee_beans=coffee_beans, brewing_device=brewing_device, grinder=grinder, grind_setting=grind_setting)
+        # Get user ID if provided (for authenticated users)
+        user_id = data.get('user_id')
+        user = None
+        
+        if user_id:
+            user = User.query.get(user_id)
+        
+        
+        setup = CoffeeSetup(drink=drink, coffee_beans=coffee_beans, brewing_device=brewing_device, grinder=grinder, grind_setting=grind_setting, user_id=user.id if user else None)
         
         db.session.add(setup)
         db.session.commit()
@@ -125,15 +133,32 @@ def save_setup():
 @app.route('/getSetup', methods=['GET'])
 def get_setup():
     try:
-        setups = CoffeeSetup.query.order_by(CoffeeSetup.id.desc()).limit(4).all()
+        # setups = CoffeeSetup.query.order_by(CoffeeSetup.id.desc()).limit(4).all()
+        
+        user_id = request.args.get('user_id')
+        
+        # Create base query
+        query = CoffeeSetup.query.order_by(CoffeeSetup.id.desc())
+        
+        # Apply user filter if user_id is provided
+        if user_id:
+            query = query.filter_by(user_id=user_id)
+        else:
+            pass
+            
+        # Get limited results
+        setups = query.limit(4).all()
+        
         setup_list = []
         for setup in setups:
             setup_list.append({
+                "id": setup.id,  # Include ID for reference
                 "drink": setup.drink,
                 "coffeeBeans": setup.coffee_beans,
                 "brewingDevice": setup.brewing_device,
                 "grinder": setup.grinder,
-                "grindSetting": setup.grind_setting
+                "grindSetting": setup.grind_setting,
+                "user_id": setup.user_id  # Include user_id for reference
             })
         return jsonify({
             "setups": setup_list
@@ -159,9 +184,14 @@ def archive_setup():
             print("Grinder:", grinder)
             grind_setting = data.get('grindSetting')
             print("Grind Setting:", grind_setting)
+
+            user_id = data.get('user_id')
+            user = None
             
-            
-            journey = CoffeeJourney(drink=drink, coffee_beans=coffee_beans, brewing_device=brewing_device, grinder=grinder, grind_setting=grind_setting, iteration=1)
+            if user_id:
+                user = User.query.get(user_id)
+
+            journey = CoffeeJourney(drink=drink, coffee_beans=coffee_beans, brewing_device=brewing_device, grinder=grinder, grind_setting=grind_setting, iteration=1, user_id=user.id if user else None)
             
             
 
@@ -180,14 +210,28 @@ def archive_setup():
             db.session.commit()  # Commit both the journey and the card
 
             return jsonify({
-                "message": "Journey archived successfully"
+                "message": "Journey archived successfully",
+                "journey_id": journey.id
             }), 200
         except Exception as e:
             print("Error:", str(e))
+            db.session.rollback()  # Add rollback to prevent partial commits on error
             return jsonify({"error": str(e)}), 500
     elif request.method == 'GET':
         try:
-            journeys = CoffeeJourney.query.order_by(CoffeeJourney.id.desc()).limit(10).all()
+            user_id = request.args.get('user_id')
+            
+            # Create base query
+            query = CoffeeJourney.query.order_by(CoffeeJourney.id.desc())
+            
+            # Apply user filter if user_id is provided
+            if user_id:
+                query = query.filter_by(user_id=user_id)
+                
+
+            journeys = query.limit(10).all()
+            # journeys = CoffeeJourney.query.order_by(CoffeeJourney.id.desc()).limit(10).all()
+            
             journey_list = []
             for journey in journeys:
                 journey_list.append({
@@ -197,7 +241,8 @@ def archive_setup():
                     "brewingDevice": journey.brewing_device,
                     "grinder": journey.grinder,
                     "grindSetting": journey.grind_setting,
-                    "iteration": journey.iteration
+                    "iteration": journey.iteration,
+                    "user_id": journey.user_id
                 })
             return jsonify({
                 "journeys": journey_list

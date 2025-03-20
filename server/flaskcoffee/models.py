@@ -8,7 +8,8 @@ class User(db.Model):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(100), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
-    
+    coffee_setups = db.relationship('CoffeeSetup', backref='user', lazy=True)
+    coffee_journeys = db.relationship('CoffeeJourney', backref='user', lazy=True)
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
@@ -30,6 +31,7 @@ class CoffeeSetup(db.Model):
     brewing_device = db.Column(db.String(100), nullable=False)
     grinder = db.Column(db.String(100), nullable=False)
     grind_setting = db.Column(db.String(100), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     
     
     def __repr__(self):
@@ -42,6 +44,7 @@ class CoffeeJourney(db.Model):
     brewing_device = db.Column(db.String(100), nullable=False)
     grinder = db.Column(db.String(100), nullable=False)
     grind_setting = db.Column(db.String(100), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     iteration = db.Column(db.Integer, nullable=False)
     cards = db.relationship('JourneyCard', backref='journey', lazy=True)
 
