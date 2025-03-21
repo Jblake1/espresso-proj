@@ -1,7 +1,9 @@
-from flask import request, jsonify, url_for, redirect, render_template, flash
+from flask import Flask, request, jsonify, url_for, redirect, render_template, flash, make_response
 from datetime import datetime
 from flaskcoffee import app, db, bcrypt, coffee_advisor
 from flaskcoffee.models import User, CoffeeSetup, CoffeeJourney, JourneyCard
+
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 
 
 @app.route('/recommendation', methods=['POST'])
@@ -83,13 +85,28 @@ def login_user_json():
         print("Password:", password)
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password, password):
-            return jsonify({
-            "message": "login successful"
-            }), 200
+            access_token = create_access_token(identity=user.id)
+            response = make_response(jsonify({
+                "login_success": True,
+                "user_id": user.id,
+                "username": user.username
+            }))
+
+            response.set_cookie(
+            'access_token', 
+            access_token,
+            httponly=True,
+            secure=False,  # For HTTPS (set to False for local development)
+            samesite='Strict',
+            max_age=3600  # 1 hour
+            )
+
+            return response, 200
         else:
             return jsonify({
-            "message": "User Login failed"
-            }), 300
+                "message": "User Login failed",
+                "login_success": False
+            }), 401
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     

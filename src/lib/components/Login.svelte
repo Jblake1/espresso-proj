@@ -26,24 +26,20 @@
           })
         });
   
-        if (response.ok) {
-          const data = await response.json();
-          if (data.message === 'login successful') {
-            console.log('Login successful:', data);
-            window.location.href = '/';
-          } else {
-            throw new Error('Login failed');
-          }
-        }
-  
         const data = await response.json();
-        console.log('Login successful:', data);
-      
-    } catch (error) {
-      console.error('There was a problem with the login operation:', error);
-      errorMessage = 'Login Unsuccessful. Please check email and password';
-    }
-  };
+    
+        if (response.ok && data.login_success) {
+          console.log('Login successful:', data);
+          window.location.href = '/';
+        } else {
+          console.error('Login failed:', data.message);
+          errorMessage = data.message || 'Login Unsuccessful. Please check email and password';
+        }
+      } catch (error) {
+        console.error('There was a problem with the login operation:', error);
+        errorMessage = 'Login Unsuccessful. Please check email and password';
+      }
+    };
 
   const onCancel = () => {
     email = '';
