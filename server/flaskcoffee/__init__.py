@@ -9,7 +9,7 @@ import os
 warnings.simplefilter("ignore")
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app, supports_credentials=True)  # Enable CORS for all routes
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(app.instance_path, 'coffeedata.db')}"
 app.config['JWT_SECRET_KEY'] = 'your-secret-key'
 db = SQLAlchemy(app)

@@ -111,8 +111,22 @@ def login_user_json():
         return jsonify({"error": str(e)}), 500
     
 @app.route('/saveSetup', methods=['POST'])
+@jwt_required(optional=True)  # Makes JWT optional but still verifies it if present
 def save_setup():
     try:
+        # Get user ID if present in JWT token
+        # Get user ID if present in JWT token
+        user_id = None
+        user = None
+        
+        try:
+            user_id = get_jwt_identity()
+            if user_id:
+                user = User.query.get(user_id)
+        except Exception as jwt_error:
+            print(f"JWT error: {str(jwt_error)}")
+            user = None
+            
         print(request)
         data = request.get_json()
         print("Received data:", data)
@@ -126,14 +140,7 @@ def save_setup():
         print("Grinder:", grinder)
         grind_setting = data.get('grindSetting')
         print("Grind Setting:", grind_setting)
-        
-        # Get user ID if provided (for authenticated users)
-        user_id = data.get('user_id')
-        user = None
-        
-        if user_id:
-            user = User.query.get(user_id)
-        
+       
         
         setup = CoffeeSetup(drink=drink, coffee_beans=coffee_beans, brewing_device=brewing_device, grinder=grinder, grind_setting=grind_setting, user_id=user.id if user else None)
         
@@ -148,18 +155,26 @@ def save_setup():
     
 
 @app.route('/getSetup', methods=['GET'])
+@jwt_required(optional=True)
 def get_setup():
     try:
-        # setups = CoffeeSetup.query.order_by(CoffeeSetup.id.desc()).limit(4).all()
+        # Get user ID if present in JWT token
+        user_id = None
+        user = None
         
-        user_id = request.args.get('user_id')
+        try:
+            user_id = get_jwt_identity()
+            if user_id:
+                user = User.query.get(user_id)  # Use query.get() with the primary key
+        except Exception as jwt_error:
+            print(f"JWT error: {str(jwt_error)}")
         
         # Create base query
         query = CoffeeSetup.query.order_by(CoffeeSetup.id.desc())
         
         # Apply user filter if user_id is provided
-        if user_id:
-            query = query.filter_by(user_id=user_id)
+        if user:
+            query = query.filter_by(user_id=user.id)
         else:
             pass
             
@@ -185,6 +200,7 @@ def get_setup():
     
 
 @app.route('/archiveSetup', methods=['POST', 'GET'])
+@jwt_required(optional=True)
 def archive_setup():
     if request.method == 'POST':
         try:
@@ -202,14 +218,35 @@ def archive_setup():
             grind_setting = data.get('grindSetting')
             print("Grind Setting:", grind_setting)
 
-            user_id = data.get('user_id')
+            # First try to get user from JWT token (more secure)
+            user_id = None
             user = None
             
-            if user_id:
-                user = User.query.get(user_id)
-
-            journey = CoffeeJourney(drink=drink, coffee_beans=coffee_beans, brewing_device=brewing_device, grinder=grinder, grind_setting=grind_setting, iteration=1, user_id=user.id if user else None)
+            try:
+                user_id = get_jwt_identity()
+                if user_id:
+                    user = User.query.get(user_id)  # Correct syntax - no keyword args
+                    print(f"User from JWT: {user.username if user else None}")
+            except Exception as jwt_error:
+                print(f"JWT error: {str(jwt_error)}")
             
+            # Only fall back to request data if no JWT user (less secure)
+            if not user:
+                user_id_from_request = data.get('user_id')
+                if user_id_from_request:
+                    user = User.query.get(user_id_from_request)  # Correct syntax
+                    print(f"User from request: {user.username if user else None}")
+
+            # Create journey with user ID if available
+            journey = CoffeeJourney(
+                drink=drink, 
+                coffee_beans=coffee_beans, 
+                brewing_device=brewing_device, 
+                grinder=grinder, 
+                grind_setting=grind_setting, 
+                iteration=1, 
+                user_id=user.id if user else None
+            )
             
 
             db.session.add(journey)
@@ -236,7 +273,18 @@ def archive_setup():
             return jsonify({"error": str(e)}), 500
     elif request.method == 'GET':
         try:
-            user_id = request.args.get('user_id')
+            # First try to get user from JWT token
+            user_id = None
+            try:
+                user_id = get_jwt_identity()
+                print(f"User ID from JWT: {user_id}")
+            except Exception as jwt_error:
+                print(f"JWT error in GET: {str(jwt_error)}")
+            
+            # If no JWT user, fall back to query param
+            if user_id is None:
+                user_id = request.args.get('user_id')
+                print(f"User ID from query param: {user_id}")
             
             # Create base query
             query = CoffeeJourney.query.order_by(CoffeeJourney.id.desc())
@@ -244,6 +292,7 @@ def archive_setup():
             # Apply user filter if user_id is provided
             if user_id:
                 query = query.filter_by(user_id=user_id)
+                print(f"Filtering journeys by user_id: {user_id}")
                 
 
             journeys = query.limit(10).all()
