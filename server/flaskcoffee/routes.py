@@ -5,6 +5,44 @@ from flaskcoffee.models import User, CoffeeSetup, CoffeeJourney, JourneyCard
 
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 
+@app.route('/verify-auth', methods=['GET'])
+@jwt_required(optional=True)
+def verify_auth():
+    try:
+        # Get user ID from JWT token
+        user_id = get_jwt_identity()
+        
+        # If we have a user ID, find user in database
+        if user_id:
+            user = User.query.get(user_id)
+            if user:
+                return jsonify({
+                    "authenticated": True,
+                    "user_id": user.id,
+                    "username": user.username
+                }), 200
+        
+        # If no user_id or no user found, return not authenticated
+        return jsonify({
+            "authenticated": False
+        }), 200
+        
+    except Exception as e:
+        print(f"Auth verification error: {str(e)}")
+        return jsonify({
+            "error": str(e),
+            "authenticated": False
+        }), 500
+    
+@app.route('/logout', methods=['POST'])
+def logout():
+    try:
+        # Create a response that will clear the JWT cookie
+        response = make_response(jsonify({"message": "Logged out successfully"}))
+        response.set_cookie('access_token', '', expires=0)
+        return response, 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/recommendation', methods=['POST'])
 def recommendation_json():
@@ -101,7 +139,9 @@ def login_user_json():
             max_age=3600  # 1 hour
             )
 
-            return response, 200
+            print(f"Login successful for user {user.username}. Response data: {response.get_json()}")
+
+            return response
         else:
             return jsonify({
                 "message": "User Login failed",

@@ -23,14 +23,35 @@
           body: JSON.stringify({
             email,
             password
-          })
+          }),
+          credentials: 'include' // Important for cookies
         });
-  
+
+        console.log('Response status:', response.status);
         const data = await response.json();
+        console.log('Response data:', data);
     
         if (response.ok && data.login_success) {
           console.log('Login successful:', data);
-          window.location.href = '/';
+
+        // Store user data in localStorage
+        const userData = {
+          id: data.user_id,
+          username: data.username,
+          email: data.email
+        };
+
+        console.log('Storing user data:', userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+
+        // Check if verify-auth works
+        const authCheck = await fetch('http://localhost:4000/verify-auth', {
+          method: 'GET',
+          credentials: 'include'
+        });
+
+        window.location.href = '/';
+
         } else {
           console.error('Login failed:', data.message);
           errorMessage = data.message || 'Login Unsuccessful. Please check email and password';
@@ -47,15 +68,28 @@
     emailEl.focus();
   };
 
-  onMount(() => {
-    emailEl.focus();
+  onMount(async () => {
+    try {
+      const authCheck = await fetch('http://localhost:4000/verify-auth', {
+        method: 'GET',
+        credentials: 'include'
+      });
+      
+      const authData = await authCheck.json();
+      console.log('Initial auth check:', authData);
+      
+      if (authData.authenticated) {
+        // Already logged in, redirect to home
+        window.location.href = '/';
+      }
+    } catch (error) {
+      console.error('Auth check error:', error);
+    }
   });
 </script>
 
 
-<style>
-
-</style>
+<style></style>
 
 <div class="flex justify-center items-center min-h-screen">
 <div class="card p-4 w-1/3">
