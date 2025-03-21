@@ -122,6 +122,7 @@ def save_setup():
         try:
             user_id = get_jwt_identity()
             if user_id:
+                print(f"User ID from JWT: {user_id}")
                 user = User.query.get(user_id)
         except Exception as jwt_error:
             print(f"JWT error: {str(jwt_error)}")
