@@ -131,12 +131,12 @@ def login_user_json():
             }))
 
             response.set_cookie(
-            'access_token', 
-            access_token,
-            httponly=True,
-            secure=False,  # For HTTPS (set to False for local development)
-            samesite='Strict',
-            max_age=3600  # 1 hour
+                'access_token', 
+                access_token,
+                httponly=True,
+                secure=False,  # Keep as False for local development
+                samesite='Lax',  # Change from 'Strict' to 'Lax' to work better with redirects
+                max_age=3600  # 1 hour
             )
 
             print(f"Login successful for user {user.username}. Response data: {response.get_json()}")

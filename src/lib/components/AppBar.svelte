@@ -12,7 +12,8 @@
     
     let color = 'primary';
     let currentPath = '';
-    let userInitials = 'P';
+    let userInitials = 'G';
+    let authChecked = false;
 
      // Define the popup settings
      const popupSettings: PopupSettings = {
@@ -33,66 +34,121 @@
         }
     }
 
-    // Check auth status and get user data
-    async function checkAuth() {
+     // Check auth status and get user data
+     async function checkAuth() {
         try {
-            // Try to get stored user data first (for quick UI loading)
+            console.log("Checking authentication...");
+            
+            // Try to get stored user data first
             const storedUser = localStorage.getItem('user');
             if (storedUser) {
-                const userData = JSON.parse(storedUser);
-                $userStore = userData;
-                userInitials = getInitials(userData.username);
-            }
-            
-            // Then verify with server (in case token is invalid or expired)
-            const response = await fetch('http://localhost:5000/verify-auth', {
-                method: 'GET',
-                credentials: 'include'  // Important to include cookies
-            });
-            
-            if (response.ok) {
-                const data = await response.json();
-                if (data.authenticated) {
-                    // Update with fresh data from server
-                    $userStore = {
-                        id: data.user_id,
-                        username: data.username
-                    };
-                    userInitials = getInitials(data.username);
-                    
-                    // Update localStorage with fresh data
-                    localStorage.setItem('user', JSON.stringify($userStore));
-                } else {
-                    // Clear if server says not authenticated
+                try {
+                    const userData = JSON.parse(storedUser);
+                    $userStore = userData;
+                    userInitials = getInitials(userData.username);
+                    console.log("Loaded user from localStorage:", userData);
+                    console.log("Set user initials to:", userInitials);
+                } catch (e) {
+                    console.error("Error parsing localStorage data:", e);
                     localStorage.removeItem('user');
-                    $userStore = null;
-                    userInitials = 'G';
                 }
             } else {
-                // Handle server error - could keep existing data or clear it
-                console.error('Auth verification failed:', await response.text());
+                console.log("No user found in localStorage");
+            }
+            
+            // Only check with server if we're in the browser
+            if (typeof window !== 'undefined') {
+                try {
+                    const response = await fetch('http://localhost:4000/verify-auth', {
+                        method: 'GET',
+                        credentials: 'include',  // Important for cookies
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    console.log("Server response status:", response.status);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log("Server auth response:", data);
+                        
+                        // Mark that we've checked auth
+                        authChecked = true;
+                        
+                        if (data.authenticated) {
+                            // Update with fresh data from server
+                            $userStore = {
+                                id: data.user_id,
+                                username: data.username
+                            };
+                            
+                            userInitials = getInitials(data.username);
+                            console.log("Updated user initials to:", userInitials);
+                            
+                            // Update localStorage
+                            localStorage.setItem('user', JSON.stringify($userStore));
+                        } else {
+                            console.log("Server says: not authenticated");
+                            
+                            // Only clear if we've checked with server
+                            if (authChecked) {
+                                localStorage.removeItem('user');
+                                $userStore = null;
+                                userInitials = 'G';
+                            }
+                        }
+                    }
+                } catch (fetchError) {
+                    console.warn("Server verification unavailable:", fetchError);
+                    // If server is unavailable, keep using localStorage data
+                }
             }
         } catch (error) {
             console.error('Auth check error:', error);
-            // On error, fall back to localStorage data (already handled above)
         }
     }
 
     onMount(() => {
         currentPath = window.location.pathname;
         checkAuth();
+        
+        // Add event listener for storage changes (for multi-tab support)
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'user') {
+                console.log("LocalStorage 'user' changed in another tab, updating...");
+                checkAuth();
+            }
+        });
     });
 
     function handleNavigation(event, path) {
         event.preventDefault(); // Prevent full page reload
         goto(path); // Use SvelteKit's client-side navigation
         currentPath = path; // Update the state
+
+        // Re-check auth after navigation
+        setTimeout(checkAuth, 100);
     }
+
+    // Re-check auth periodically (every 10 seconds)
+    let authInterval;
+    onMount(() => {
+        authInterval = setInterval(checkAuth, 10000);
+        return () => clearInterval(authInterval);
+    });
+
+    // Check auth when userStore changes
+    $: if ($userStore !== null) {
+        console.log("UserStore changed:", $userStore);
+        userInitials = getInitials($userStore.username);
+    }
+
 
     async function handleLogout() {
         try {
             // Call logout endpoint to invalidate JWT cookie
-            const response = await fetch('http://localhost:5000/logout', {
+            const response = await fetch('http://localhost:4000/logout', {
                 method: 'POST',
                 credentials: 'include'
             });
@@ -127,14 +183,15 @@
                 <div class="relative px-4">
                     <button class="btn-icon variant-ghost-surface z-50" use:popup={popupSettings}>
                         <Avatar initials={userInitials} />
+                        {#if $userStore}
+                            <span class="badge-icon variant-filled-primary absolute -top-1 -right-1 z-10">✓</span>
+                        {/if}
                     </button>
                 </div>
                 
                 <TabAnchor href="/" selected={currentPath === '/'} on:click={(e) => handleNavigation(e, '/')}>Home</TabAnchor>
                 <TabAnchor href="/archive" selected={currentPath === '/archive'} on:click={(e) => handleNavigation(e, '/archive')}>Archive</TabAnchor>
                 <TabAnchor href="/about" selected={currentPath === '/about'} on:click={(e) => handleNavigation(e, '/about')}>About</TabAnchor>
-                <!-- <TabAnchor href="/login" selected={currentPath === '/login'} on:click={(e) => handleNavigation(e, '/login')}>Login</TabAnchor>
-                <TabAnchor href="/register" selected={currentPath === '/register'} on:click={(e) => handleNavigation(e, '/register')}>Register</TabAnchor> -->
                 <LightSwitch />
             </TabGroup>
         </svelte:fragment>
