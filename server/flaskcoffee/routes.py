@@ -39,7 +39,7 @@ def logout():
     try:
         # Create a response that will clear the JWT cookie
         response = make_response(jsonify({"message": "Logged out successfully"}))
-        response.set_cookie('access_token', '', expires=0)
+        response.set_cookie('access_token_cookie', '', expires=0)
         return response, 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -123,7 +123,7 @@ def login_user_json():
         print("Password:", password)
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password, password):
-            access_token = create_access_token(identity=user.id)
+            access_token_value = create_access_token(identity=user.id)
             response = make_response(jsonify({
                 "login_success": True,
                 "user_id": user.id,
@@ -131,8 +131,8 @@ def login_user_json():
             }))
 
             response.set_cookie(
-                'access_token', 
-                access_token,
+                'access_token_cookie', 
+                access_token_value,
                 httponly=True,
                 secure=False,  # Keep as False for local development
                 samesite='Lax',  # Change from 'Strict' to 'Lax' to work better with redirects
