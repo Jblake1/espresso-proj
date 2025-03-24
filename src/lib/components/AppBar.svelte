@@ -76,12 +76,12 @@
                         // Mark that we've checked auth
                         authChecked = true;
                         
-                        if (data.authenticated) {
+                        if (data.is_authenticated) {
                             // Update with fresh data from server
                             $userStore = {
-                                id: data.user_id,
-                                username: data.username
-                            };
+                            id: data.user_id,
+                            username: data.username
+                        };
                             
                             userInitials = getInitials(data.username);
                             console.log("Updated user initials to:", userInitials);

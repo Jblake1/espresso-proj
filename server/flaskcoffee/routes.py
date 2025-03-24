@@ -14,24 +14,24 @@ def verify_auth():
         
         # If we have a user ID, find user in database
         if user_id:
-            user = User.query.get(user_id)
+            user = User.query.get(int(user_id))
             if user:
                 return jsonify({
-                    "authenticated": True,
+                    "is_authenticated": True,
                     "user_id": user.id,
                     "username": user.username
                 }), 200
         
         # If no user_id or no user found, return not authenticated
         return jsonify({
-            "authenticated": False
+            "is_authenticated": False
         }), 200
         
     except Exception as e:
         print(f"Auth verification error: {str(e)}")
         return jsonify({
-            "error": str(e),
-            "authenticated": False
+            "is_authenticated": False,
+            "error": str(e)
         }), 500
     
 @app.route('/logout', methods=['POST'])
@@ -123,7 +123,7 @@ def login_user_json():
         print("Password:", password)
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password, password):
-            access_token_value = create_access_token(identity=user.id)
+            access_token_value = create_access_token(identity=str(user.id))
             response = make_response(jsonify({
                 "login_success": True,
                 "user_id": user.id,

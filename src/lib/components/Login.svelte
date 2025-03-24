@@ -54,7 +54,7 @@
           const authData = await authCheck.json();
           console.log('Auth verification after login:', authData);
           
-          if (!authData.authenticated) {
+          if (!authData.is_authenticated) {
             console.warn('Warning: Server did not confirm authentication');
           }
           
@@ -93,7 +93,7 @@
       const authData = await authCheck.json();
       console.log('Initial auth check:', authData);
       
-      if (authData.authenticated) {
+      if (authData.is_authenticated) {
         // Already logged in, redirect to home
         window.location.href = '/';
       }
