@@ -35,7 +35,7 @@
     }
 
      // Check auth status and get user data
-     async function checkAuth() {
+    async function checkAuth() {
         try {
             console.log("Checking authentication...");
             
@@ -98,6 +98,21 @@
                                 userInitials = 'G';
                             }
                         }
+                    } else {
+                        // Handle non-OK responses (like 422 errors)
+                        console.warn(`Auth check failed with status: ${response.status}`);
+                        
+                        // Try to read the error response
+                        try {
+                            const errorData = await response.json();
+                            console.warn("Auth error details:", errorData);
+                        } catch (parseError) {
+                            console.warn("Could not parse error response");
+                        }
+                        
+                        // For auth errors, we should consider the user not authenticated
+                        // but maintain localStorage data to avoid disrupting the UI
+                        console.log("Keeping localStorage user data for now");
                     }
                 } catch (fetchError) {
                     console.warn("Server verification unavailable:", fetchError);

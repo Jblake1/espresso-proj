@@ -44,13 +44,28 @@
         console.log('Storing user data:', userData);
         localStorage.setItem('user', JSON.stringify(userData));
 
-        // Check if verify-auth works
-        const authCheck = await fetch('http://localhost:4000/verify-auth', {
-          method: 'GET',
-          credentials: 'include'
-        });
-
-        window.location.href = '/';
+        setTimeout(async () => {
+        try {
+          const authCheck = await fetch('http://localhost:4000/verify-auth', {
+            method: 'GET',
+            credentials: 'include'
+          });
+          
+          const authData = await authCheck.json();
+          console.log('Auth verification after login:', authData);
+          
+          if (!authData.authenticated) {
+            console.warn('Warning: Server did not confirm authentication');
+          }
+          
+          // Continue with redirect regardless
+          window.location.href = '/';
+        } catch (error) {
+          console.error('Auth check error:', error);
+          window.location.href = '/';
+        }
+      }, 100);
+      
 
         } else {
           console.error('Login failed:', data.message);
