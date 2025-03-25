@@ -77,6 +77,7 @@
         try {
             const response = await fetch('http://localhost:4000/getSetup', {
                 method: 'GET',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },

@@ -1,9 +1,8 @@
-from flask import Flask, request, jsonify, url_for, redirect, render_template, flash, make_response
-from datetime import datetime
+from flask import request, jsonify, url_for, redirect, render_template, flash, make_response
 from flaskcoffee import app, db, bcrypt, coffee_advisor
 from flaskcoffee.models import User, CoffeeSetup, CoffeeJourney, JourneyCard
 
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, create_refresh_token
 
 @app.route('/verify-auth', methods=['GET'])
 @jwt_required(optional=True)
@@ -33,13 +32,45 @@ def verify_auth():
             "is_authenticated": False,
             "error": str(e)
         }), 500
-    
+
+@app.route('/refresh-token', methods=['POST'])
+@jwt_required(refresh=True)  
+def refresh_token():
+    try:
+        # Get user ID from refresh token
+        user_id = get_jwt_identity()
+        
+        # Create new access token
+        new_access_token = create_access_token(identity=str(user_id))
+        
+        # Return new access token in a cookie
+        response = make_response(jsonify({
+            "message": "Token refreshed successfully"
+        }))
+        
+        response.set_cookie(
+            'access_token_cookie', 
+            new_access_token,
+            httponly=True,
+            secure=False,  # Keep as False for local development
+            samesite='Lax',
+            max_age=900 # 15 mins
+        )
+        
+        return response, 200
+    except Exception as e:
+        print(f"Token refresh error: {str(e)}")
+        return jsonify({
+            "error": str(e)
+        }), 500
+
 @app.route('/logout', methods=['POST'])
 def logout():
     try:
         # Create a response that will clear the JWT cookie
         response = make_response(jsonify({"message": "Logged out successfully"}))
         response.set_cookie('access_token_cookie', '', expires=0)
+        response.set_cookie('refresh_token_cookie', '', expires=0)
         return response, 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -124,6 +155,8 @@ def login_user_json():
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password, password):
             access_token_value = create_access_token(identity=str(user.id))
+            refresh_token_value = create_refresh_token(identity=str(user.id))
+
             response = make_response(jsonify({
                 "login_success": True,
                 "user_id": user.id,
@@ -136,7 +169,16 @@ def login_user_json():
                 httponly=True,
                 secure=False,  # Keep as False for local development
                 samesite='Lax',  # Change from 'Strict' to 'Lax' to work better with redirects
-                max_age=3600  # 1 hour
+                max_age=900  # 15 mins 
+            )
+
+            response.set_cookie(
+                'refresh_token_cookie',
+                refresh_token_value,
+                httponly=True,
+                secure=False,
+                samesite='Lax',
+                max_age=604800  # 7 days
             )
 
             print(f"Login successful for user {user.username}. Response data: {response.get_json()}")
@@ -154,16 +196,20 @@ def login_user_json():
 @jwt_required(optional=True)  # Makes JWT optional but still verifies it if present
 def save_setup():
     try:
-        # Get user ID if present in JWT token
-        # Get user ID if present in JWT token
         user_id = None
         user = None
         
         try:
             user_id = get_jwt_identity()
             if user_id:
+                # Convert string user_id to integer before query
+                user_id = int(user_id)
                 print(f"User ID from JWT: {user_id}")
                 user = User.query.get(user_id)
+                if user:
+                    print(f"Found user: {user.username}")
+                else:
+                    print(f"No user found with ID: {user_id}")
         except Exception as jwt_error:
             print(f"JWT error: {str(jwt_error)}")
             user = None
@@ -206,7 +252,16 @@ def get_setup():
         try:
             user_id = get_jwt_identity()
             if user_id:
-                user = User.query.get(user_id)  # Use query.get() with the primary key
+                # Convert string user_id to integer before query
+                user_id = int(user_id)
+                print(f"User ID from JWT: {user_id}")
+                user = User.query.get(user_id)
+                if user:
+                    print(f"Found user: {user.username}")
+                else:
+                    print(f"No user found with ID: {user_id}")
+            else:
+                print("No user_id found in JWT")
         except Exception as jwt_error:
             print(f"JWT error: {str(jwt_error)}")
         
@@ -215,9 +270,10 @@ def get_setup():
         
         # Apply user filter if user_id is provided
         if user:
+            print(f"Filtering setups for user: {user.username}")
             query = query.filter_by(user_id=user.id)
         else:
-            pass
+            print("Not filtering by user")
             
         # Get limited results
         setups = query.limit(4).all()
@@ -225,18 +281,21 @@ def get_setup():
         setup_list = []
         for setup in setups:
             setup_list.append({
-                "id": setup.id,  # Include ID for reference
+                "id": setup.id,
                 "drink": setup.drink,
                 "coffeeBeans": setup.coffee_beans,
                 "brewingDevice": setup.brewing_device,
                 "grinder": setup.grinder,
                 "grindSetting": setup.grind_setting,
-                "user_id": setup.user_id  # Include user_id for reference
+                "user_id": setup.user_id
             })
+        
+        print(f"Returning {len(setup_list)} setups")
         return jsonify({
             "setups": setup_list
         }), 200
     except Exception as e:
+        print(f"Error in getSetup: {str(e)}")
         return jsonify({"error": str(e)}), 500
     
 
@@ -266,6 +325,7 @@ def archive_setup():
             try:
                 user_id = get_jwt_identity()
                 if user_id:
+                    user_id = int(user_id)
                     user = User.query.get(user_id)  # Correct syntax - no keyword args
                     print(f"User from JWT: {user.username if user else None}")
             except Exception as jwt_error:
@@ -316,14 +376,22 @@ def archive_setup():
         try:
             # First try to get user from JWT token
             user_id = None
+            user = None
+            
             try:
                 user_id = get_jwt_identity()
-                print(f"User ID from JWT: {user_id}")
+                if user_id:
+                    # Convert string user_id to integer before query
+                    user_id = int(user_id)
+                    print(f"User ID from JWT: {user_id}")
+                    user = User.query.get(user_id)
+                    print(f"User from JWT: {user.username if user else None}")
             except Exception as jwt_error:
-                print(f"JWT error in GET: {str(jwt_error)}")
+                print(f"JWT error: {str(jwt_error)}")
             
             # If no JWT user, fall back to query param
             if user_id is None:
+                user_id = int(user_id)
                 user_id = request.args.get('user_id')
                 print(f"User ID from query param: {user_id}")
             
@@ -331,8 +399,8 @@ def archive_setup():
             query = CoffeeJourney.query.order_by(CoffeeJourney.id.desc())
             
             # Apply user filter if user_id is provided
-            if user_id:
-                query = query.filter_by(user_id=user_id)
+            if user:
+                query = query.filter_by(user_id=user.id)
                 print(f"Filtering journeys by user_id: {user_id}")
                 
 

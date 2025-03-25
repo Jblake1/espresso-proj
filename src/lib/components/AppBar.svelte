@@ -34,6 +34,32 @@
         }
     }
 
+    async function refreshToken() {
+        try {
+            const response = await fetch('http://localhost:4000/refresh-token', {
+                method: 'POST',
+                credentials: 'include'  // Important for cookies
+            });
+            
+            if (response.ok) {
+                console.log("Access token refreshed successfully");
+                return true;
+            } else {
+                console.warn("Failed to refresh token:", response.status);
+                // If refresh fails, clear user data
+                if (response.status === 401) {
+                    localStorage.removeItem('user');
+                    $userStore = null;
+                    userInitials = 'G';
+                }
+                return false;
+            }
+        } catch (error) {
+            console.error("Token refresh error:", error);
+            return false;
+        }
+    }
+
      // Check auth status and get user data
     async function checkAuth() {
         try {
@@ -46,8 +72,8 @@
                     const userData = JSON.parse(storedUser);
                     $userStore = userData;
                     userInitials = getInitials(userData.username);
-                    console.log("Loaded user from localStorage:", userData);
-                    console.log("Set user initials to:", userInitials);
+                    // console.log("Loaded user from localStorage:", userData);
+                    // console.log("Set user initials to:", userInitials);
                 } catch (e) {
                     console.error("Error parsing localStorage data:", e);
                     localStorage.removeItem('user');
@@ -84,39 +110,36 @@
                         };
                             
                             userInitials = getInitials(data.username);
-                            console.log("Updated user initials to:", userInitials);
-                            
-                            // Update localStorage
                             localStorage.setItem('user', JSON.stringify($userStore));
+                            // console.log("Updated user initials to:", userInitials);
                         } else {
                             console.log("Server says: not authenticated");
-                            
-                            // Only clear if we've checked with server
-                            if (authChecked) {
-                                localStorage.removeItem('user');
-                                $userStore = null;
-                                userInitials = 'G';
-                            }
+                            localStorage.removeItem('user');
+                            $userStore = null;
+                            userInitials = 'G';
+                        }
+                    } else if (response.status === 401) {
+                        // Token expired, try to refresh
+                        console.log("Auth token expired, attempting refresh...");
+                        const refreshed = await refreshToken();
+                        
+                        if (refreshed) {
+                            // If refresh succeeded, try auth check again
+                            console.log("Token refreshed, checking auth again...");
+                            await checkAuth();
+                        } else {
+                            // If refresh failed, clear user data
+                            console.log("Token refresh failed, logging out...");
+                            localStorage.removeItem('user');
+                            $userStore = null;
+                            userInitials = 'G';
                         }
                     } else {
-                        // Handle non-OK responses (like 422 errors)
+                        // Handle other non-OK responses
                         console.warn(`Auth check failed with status: ${response.status}`);
-                        
-                        // Try to read the error response
-                        try {
-                            const errorData = await response.json();
-                            console.warn("Auth error details:", errorData);
-                        } catch (parseError) {
-                            console.warn("Could not parse error response");
-                        }
-                        
-                        // For auth errors, we should consider the user not authenticated
-                        // but maintain localStorage data to avoid disrupting the UI
-                        console.log("Keeping localStorage user data for now");
                     }
-                } catch (fetchError) {
-                    console.warn("Server verification unavailable:", fetchError);
-                    // If server is unavailable, keep using localStorage data
+                } catch (error) {
+                    console.error('Auth check error:', error);
                 }
             }
         } catch (error) {
