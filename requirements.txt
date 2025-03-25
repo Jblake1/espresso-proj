@@ -43,6 +43,7 @@ filelock==3.16.1
 Flask==3.1.0
 Flask-Bcrypt==1.0.1
 Flask-Cors==5.0.0
+Flask-JWT-Extended==4.7.1
 Flask-SQLAlchemy==3.1.1
 flatbuffers==24.12.23
 fqdn==1.5.1
@@ -147,6 +148,7 @@ pydantic==2.10.3
 pydantic-settings==2.6.1
 pydantic_core==2.27.1
 Pygments==2.18.0
+PyJWT==2.10.1
 PyPika==0.48.9
 pyproject_hooks==1.2.0
 pyreadline3==3.5.4
