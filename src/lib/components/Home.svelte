@@ -5,6 +5,7 @@
   import { selectOnFocus } from '../actions'
   import CoffeeSetupSave from './CoffeeSetupSave.svelte';
   import RecentSetups from './RecentSetups.svelte';
+  import { writable } from 'svelte/store';
 
   const { autofocus } = $props<{ autofocus: boolean }>()
 
@@ -21,6 +22,9 @@
   let snapPropData = $state({});
   let formErrors = $state('');
   let isSubmitting = $state(false);
+
+    // Get access to the user store
+    const userStore = writable(null);
 
   let espressoDevices = [
     "Espresso Machine", 
@@ -177,6 +181,17 @@
   
   onMount(() => autofocus && nameEl.focus && nameEl.focus());    // if autofocus is true, we run nameEl.focus()
   
+  // Load user data from localStorage on component mount
+  onMount(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        userStore.set(JSON.parse(storedUser));
+      } catch (e) {
+        console.error("Error parsing localStorage user data:", e);
+      }
+    }
+  });
 
 </script>
 
@@ -269,15 +284,18 @@
         </div>
       </div>
       
-      <!-- Keep original button classes exactly as they were -->
-      <button 
-        type="button" class="btn variant-filled" onclick={submit} disabled={isSubmitting}>
-        {#if isSubmitting}
-          Submitting...
-        {:else}
-          Submit
-        {/if}
-      </button>
+      {#if $userStore}
+        <button 
+          type="button" class="btn variant-filled" onclick={submit} disabled={isSubmitting}>
+          {#if isSubmitting}
+            Submitting...
+          {:else}
+            Submit
+          {/if}
+        </button>
+      {:else}
+      <div></div>
+      {/if}
     </form>
 
     {#if formErrors}
@@ -291,7 +309,15 @@
     </div>
   </div>
 
-  <div class="RecentSetups">
-    <RecentSetups props={snapPropData} trigger={messageBind}/>
-  </div>
+  {#if $userStore} <!-- Check if user is authenticated -->
+    <div class="RecentSetups">
+      <RecentSetups props={snapPropData} trigger={messageBind}/>
+    </div>
+  {:else}
+    <div class="w-full text-center p-10 border border-primary-200 rounded-lg bg-tertiary-900/50">
+      <p class="text-xl font-semibold text-tertiary-200">Not Logged In</p>
+      <p class="mt-2 text-tertiary-400">No coffee records can be displayed</p>
+      <a href="/login" class="btn variant-filled-primary mt-6">Login to view</a>
+    </div>
+  {/if}
 </div>
