@@ -1,8 +1,24 @@
 from flask import request, jsonify, url_for, redirect, render_template, flash, make_response
 from flaskcoffee import app, db, bcrypt, coffee_advisor
 from flaskcoffee.models import User, CoffeeSetup, CoffeeJourney, JourneyCard
+from datetime import datetime, timedelta, timezone
 
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, create_refresh_token
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt, set_access_cookies, unset_jwt_cookies
+
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=2))
+        if target_timestamp > exp_timestamp:
+            print("Refreshing JWT")
+            access_token = create_access_token(identity=get_jwt_identity())
+            set_access_cookies(response, access_token)
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original response
+        return response
 
 @app.route('/verify-auth', methods=['GET'])
 @jwt_required(optional=True)
@@ -33,44 +49,13 @@ def verify_auth():
             "error": str(e)
         }), 500
 
-@app.route('/refresh-token', methods=['POST'])
-@jwt_required(refresh=True)  
-def refresh_token():
-    try:
-        # Get user ID from refresh token
-        user_id = get_jwt_identity()
-        
-        # Create new access token
-        new_access_token = create_access_token(identity=str(user_id))
-        
-        # Return new access token in a cookie
-        response = make_response(jsonify({
-            "message": "Token refreshed successfully"
-        }))
-        
-        response.set_cookie(
-            'access_token_cookie', 
-            new_access_token,
-            httponly=True,
-            secure=False,  # Keep as False for local development
-            samesite='Lax',
-            max_age=900 # 15 mins
-        )
-        
-        return response, 200
-    except Exception as e:
-        print(f"Token refresh error: {str(e)}")
-        return jsonify({
-            "error": str(e)
-        }), 500
-
 @app.route('/logout', methods=['POST'])
 def logout():
     try:
         # Create a response that will clear the JWT cookie
         response = make_response(jsonify({"message": "Logged out successfully"}))
-        response.set_cookie('access_token_cookie', '', expires=0)
-        response.set_cookie('refresh_token_cookie', '', expires=0)
+        unset_jwt_cookies(response)
+        # response.set_cookie('access_token_cookie', '', expires=0)
         return response, 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -155,7 +140,6 @@ def login_user_json():
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password, password):
             access_token_value = create_access_token(identity=str(user.id))
-            refresh_token_value = create_refresh_token(identity=str(user.id))
 
             response = make_response(jsonify({
                 "login_success": True,
@@ -163,23 +147,16 @@ def login_user_json():
                 "username": user.username
             }))
 
-            response.set_cookie(
-                'access_token_cookie', 
-                access_token_value,
-                httponly=True,
-                secure=False,  # Keep as False for local development
-                samesite='Lax',  # Change from 'Strict' to 'Lax' to work better with redirects
-                max_age=900  # 15 mins 
-            )
+            # response.set_cookie(
+            #     'access_token_cookie', 
+            #     access_token_value,
+            #     httponly=True,
+            #     secure=False,  # Keep as False for local development
+            #     samesite='Lax',  # Change from 'Strict' to 'Lax' to work better with redirects
+            #     max_age=900  # 15 mins 
+            # )
 
-            response.set_cookie(
-                'refresh_token_cookie',
-                refresh_token_value,
-                httponly=True,
-                secure=False,
-                samesite='Lax',
-                max_age=604800  # 7 days
-            )
+            set_access_cookies(response, access_token_value)
 
             print(f"Login successful for user {user.username}. Response data: {response.get_json()}")
 
@@ -547,3 +524,8 @@ def journey_delete():
         # Roll back in case of error
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+    
+    @app.route("/protected")
+    @jwt_required()
+    def protected():
+        return jsonify(foo="bar")

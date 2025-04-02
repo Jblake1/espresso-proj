@@ -34,31 +34,31 @@
         }
     }
 
-    async function refreshToken() {
-        try {
-            const response = await fetch('http://localhost:4000/refresh-token', {
-                method: 'POST',
-                credentials: 'include'  // Important for cookies
-            });
+    // async function refreshToken() {
+    //     try {
+    //         const response = await fetch('http://localhost:4000/refresh-token', {
+    //             method: 'POST',
+    //             credentials: 'include'  // Important for cookies
+    //         });
             
-            if (response.ok) {
-                console.log("Access token refreshed successfully");
-                return true;
-            } else {
-                console.warn("Failed to refresh token:", response.status);
-                // If refresh fails, clear user data
-                if (response.status === 401) {
-                    localStorage.removeItem('user');
-                    $userStore = null;
-                    userInitials = 'G';
-                }
-                return false;
-            }
-        } catch (error) {
-            console.error("Token refresh error:", error);
-            return false;
-        }
-    }
+    //         if (response.ok) {
+    //             console.log("Access token refreshed successfully");
+    //             return true;
+    //         } else {
+    //             console.warn("Failed to refresh token:", response.status);
+    //             // If refresh fails, clear user data
+    //             if (response.status === 401) {
+    //                 localStorage.removeItem('user');
+    //                 $userStore = null;
+    //                 userInitials = 'G';
+    //             }
+    //             return false;
+    //         }
+    //     } catch (error) {
+    //         console.error("Token refresh error:", error);
+    //         return false;
+    //     }
+    // }
 
      // Check auth status and get user data
     async function checkAuth() {
@@ -121,7 +121,7 @@
                     } else if (response.status === 401) {
                         // Token expired, try to refresh
                         console.log("Auth token expired, attempting refresh...");
-                        const refreshed = await refreshToken();
+                        const refreshed = null;
                         
                         if (refreshed) {
                             // If refresh succeeded, try auth check again

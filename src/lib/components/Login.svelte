@@ -38,7 +38,8 @@
         const userData = {
           id: data.user_id,
           username: data.username,
-          email: data.email
+          email: data.email,
+          tokenExpires: Date.now() + (180 * 1000), // 15 minutes
         };
 
         console.log('Storing user data:', userData);
