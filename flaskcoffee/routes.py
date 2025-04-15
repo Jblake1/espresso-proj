@@ -1,3 +1,4 @@
+import os
 from flask import request, jsonify, url_for, redirect, render_template, flash, make_response, send_from_directory
 from flaskcoffee import app, db, bcrypt, coffee_advisor
 from flaskcoffee.models import User, CoffeeSetup, CoffeeJourney, JourneyCard
