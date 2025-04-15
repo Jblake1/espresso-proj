@@ -16,7 +16,17 @@ import os
 
 warnings.simplefilter("ignore")
 
-app = Flask(__name__)
+frontend_build_path = os.path.join(os.path.dirname(__file__), '..', 'build') # <--- Use 'build' here
+
+# Check if the calculated path actually exists before passing it to Flask
+static_folder_to_use = None
+if os.path.exists(frontend_build_path):
+    static_folder_to_use = frontend_build_path
+else:
+    # Log a warning if the build path doesn't exist during startup
+    print(f"Warning: Frontend build directory not found at {frontend_build_path}")
+
+app = Flask(__name__, static_folder=static_folder_to_use, static_url_path='')
 CORS(app, supports_credentials=True)  # Enable CORS for all routes
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(app.instance_path, 'coffeedata.db')}"
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
