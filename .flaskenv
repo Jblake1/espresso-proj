@@ -1,0 +1,2 @@
+FLASK_APP=flaskcoffee
+FLASK_ENV=development

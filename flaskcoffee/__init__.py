@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta, timezone
 
@@ -17,16 +18,8 @@ import os
 warnings.simplefilter("ignore")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-database_uri = os.environ.get('DATABASE_URL')
 
 frontend_build_path = os.path.join(os.path.dirname(__file__), '..', 'build') # <--- Use 'build' here
-
-if database_uri and database_uri.startswith("postgres://"):
-    database_uri = database_uri.replace("postgres://", "postgresql://", 1)
-
-if not database_uri:
-    database_uri = 'sqlite:///' + os.path.join(basedir, 'instance', 'coffeedata.db')
-
 
 # Check if the calculated path actually exists before passing it to Flask
 static_folder_to_use = None
@@ -38,6 +31,26 @@ else:
 
 app = Flask(__name__, static_folder=static_folder_to_use, static_url_path='')
 CORS(app, supports_credentials=True)  # Enable CORS for all routes
+
+database_uri = os.environ.get('DATABASE_URL')
+
+if database_uri and database_uri.startswith("postgres://"):
+    database_uri = database_uri.replace("postgres://", "postgresql://", 1)
+
+# Use app.instance_path if DATABASE_URL is not set
+if not database_uri:
+    # This constructs the path like: C:\Users\Josh\projects\espresso-project\instance\coffeedata.db
+    instance_db_path = os.path.join(app.instance_path, 'coffeedata.db')
+
+    # Ensure the instance folder exists before setting the URI
+    try:
+        os.makedirs(app.instance_path, exist_ok=True)
+    except OSError as e:
+        print(f"Error creating instance folder {app.instance_path}: {e}")
+        # Handle error appropriately, maybe raise it or exit
+
+    database_uri = f"sqlite:///{instance_db_path}"
+
 # app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(app.instance_path, 'coffeedata.db')}"
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Recommended practice
@@ -55,5 +68,8 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
+migrate = Migrate(app, db)
+
+from flaskcoffee import models
 
 from flaskcoffee import routes
