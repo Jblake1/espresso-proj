@@ -34,31 +34,6 @@
         }
     }
 
-    // async function refreshToken() {
-    //     try {
-    //         const response = await fetch('http://localhost:4000/refresh-token', {
-    //             method: 'POST',
-    //             credentials: 'include'  // Important for cookies
-    //         });
-            
-    //         if (response.ok) {
-    //             console.log("Access token refreshed successfully");
-    //             return true;
-    //         } else {
-    //             console.warn("Failed to refresh token:", response.status);
-    //             // If refresh fails, clear user data
-    //             if (response.status === 401) {
-    //                 localStorage.removeItem('user');
-    //                 $userStore = null;
-    //                 userInitials = 'G';
-    //             }
-    //             return false;
-    //         }
-    //     } catch (error) {
-    //         console.error("Token refresh error:", error);
-    //         return false;
-    //     }
-    // }
 
      // Check auth status and get user data
     async function checkAuth() {
@@ -85,7 +60,7 @@
             // Only check with server if we're in the browser
             if (typeof window !== 'undefined') {
                 try {
-                    const response = await fetch('http://localhost:4000/verify-auth', {
+                    const response = await fetch('/verify-auth', {
                         method: 'GET',
                         credentials: 'include',  // Important for cookies
                         headers: {
@@ -186,7 +161,7 @@
     async function handleLogout() {
         try {
             // Call logout endpoint to invalidate JWT cookie
-            const response = await fetch('http://localhost:4000/logout', {
+            const response = await fetch('/logout', {
                 method: 'POST',
                 credentials: 'include'
             });

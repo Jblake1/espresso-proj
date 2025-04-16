@@ -126,7 +126,7 @@
     isSubmitting = true;
 
     try {
-      const response = await fetch('http://localhost:4000/recommendation', {
+      const response = await fetch('/recommendation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

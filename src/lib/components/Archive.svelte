@@ -39,7 +39,7 @@
 
     const deleteJourney = async (journeyID) => {
         try {
-            const response = await fetch('http://localhost:4000/journeyDelete', {
+            const response = await fetch('/journeyDelete', {
                 method: 'Post',
                 headers: {
                     'Content-Type': 'application/json',
@@ -66,7 +66,7 @@
     const displayArchive = async () => {
         isLoading = true;
         try {
-            const response = await fetch('http://localhost:4000/archiveSetup', {
+            const response = await fetch('/archiveSetup', {
                 method: 'GET',
                 credentials: 'include',
                 headers: {

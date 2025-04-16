@@ -35,7 +35,7 @@
 
     const createJourneyCard = async () => {
         try {
-            const response = await fetch('http://localhost:4000/journeyCard', {
+            const response = await fetch('/journeyCard', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -58,7 +58,7 @@
 
     const deleteJourneyCard = async (cardID, index) => {
         try {
-            const response = await fetch('http://localhost:4000/journeyCardDelete', {
+            const response = await fetch('/journeyCardDelete', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -94,7 +94,7 @@
     const displayJourneyCard = async (journeyData) => {
         try {
             console.log(`Sending journeyID: ${journeyData}`);
-            const response = await fetch(`http://localhost:4000/journeyCard?journeyID=${journeyData}`, {
+            const response = await fetch(`/journeyCard?journeyID=${journeyData}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,7 +142,7 @@
 
     const updateJourneyCard = async (index) => {
         try {
-            const response = await fetch('http://localhost:4000/journeyCardEdit', {
+            const response = await fetch('/journeyCardEdit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

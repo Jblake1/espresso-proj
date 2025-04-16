@@ -5,7 +5,7 @@
    
     const saveSetup = async () => {
       try {
-        const response = await fetch('http://localhost:4000/saveSetup', {
+        const response = await fetch('/saveSetup', {
           method: 'POST',
           credentials: 'include',
           headers: {

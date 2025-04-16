@@ -15,7 +15,7 @@
   const handleSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
     try {
-        const response = await fetch('http://localhost:4000/login', {
+        const response = await fetch('/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -47,7 +47,7 @@
 
         setTimeout(async () => {
         try {
-          const authCheck = await fetch('http://localhost:4000/verify-auth', {
+          const authCheck = await fetch('/verify-auth', {
             method: 'GET',
             credentials: 'include'
           });
@@ -86,7 +86,7 @@
 
   onMount(async () => {
     try {
-      const authCheck = await fetch('http://localhost:4000/verify-auth', {
+      const authCheck = await fetch('/verify-auth', {
         method: 'GET',
         credentials: 'include'
       });

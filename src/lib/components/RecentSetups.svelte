@@ -75,7 +75,7 @@
 
     const displaySetups = async () => {
         try {
-            const response = await fetch('http://localhost:4000/getSetup', {
+            const response = await fetch('/getSetup', {
                 method: 'GET',
                 credentials: 'include',
                 headers: {

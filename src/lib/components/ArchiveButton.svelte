@@ -7,7 +7,7 @@
 
     const archiveSetup = async () => {
         try {
-            const response = await fetch('http://localhost:4000/archiveSetup', {
+            const response = await fetch('/archiveSetup', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
