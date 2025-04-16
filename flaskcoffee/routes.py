@@ -125,7 +125,10 @@ def register_user_json():
             "message": "registration successful"
         }), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        db.session.rollback() # Rollback the session on error
+        app.logger.exception("Error during user registration") # Logs the error with traceback
+        
+        return jsonify({"error": "An internal error occurred during registration."}), 500
 
 
 @app.route('/login', methods=['GET', 'POST'])
