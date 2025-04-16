@@ -131,7 +131,7 @@ def register_user_json():
         return jsonify({"error": "An internal error occurred during registration."}), 500
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login_user_json():
     try:
         print(request)
@@ -171,6 +171,8 @@ def login_user_json():
                 "login_success": False
             }), 401
     except Exception as e:
+         # It's good practice to log the error too
+        app.logger.exception("Error during login attempt")
         return jsonify({"error": str(e)}), 500
     
 @app.route('/saveSetup', methods=['POST'])
