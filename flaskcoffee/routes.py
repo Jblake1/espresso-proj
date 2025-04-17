@@ -120,7 +120,7 @@ def register_user_json():
         
         db.session.add(user)
         db.session.commit()
-        #redirect(url_for('login'))
+        
         return jsonify({
             "message": "registration successful"
         }), 200
