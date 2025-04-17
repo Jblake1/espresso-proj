@@ -133,47 +133,41 @@ def register_user_json():
 
 @app.route('/login', methods=['POST'])
 def login_user_json():
-    try:
-        print(request)
-        data = request.get_json()
-        print("Received data:", data)
-        email = data.get('email')
-        print("Email:", email)
-        password = data.get('password')
-        print("Password:", password)
-        user = User.query.filter_by(email=email).first()
-        if user and bcrypt.check_password_hash(user.password, password):
-            access_token_value = create_access_token(identity=str(user.id))
+    # if request.method == 'GET':
+    #     return render_template('login.html')
+    if request.method == 'POST':
+        try:
+            print(request)
+            data = request.get_json()
+            print("Received data:", data)
+            email = data.get('email')
+            print("Email:", email)
+            password = data.get('password')
+            # print("Password:", password)
+            user = User.query.filter_by(email=email).first()
+            if user and bcrypt.check_password_hash(user.password, password):
+                access_token_value = create_access_token(identity=str(user.id))
 
-            response = make_response(jsonify({
-                "login_success": True,
-                "user_id": user.id,
-                "username": user.username
-            }))
+                response = make_response(jsonify({
+                    "login_success": True,
+                    "user_id": user.id,
+                    "username": user.username
+                }))
 
-            # response.set_cookie(
-            #     'access_token_cookie', 
-            #     access_token_value,
-            #     httponly=True,
-            #     secure=False,  # Keep as False for local development
-            #     samesite='Lax',  # Change from 'Strict' to 'Lax' to work better with redirects
-            #     max_age=900  # 15 mins 
-            # )
+                set_access_cookies(response, access_token_value)
 
-            set_access_cookies(response, access_token_value)
+                print(f"Login successful for user {user.username}. Response data: {response.get_json()}")
 
-            print(f"Login successful for user {user.username}. Response data: {response.get_json()}")
-
-            return response
-        else:
-            return jsonify({
-                "message": "User Login failed",
-                "login_success": False
-            }), 401
-    except Exception as e:
-         # It's good practice to log the error too
-        app.logger.exception("Error during login attempt")
-        return jsonify({"error": str(e)}), 500
+                return response
+            else:
+                return jsonify({
+                    "message": "User Login failed",
+                    "login_success": False
+                }), 401
+        except Exception as e:
+            # It's good practice to log the error too
+            app.logger.exception("Error during login attempt")
+            return jsonify({"error": str(e)}), 500
     
 @app.route('/saveSetup', methods=['POST'])
 @jwt_required(optional=True)  # Makes JWT optional but still verifies it if present

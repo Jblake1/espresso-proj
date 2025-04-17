@@ -38,7 +38,7 @@
                 if (data.message === "registration successful") {
                     console.log('Registration successful:', data);
                     // Redirect to the login page
-                    window.location.href = '/login';
+                    goto('/login');
                 } else {
                     throw new Error('Registration failed');
                 }
