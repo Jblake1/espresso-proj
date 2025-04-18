@@ -21,21 +21,38 @@ import os
 warnings.simplefilter("ignore")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+logging.info(f"[STARTUP_DEBUG] basedir: {basedir}")
+print(f"[STARTUP_DEBUG] basedir: {basedir}", file=sys.stderr) # Also print to stderr
 
-frontend_build_path = os.path.join(os.path.dirname(basedir), 'build')
+parent_dir = os.path.dirname(basedir)
+logging.info(f"[STARTUP_DEBUG] parent_dir (calculated): {parent_dir}")
+print(f"[STARTUP_DEBUG] parent_dir (calculated): {parent_dir}", file=sys.stderr)
+
+frontend_build_path = os.path.join(parent_dir, 'build')
+logging.info(f"[STARTUP_DEBUG] Calculated frontend_build_path: {frontend_build_path}")
+print(f"[STARTUP_DEBUG] Calculated frontend_build_path: {frontend_build_path}", file=sys.stderr)
+
 static_dir = None
-if os.path.exists(frontend_build_path):
+path_exists = os.path.exists(frontend_build_path)
+logging.info(f"[STARTUP_DEBUG] Result of os.path.exists({frontend_build_path}): {path_exists}")
+print(f"[STARTUP_DEBUG] Result of os.path.exists({frontend_build_path}): {path_exists}", file=sys.stderr)
+
+if path_exists:
     static_dir = frontend_build_path
-    print(f"DEBUG: Found frontend build path: {static_dir}") # ADD TEMPORARY PRINT
-    logging.info(f"Found frontend build path: {static_dir}") # ADD LOGGING
+    logging.info(f"[STARTUP_DEBUG] static_dir will be set to: {static_dir}")
+    print(f"[STARTUP_DEBUG] static_dir will be set to: {static_dir}", file=sys.stderr)
 else:
-    print(f"WARNING: Frontend build directory not found at {frontend_build_path}") # ADD TEMPORARY PRINT
-    logging.warning(f"Frontend build directory not found at {frontend_build_path}. Static files may not be served correctly.") # ADD LOGGING
+    logging.warning(f"[STARTUP_DEBUG] Frontend build directory not found at calculated path. static_dir remains None.")
+    print(f"[STARTUP_DEBUG] Frontend build directory not found at calculated path. static_dir remains None.", file=sys.stderr)
+    # As a fallback test, let's see if it's maybe next to basedir?
+    alt_path = os.path.join(basedir, 'build')
+    alt_path_exists = os.path.exists(alt_path)
+    logging.warning(f"[STARTUP_DEBUG] Alternative path check ({alt_path}) exists: {alt_path_exists}")
+    print(f"[STARTUP_DEBUG] Alternative path check ({alt_path}) exists: {alt_path_exists}", file=sys.stderr)
 
-# Explicitly log the value being passed to Flask
-print(f"DEBUG: Initializing Flask with static_folder='{static_dir}'") # ADD TEMPORARY PRINT
-logging.info(f"Initializing Flask with static_folder='{static_dir}'") # ADD LOGGING
 
+logging.info(f"[STARTUP_DEBUG] Initializing Flask with static_folder='{static_dir}'")
+print(f"[STARTUP_DEBUG] Initializing Flask with static_folder='{static_dir}'", file=sys.stderr)
 
 app = Flask(__name__, static_folder=static_dir)
 CORS(app, supports_credentials=True)  # Enable CORS for all routes
