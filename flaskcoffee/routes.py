@@ -529,7 +529,20 @@ def journey_delete():
     @jwt_required()
     def protected():
         return jsonify(foo="bar")
-    
+
+@app.route('/debug-serve')
+def debug_serve_frontend():
+    static_folder_path = app.static_folder
+    index_path = os.path.join(static_folder_path, 'index.html')
+    index_exists = os.path.exists(index_path)
+    return f"""
+    <h1>Debug Information</h1>
+    <p>Requested Path: /debug-serve</p>
+    <p>app.static_folder: {static_folder_path}</p>
+    <p>Checking for index.html at: {index_path}</p>
+    <p>Does index.html exist at that path? {index_exists}</p>
+    """
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_frontend(path):
