@@ -23,14 +23,19 @@ warnings.simplefilter("ignore")
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 frontend_build_path = os.path.join(os.path.dirname(basedir), 'build')
-
-# Check if the calculated path actually exists before passing it to Flask
 static_dir = None
 if os.path.exists(frontend_build_path):
     static_dir = frontend_build_path
+    print(f"DEBUG: Found frontend build path: {static_dir}") # ADD TEMPORARY PRINT
+    logging.info(f"Found frontend build path: {static_dir}") # ADD LOGGING
 else:
-    # Log a warning if the build path doesn't exist during startup
-    print(f"Warning: Frontend build directory not found at {frontend_build_path}")
+    print(f"WARNING: Frontend build directory not found at {frontend_build_path}") # ADD TEMPORARY PRINT
+    logging.warning(f"Frontend build directory not found at {frontend_build_path}. Static files may not be served correctly.") # ADD LOGGING
+
+# Explicitly log the value being passed to Flask
+print(f"DEBUG: Initializing Flask with static_folder='{static_dir}'") # ADD TEMPORARY PRINT
+logging.info(f"Initializing Flask with static_folder='{static_dir}'") # ADD LOGGING
+
 
 app = Flask(__name__, static_folder=static_dir)
 CORS(app, supports_credentials=True)  # Enable CORS for all routes
