@@ -1,1 +1,1 @@
-web: gunicorn flaskcoffee:app
+web: gunicorn --log-level debug flaskcoffee:app
