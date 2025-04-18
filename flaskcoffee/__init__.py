@@ -32,7 +32,7 @@ else:
     # Log a warning if the build path doesn't exist during startup
     print(f"Warning: Frontend build directory not found at {frontend_build_path}")
 
-app = Flask(__name__, static_folder=static_dir, static_url_path='')
+app = Flask(__name__, static_folder=static_dir)
 CORS(app, supports_credentials=True)  # Enable CORS for all routes
 
 # Configure logging
