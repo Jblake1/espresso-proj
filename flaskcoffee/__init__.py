@@ -40,11 +40,7 @@ log_file_path = os.path.join(basedir, 'app.log')
 logging.basicConfig(
     stream=sys.stdout,
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        RotatingFileHandler(log_file_path, maxBytes=1000000, backupCount=3),
-        logging.StreamHandler()
-    ]
+    format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
 logging.info("Starting Flask application...")
