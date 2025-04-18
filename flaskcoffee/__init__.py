@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta, timezone
+import logging
+from logging.handlers import RotatingFileHandler
 
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
@@ -31,6 +33,19 @@ else:
 
 app = Flask(__name__, static_folder=static_dir, static_url_path='')
 CORS(app, supports_credentials=True)  # Enable CORS for all routes
+
+# Configure logging
+log_file_path = os.path.join(basedir, 'app.log')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        RotatingFileHandler(log_file_path, maxBytes=1000000, backupCount=3),
+        logging.StreamHandler()
+    ]
+)
+
+logging.info("Starting Flask application...")
 
 database_uri = os.environ.get('DATABASE_URL')
 
@@ -63,6 +78,21 @@ app.config['JWT_COOKIE_SECURE'] = False
 app.config['JWT_SECRET_KEY'] = 'your-secret-key'
 app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token_cookie'
 # app.config['JWT_REFRESH_COOKIE_NAME'] = 'refresh_token_cookie'
+
+# Log database URI
+if database_uri:
+    logging.info(f"Using database URI: {database_uri}")
+else:
+    logging.warning("No database URI found. Using default SQLite configuration.")
+
+# Log frontend build path
+if static_dir:
+    logging.info(f"Frontend static directory set to: {static_dir}")
+else:
+    logging.warning("Frontend static directory not found. Static files may not be served.")
+
+# Log JWT configuration
+logging.info(f"JWT access token expiration set to: {app.config['JWT_ACCESS_TOKEN_EXPIRES']}")
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
