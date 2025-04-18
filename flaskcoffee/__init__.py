@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta, timezone
 import logging
+import sys
 from logging.handlers import RotatingFileHandler
 
 from flask_jwt_extended import (
@@ -37,6 +38,7 @@ CORS(app, supports_credentials=True)  # Enable CORS for all routes
 # Configure logging
 log_file_path = os.path.join(basedir, 'app.log')
 logging.basicConfig(
+    stream=sys.stdout,
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
