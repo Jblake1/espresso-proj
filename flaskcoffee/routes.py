@@ -544,45 +544,23 @@ def debug_serve_frontend():
     """
 
 @app.route('/', defaults={'path': ''})
-# @app.route('/<path:path>')
+@app.route('/<path:path>')
 def serve_frontend(path):
-    static_folder = current_app.static_folder # Use current_app context
-    index_path = os.path.join(static_folder, 'index.html')
-
-    # Use logger if configured, otherwise prints might show up
     logger = current_app.logger
-
     logger.warning(f"!!! SERVE_FRONTEND CATCH-ALL EXECUTED FOR PATH: '{path}'")
-
-    logger.info(f"Serve_frontend: Path='{path}'. Static_folder='{static_folder}'. Trying index.html from: {index_path}")
-
-    if not os.path.isabs(static_folder):
-         logger.error(f"CRITICAL: static_folder is not absolute: {static_folder}")
-         return "Server configuration error: static_folder is not absolute.", 500
-
-    if os.path.isfile(index_path):
-        try:
-            logger.info(f"Attempting send_from_directory('{static_folder}', 'index.html')")
-            response = send_from_directory(static_folder, 'index.html')
-            logger.info(f"send_from_directory successful for index.html")
-            return response
-        except Exception as e:
-            # Log the specific exception AND return it in the response
-            logger.error(f"Error during send_from_directory for index.html: {e}", exc_info=True)
-            # Return error details as JSON or plain text
-            error_details = {
-                "message": "Error serving index.html via send_from_directory",
-                "exception_type": str(type(e).__name__),
-                "exception_args": str(e.args),
-                "static_folder_checked": static_folder,
-                "file_checked": "index.html"
-            }
-            # return jsonify(error_details), 500 # Option 1: JSON response
-            return f"<pre>Error serving index.html:\nType: {type(e).__name__}\nArgs: {e.args}\nStatic Folder: {static_folder}\nFile: index.html</pre>", 500 # Option 2: Plain text
+    # !!! TEMPORARILY SIMPLIFY THE ENTIRE FUNCTION BODY !!!
+    if path == '' or path == 'index.html':
+         # Only attempt to serve index.html for the root path
+         index_path = os.path.join(current_app.static_folder, 'index.html')
+         if os.path.exists(index_path):
+             return send_from_directory(current_app.static_folder, 'index.html')
+         else:
+             return "Root index.html not found!", 404
     else:
-        # Log if index.html is not found at the path
-        logger.error(f"Index.html check failed: Not found at: {index_path}")
-        return "Frontend index.html not found.", 404
+         # For any other path (including '/static/...' if it gets here),
+         # return a specific 404 to distinguish it.
+         logger.error(f"Catch-all refusing to handle non-root path: {path}")
+         return f"Path '{path}' not handled by catch-all.", 404
 
 
 
