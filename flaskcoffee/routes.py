@@ -544,7 +544,7 @@ def debug_serve_frontend():
     """
 
 @app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
+# @app.route('/<path:path>')
 def serve_frontend(path):
     static_folder = current_app.static_folder # Use current_app context
     index_path = os.path.join(static_folder, 'index.html')
