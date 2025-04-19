@@ -551,6 +551,9 @@ def serve_frontend(path):
 
     # Use logger if configured, otherwise prints might show up
     logger = current_app.logger
+
+    logger.warning(f"!!! SERVE_FRONTEND CATCH-ALL EXECUTED FOR PATH: '{path}'")
+
     logger.info(f"Serve_frontend: Path='{path}'. Static_folder='{static_folder}'. Trying index.html from: {index_path}")
 
     if not os.path.isabs(static_folder):
