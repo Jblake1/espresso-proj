@@ -8,6 +8,8 @@ import logging
 import sys
 from logging.handlers import RotatingFileHandler
 
+from werkzeug.middleware.shared_data import SharedDataMiddleware
+
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     create_refresh_token,
@@ -55,11 +57,12 @@ warnings.simplefilter("ignore")
 # print(f"[STARTUP_DEBUG] Initializing Flask with static_folder='{static_dir}'", file=sys.stderr)
 
 heroku_static_path = '/app/build'
-print(f"[STARTUP_DEBUG] USING HARDCODED static_folder='{heroku_static_path}'", file=sys.stderr)
-logging.info(f"[STARTUP_DEBUG] USING HARDCODED static_folder='{heroku_static_path}'")
+print(f"[STARTUP_DEBUG] Target static_folder='{heroku_static_path}' for SharedDataMiddleware", file=sys.stderr)
+logging.info(f"[STARTUP_DEBUG] Target static_folder='{heroku_static_path}' for SharedDataMiddleware")
 
 
-app = Flask(__name__, static_folder=heroku_static_path)
+
+app = Flask(__name__)
 CORS(app, supports_credentials=True)  # Enable CORS for all routes
 
 # Configure logging
@@ -125,6 +128,10 @@ jwt = JWTManager(app)
 
 migrate = Migrate(app, db)
 
-from flaskcoffee import models
+from flaskcoffee import models, routes
 
-from flaskcoffee import routes
+app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
+    '/static': heroku_static_path  # Map URL path '/static' to filesystem path '/app/build'
+})
+logging.info(f"[STARTUP_DEBUG] Wrapped app with SharedDataMiddleware for /static -> {heroku_static_path}")
+print(f"[STARTUP_DEBUG] Wrapped app with SharedDataMiddleware for /static -> {heroku_static_path}", file=sys.stderr)

@@ -543,50 +543,30 @@ def debug_serve_frontend():
     <p>Does index.html exist at that path? {index_exists}</p>
     """
 
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_frontend(path):
-    logger = current_app.logger
-    logger.warning(f"!!! SERVE_FRONTEND CATCH-ALL EXECUTED FOR PATH: '{path}'")
-    # !!! TEMPORARILY SIMPLIFY THE ENTIRE FUNCTION BODY !!!
-    if path == '' or path == 'index.html':
-         # Only attempt to serve index.html for the root path
-         index_path = os.path.join(current_app.static_folder, 'index.html')
-         if os.path.exists(index_path):
-             return send_from_directory(current_app.static_folder, 'index.html')
-         else:
-             return "Root index.html not found!", 404
+    # --- Add Logging ---
+    app.logger.debug(f"serve_frontend called with path: {path}")
+    app.logger.debug(f"app.static_folder is: {app.static_folder}")
+    # -------------------
+
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+         # --- Add Logging ---
+        asset_path = os.path.join(app.static_folder, path)
+        app.logger.debug(f"Attempting to serve specific asset: {asset_path}")
+        # -------------------
+        return send_from_directory(app.static_folder, path)
     else:
-         # For any other path (including '/static/...' if it gets here),
-         # return a specific 404 to distinguish it.
-         logger.error(f"Catch-all refusing to handle non-root path: {path}")
-         return f"Path '{path}' not handled by catch-all.", 404
-
-
-
-# @app.route('/', defaults={'path': ''})
-# @app.route('/<path:path>')
-# def serve_frontend(path):
-#     # --- Add Logging ---
-#     app.logger.debug(f"serve_frontend called with path: {path}")
-#     app.logger.debug(f"app.static_folder is: {app.static_folder}")
-#     # -------------------
-
-#     if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-#          # --- Add Logging ---
-#         asset_path = os.path.join(app.static_folder, path)
-#         app.logger.debug(f"Attempting to serve specific asset: {asset_path}")
-#         # -------------------
-#         return send_from_directory(app.static_folder, path)
-#     else:
-#         # --- Add Logging ---
-#         index_path = os.path.join(app.static_folder, 'index.html')
-#         app.logger.debug(f"Attempting to serve index.html from path: {index_path}")
-#         exists = os.path.exists(index_path)
-#         app.logger.debug(f"os.path.exists({index_path}) returned: {exists}")
-#         # -------------------
-#         if exists:
-#             return send_from_directory(app.static_folder, 'index.html')
-#         else:
-#             app.logger.error(f"Failed to find index.html at expected path: {index_path}") 
-#             return "Frontend index.html not found.", 404
+        # --- Add Logging ---
+        index_path = os.path.join(app.static_folder, 'index.html')
+        app.logger.debug(f"Attempting to serve index.html from path: {index_path}")
+        exists = os.path.exists(index_path)
+        app.logger.debug(f"os.path.exists({index_path}) returned: {exists}")
+        # -------------------
+        if exists:
+            return send_from_directory(app.static_folder, 'index.html')
+        else:
+            app.logger.error(f"Failed to find index.html at expected path: {index_path}") 
+            return "Frontend index.html not found.", 404
