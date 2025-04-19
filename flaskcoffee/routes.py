@@ -1,5 +1,5 @@
 import os
-from flask import request, jsonify, url_for, redirect, render_template, flash, make_response, send_from_directory, current_app
+from flask import request, jsonify, url_for, redirect, render_template, flash, make_response, send_from_directory, current_app, abort
 from flaskcoffee import app, db, bcrypt, coffee_advisor
 from flaskcoffee.models import User, CoffeeSetup, CoffeeJourney, JourneyCard
 from datetime import datetime, timedelta, timezone
@@ -543,30 +543,32 @@ def debug_serve_frontend():
     <p>Does index.html exist at that path? {index_exists}</p>
     """
 
+FRONTEND_BUILD_DIR = '/app/build'
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_frontend(path):
-    # --- Add Logging ---
-    app.logger.debug(f"serve_frontend called with path: {path}")
-    app.logger.debug(f"app.static_folder is: {app.static_folder}")
-    # -------------------
+    logger = current_app.logger # You can still use the logger
 
-    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-         # --- Add Logging ---
-        asset_path = os.path.join(app.static_folder, path)
-        app.logger.debug(f"Attempting to serve specific asset: {asset_path}")
-        # -------------------
-        return send_from_directory(app.static_folder, path)
+    # Construct the path to index.html using the explicit build directory
+    index_path = os.path.join(FRONTEND_BUILD_DIR, 'index.html')
+
+    # Optional: Add a check to prevent serving index.html for likely API calls
+    # or requests that look like filenames if they somehow reach this route.
+    # This is good practice for catch-all routes.
+    if path != "" and (path.startswith('api/') or '.' in path):
+         logger.warning(f"serve_frontend refusing to serve index.html for path: {path}")
+         abort(404) # Return a standard 404 Not Found
+
+    # Now check for index.html at the correct location
+    if os.path.isfile(index_path):
+        try:
+            # Serve index.html from the explicit build directory
+            logger.info(f"Serving index.html for path '{path}' from {FRONTEND_BUILD_DIR}")
+            return send_from_directory(FRONTEND_BUILD_DIR, 'index.html')
+        except Exception as e:
+            logger.error(f"Error sending index.html from {FRONTEND_BUILD_DIR}: {e}", exc_info=True)
+            abort(500) # Internal Server Error
     else:
-        # --- Add Logging ---
-        index_path = os.path.join(app.static_folder, 'index.html')
-        app.logger.debug(f"Attempting to serve index.html from path: {index_path}")
-        exists = os.path.exists(index_path)
-        app.logger.debug(f"os.path.exists({index_path}) returned: {exists}")
-        # -------------------
-        if exists:
-            return send_from_directory(app.static_folder, 'index.html')
-        else:
-            app.logger.error(f"Failed to find index.html at expected path: {index_path}") 
-            return "Frontend index.html not found.", 404
+        logger.error(f"CRITICAL: index.html not found at expected path: {index_path}")
+        abort(404) # Not Found - index.html is missing from build
