@@ -63,12 +63,12 @@ app = Flask(__name__, static_folder=heroku_static_path)
 CORS(app, supports_credentials=True)  # Enable CORS for all routes
 
 # Configure logging
-log_file_path = os.path.join(basedir, 'app.log')
-logging.basicConfig(
-    stream=sys.stdout,
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+# log_file_path = os.path.join(basedir, 'app.log')
+# logging.basicConfig(
+#     stream=sys.stdout,
+#     level=logging.INFO,
+#     format='%(asctime)s - %(levelname)s - %(message)s'
+# )
 
 logging.info("Starting Flask application...")
 
@@ -111,10 +111,10 @@ else:
     logging.warning("No database URI found. Using default SQLite configuration.")
 
 # Log frontend build path
-if static_dir:
-    logging.info(f"Frontend static directory set to: {static_dir}")
-else:
-    logging.warning("Frontend static directory not found. Static files may not be served.")
+# if static_dir:
+#     logging.info(f"Frontend static directory set to: {static_dir}")
+# else:
+#     logging.warning("Frontend static directory not found. Static files may not be served.")
 
 # Log JWT configuration
 logging.info(f"JWT access token expiration set to: {app.config['JWT_ACCESS_TOKEN_EXPIRES']}")
