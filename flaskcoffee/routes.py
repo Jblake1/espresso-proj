@@ -6,6 +6,8 @@ from datetime import datetime, timedelta, timezone
 
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt, set_access_cookies, unset_jwt_cookies
 
+import sys
+
 @app.after_request
 def refresh_expiring_jwts(response):
     try:
@@ -547,6 +549,10 @@ def debug_serve_frontend():
 @app.route('/<path:path>')
 def serve_frontend(path):
     # --- Add Logging ---
+
+    print(f"DEBUG_ROUTE: serve_frontend called with path: '{path}'", file=sys.stderr)
+    print(f"DEBUG_ROUTE: app.static_folder is: {app.static_folder}", file=sys.stderr)
+    sys.stderr.flush()
     app.logger.debug(f"serve_frontend called with path: {path}")
     app.logger.debug(f"app.static_folder is: {app.static_folder}")
     # -------------------

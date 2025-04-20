@@ -15,6 +15,7 @@ from flask_jwt_extended import (
 import warnings
 import os
 import logging
+import sys 
 
 warnings.simplefilter("ignore")
 
@@ -31,6 +32,9 @@ else:
     print(f"Warning: Frontend build directory not found at {frontend_build_path}")
 
 app = Flask(__name__, static_folder=static_dir, static_url_path='')
+
+print(f"DEBUG_INIT: Flask app.static_folder = {app.static_folder}", file=sys.stderr)
+sys.stderr.flush() 
 
 # --- Add these lines ---
 if not app.debug: # Only configure logging if Flask debug mode is off
