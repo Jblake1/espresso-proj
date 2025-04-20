@@ -14,6 +14,7 @@ from flask_jwt_extended import (
 
 import warnings
 import os
+import logging
 
 warnings.simplefilter("ignore")
 
@@ -30,6 +31,20 @@ else:
     print(f"Warning: Frontend build directory not found at {frontend_build_path}")
 
 app = Flask(__name__, static_folder=static_dir, static_url_path='')
+
+# --- Add these lines ---
+if not app.debug: # Only configure logging if Flask debug mode is off
+    app.logger.setLevel(logging.DEBUG)
+    stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(logging.DEBUG)
+    app.logger.addHandler(stream_handler)
+    app.logger.info('Flask logger level set to DEBUG') # Confirm logger setup
+# --- End of added lines ---
+
+# Add this log line right after app initialization to check the static path
+app.logger.info(f"Flask static_folder configured to: {app.static_folder}")
+
+
 CORS(app, supports_credentials=True)  # Enable CORS for all routes
 
 database_uri = os.environ.get('DATABASE_URL')
