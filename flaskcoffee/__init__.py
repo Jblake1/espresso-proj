@@ -36,6 +36,7 @@ app = Flask(__name__, static_folder=static_dir, static_url_path='')
 print(f"DEBUG_INIT: Flask app.static_folder = {app.static_folder}", file=sys.stderr)
 sys.stderr.flush() 
 
+
 # --- Add these lines ---
 if not app.debug: # Only configure logging if Flask debug mode is off
     app.logger.setLevel(logging.DEBUG)
@@ -92,3 +93,6 @@ migrate = Migrate(app, db)
 from flaskcoffee import models
 
 from flaskcoffee import routes
+
+log = logging.getLogger(__name__) # Get logger if not already defined
+log.info(f"STANDARD_INIT: Flask URL Map:\n{app.url_map}")
