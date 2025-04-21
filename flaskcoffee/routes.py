@@ -1,12 +1,15 @@
 import os
-from flask import request, jsonify, url_for, redirect, render_template, flash, make_response, send_from_directory
+from flask import request, jsonify, url_for, redirect, render_template, flash, make_response, send_from_directory, current_app
 from flaskcoffee import app, db, bcrypt, coffee_advisor
 from flaskcoffee.models import User, CoffeeSetup, CoffeeJourney, JourneyCard
 from datetime import datetime, timedelta, timezone
+import logging
 
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt, set_access_cookies, unset_jwt_cookies
 
 import sys
+
+log = logging.getLogger(__name__)
 
 @app.after_request
 def refresh_expiring_jwts(response):
@@ -548,30 +551,39 @@ def debug_serve_frontend():
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_frontend(path):
-    # --- Add Logging ---
+
+    build_path = current_app.config.get('FRONTEND_BUILD_PATH')
+
+    log.debug(f"STANDARD_ROUTE: serve_frontend called with path: '{path}'")
+    log.debug(f"STANDARD_ROUTE: Using build path: {build_path}")
+
+    requested_path = os.path.abspath(os.path.join(build_path, path))
 
     print(f"DEBUG_ROUTE: serve_frontend called with path: '{path}'", file=sys.stderr)
     print(f"DEBUG_ROUTE: app.static_folder is: {app.static_folder}", file=sys.stderr)
     sys.stderr.flush()
     app.logger.debug(f"serve_frontend called with path: {path}")
     app.logger.debug(f"app.static_folder is: {app.static_folder}")
-    # -------------------
 
-    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-         # --- Add Logging ---
-        asset_path = os.path.join(app.static_folder, path)
-        app.logger.debug(f"Attempting to serve specific asset: {asset_path}")
-        # -------------------
-        return send_from_directory(app.static_folder, path)
+    # --- Add Logging ---
+    if build_path is None:
+        log.error("STANDARD_ROUTE: FRONTEND_BUILD_PATH is None, cannot serve files.")
+        return "Server configuration error: Build path not set.", 500
+
+    # Check if the requested path maps to an existing FILE
+    if path != "" and os.path.isfile(requested_path):
+        log.debug(f"STANDARD_ROUTE: Path is a file, serving: {path}")
+        # Use send_from_directory with the directory and the relative path
+        return send_from_directory(build_path, path)
     else:
-        # --- Add Logging ---
-        index_path = os.path.join(app.static_folder, 'index.html')
-        app.logger.debug(f"Attempting to serve index.html from path: {index_path}")
-        exists = os.path.exists(index_path)
-        app.logger.debug(f"os.path.exists({index_path}) returned: {exists}")
-        # -------------------
+        # Serve index.html for the root, directories, or non-existent paths
+        index_path = os.path.join(build_path, 'index.html')
+        log.debug(f"STANDARD_ROUTE: Path is not a file or is root, checking for index.html at: {index_path}")
+        exists = os.path.exists(index_path) # Check os.path.exists for index.html specifically
+        log.info(f"STANDARD_ROUTE: os.path.exists({index_path}) returned: {exists}")
         if exists:
-            return send_from_directory(app.static_folder, 'index.html')
+            log.debug("STANDARD_ROUTE: Serving index.html")
+            return send_from_directory(build_path, 'index.html')
         else:
-            app.logger.error(f"Failed to find index.html at expected path: {index_path}") # Log error if not found
+            log.error(f"STANDARD_ROUTE: Failed to find index.html at expected path: {index_path}")
             return "Frontend index.html not found.", 404
