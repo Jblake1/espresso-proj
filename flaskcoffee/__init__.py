@@ -21,9 +21,7 @@ warnings.simplefilter("ignore")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-# Correctly calculate the path to the SvelteKit client build output
-# frontend_build_path = os.path.join(os.path.dirname(basedir), 'build') # Old incorrect path
-svelte_client_build_path = os.path.abspath(os.path.join(os.path.dirname(basedir), '.svelte-kit', 'output', 'client'))
+frontend_build_path = os.path.join(os.path.dirname(basedir), 'build')
 
 logging.basicConfig(level=logging.DEBUG,
                     stream=sys.stderr,
@@ -31,21 +29,18 @@ logging.basicConfig(level=logging.DEBUG,
 logging.getLogger().debug("STANDARD_LOGGER: Basic config applied.")
 
 # Check if the calculated path actually exists before passing it to Flask
-# static_dir = None # No longer needed with direct Flask config
-# if os.path.exists(frontend_build_path):
-#     static_dir = frontend_build_path
-# else:
-#     # Log a warning if the build path doesn't exist during startup
-#     print(f"Warning: Frontend build directory not found at {frontend_build_path}")
+static_dir = None
+if os.path.exists(frontend_build_path):
+    static_dir = frontend_build_path
+else:
+    # Log a warning if the build path doesn't exist during startup
+    print(f"Warning: Frontend build directory not found at {frontend_build_path}")
 
-# Configure Flask to serve static files directly from the SvelteKit build output
-app = Flask(__name__,
-            static_folder=svelte_client_build_path,  # Serve files from here
-            static_url_path='',          # Make files accessible from the root URL (e.g., /images/...)
-            template_folder=svelte_client_build_path) # Also look for templates (like index.html) here
+app = Flask(__name__, static_folder=None, static_url_path=None)
 
-# print(f"DEBUG_INIT: Flask app.static_folder = {app.static_folder}", file=sys.stderr) # Keep for debugging if needed
-# sys.stderr.flush()
+print(f"DEBUG_INIT: Flask app.static_folder = {app.static_folder}", file=sys.stderr)
+sys.stderr.flush() 
+
 
 # --- Add these lines ---
 if not app.debug: # Only configure logging if Flask debug mode is off
@@ -57,19 +52,19 @@ if not app.debug: # Only configure logging if Flask debug mode is off
 # --- End of added lines ---
 
 # Add this log line right after app initialization to check the static path
-# app.logger.info(f"Flask static_folder configured to: {app.static_folder}") # Logged automatically by Flask now
+app.logger.info(f"Flask static_folder configured to: {app.static_folder}")
 
-# Store the build path in app.config - useful for the catch-all route if needed
-if os.path.exists(svelte_client_build_path):
-    app.config['FRONTEND_BUILD_PATH'] = svelte_client_build_path
-    # logging.getLogger().debug(f"STANDARD_INIT: Frontend build dir FOUND at {svelte_client_build_path}")
+# Store the build path in app.config
+if os.path.exists(frontend_build_path):
+    app.config['FRONTEND_BUILD_PATH'] = frontend_build_path
+    logging.getLogger().debug(f"STANDARD_INIT: Frontend build dir FOUND at {frontend_build_path}")
 else:
     app.config['FRONTEND_BUILD_PATH'] = None
-    # logging.getLogger().warning(f"STANDARD_INIT: Frontend build dir NOT FOUND at {svelte_client_build_path}")
+    logging.getLogger().warning(f"STANDARD_INIT: Frontend build dir NOT FOUND at {frontend_build_path}")
 
-# logging.getLogger().info(f"STANDARD_INIT: Using build path: {app.config.get('FRONTEND_BUILD_PATH')}")
-# if app.config.get('FRONTEND_BUILD_PATH') is None:
-#      logging.getLogger().error("STANDARD_INIT: FRONTEND_BUILD_PATH is None! Frontend serving will likely fail.")
+logging.getLogger().info(f"STANDARD_INIT: Using build path: {app.config.get('FRONTEND_BUILD_PATH')}")
+if app.config.get('FRONTEND_BUILD_PATH') is None:
+     logging.getLogger().error("STANDARD_INIT: FRONTEND_BUILD_PATH is None! Frontend serving will likely fail.")
 
 CORS(app, supports_credentials=True)  # Enable CORS for all routes
 
