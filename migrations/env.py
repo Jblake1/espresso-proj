@@ -1,7 +1,14 @@
+import os
+import sys
+# Add the project root directory to the Python path
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, project_root)
+
 import logging
 from logging.config import fileConfig
 
 from flask import current_app
+from flaskcoffee import app, db
 
 from alembic import context
 
@@ -13,6 +20,8 @@ config = context.config
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
 logger = logging.getLogger('alembic.env')
+
+target_metadata = db.metadata
 
 
 def get_engine():
@@ -36,8 +45,8 @@ def get_engine_url():
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-config.set_main_option('sqlalchemy.url', get_engine_url())
-target_db = current_app.extensions['migrate'].db
+# config.set_main_option('sqlalchemy.url', get_engine_url())
+# target_db = current_app.extensions['migrate'].db
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -46,26 +55,20 @@ target_db = current_app.extensions['migrate'].db
 
 
 def get_metadata():
-    if hasattr(target_db, 'metadatas'):
-        return target_db.metadatas[None]
-    return target_db.metadata
+    # if hasattr(target_db, 'metadatas'):
+    #     return target_db.metadatas[None]
+    return target_metadata
 
 
-def run_migrations_offline():
-    """Run migrations in 'offline' mode.
-
-    This configures the context with just a URL
-    and not an Engine, though an Engine is acceptable
-    here as well.  By skipping the Engine creation
-    we don't even need a DBAPI to be available.
-
-    Calls to context.execute() here emit the given string to the
-    script output.
-
-    """
-    url = config.get_main_option("sqlalchemy.url")
+def run_migrations_offline() -> None:
+    """Run migrations in 'offline' mode."""
+    # Get URL from Flask app config *inside the context*
+    url = current_app.config['SQLALCHEMY_DATABASE_URI'].replace('%', '%%')
     context.configure(
-        url=url, target_metadata=get_metadata(), literal_binds=True
+        url=url,
+        target_metadata=get_metadata(), # Use the metadata function
+        literal_binds=True,
+        dialect_opts={"paramstyle": "named"}, # Added from default template
     )
 
     with context.begin_transaction():
@@ -107,7 +110,11 @@ def run_migrations_online():
             context.run_migrations()
 
 
-if context.is_offline_mode():
-    run_migrations_offline()
-else:
-    run_migrations_online()
+# --- THIS IS THE KEY ---
+# Wrap the main execution logic in an app context using your imported 'app'
+with app.app_context():
+    if context.is_offline_mode():
+        run_migrations_offline()
+    else:
+        run_migrations_online()
+# --- END KEY ---

@@ -57,7 +57,7 @@ class JourneyCard(db.Model):
     iteration = db.Column(db.Integer, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     journey_id = db.Column(db.Integer, db.ForeignKey('coffee_journey.id'), nullable=False)
-    shot_time = db.Column(db.String(10), nullable=True, default='(shot time)')
+    shot_time = db.Column(db.String(20), nullable=True, default='(shot time)')
     notes = db.Column(db.Text, nullable=True, default='(notes)')
 
     def __init__(self, **kwargs):
