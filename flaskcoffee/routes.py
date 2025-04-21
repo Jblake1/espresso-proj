@@ -96,12 +96,12 @@ def recommendation_json():
         # Handle errors
         return jsonify({"error": str(e)}), 500
     
-@app.route('/about')
-def about():
-    return"<h1> About Page </h1>"
+# @app.route('/about')
+# def about():
+#     return"<h1> About Page </h1>"
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST'])
 def register_user_json():
     try:
         print(request)
