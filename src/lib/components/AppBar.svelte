@@ -1,4 +1,3 @@
-
 <script lang="ts">
     import { AppBar, LightSwitch } from '@skeletonlabs/skeleton';
     import { goto } from '$app/navigation';
@@ -203,7 +202,7 @@
                 </div>
                 
                 <TabAnchor href="/" selected={currentPath === '/'} on:click={(e) => handleNavigation(e, '/')}>Home</TabAnchor>
-                <TabAnchor href="/archive" selected={currentPath === '/archive'} on:click={(e) => handleNavigation(e, '/archive')}>Archive</TabAnchor>
+                <TabAnchor href="/archive" selected={currentPath === '/archive'} on:click={(e) => handleNavigation(e, '/archive')}>Notes</TabAnchor>
                 <TabAnchor href="/about" selected={currentPath === '/about'} on:click={(e) => handleNavigation(e, '/about')}>About</TabAnchor>
                 <LightSwitch />
             </TabGroup>
@@ -215,9 +214,17 @@
 <div class="card p-4 w-60 shadow-xl fixed z-[1000]" data-popup="userMenu">
     <div class="list-nav">
         <ul>
-            <li><a href="/login" class="menu-item" on:click={(e) => handleNavigation(e, '/login')}>Login</a></li>
-            <li><a href="/register" class="menu-item" on:click={(e) => handleNavigation(e, '/register')}>Register</a></li>
-            <li><button class="menu-item w-full text-left" on:click={handleLogout}>Logout</button></li>
+            {#if $userStore}
+                <!-- Options for logged-in users -->
+                <li><button class="menu-item w-full text-left" on:click={handleLogout}>Logout</button></li>
+            {:else if authChecked}
+                <!-- Options for confirmed logged-out users -->
+                <li><a href="/login" class="menu-item" on:click={(e) => handleNavigation(e, '/login')}>Login</a></li>
+                <li><a href="/register" class="menu-item" on:click={(e) => handleNavigation(e, '/register')}>Register</a></li>
+            {:else}
+                <!-- Options for users with unknown auth status (still checking) -->
+                <li><div class="p-2 text-center">Checking login status...</div></li>
+            {/if}
         </ul>
     </div>
 </div>
