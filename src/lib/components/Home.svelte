@@ -232,7 +232,7 @@
 <div class="flex flex-col items-start gap-4 p-4 md:flex-row md:gap-6 md:p-6">
   <div class="flex flex-col items-start gap-4 w-1/5 p-4">
     <form class="toDoForm">
-      <div class="flex flex-col md:flex-row items-start gap-4 w-1/5 p-4">
+      <div class="flex flex-row md:flex-col items-start gap-4 w-1/5 p-4">
         <div class="flex flex-col items-start gap-4 w-1/5 p-4">
           <h2 class="label-wrapper">
             <label for="drink" class="label__lg">Drink</label>
