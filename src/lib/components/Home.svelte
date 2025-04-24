@@ -239,7 +239,7 @@
 </style>
 
 <!-- HTML remains exactly the same -->
-<div class="outerContainer">
+<div class="flex flex-col items-start gap-4 p-4 md:flex-row md:gap-6 md:p-6">
   <div class="innerContainer">
     <form class="toDoForm">
       <h2 class="label-wrapper">
