@@ -159,30 +159,6 @@
     .card-header {
       @apply w-full; /* Ensure header takes full width of card */
     }
-
-    .container1 {
-      display: flex;
-      flex-direction: column;
-      width: 200%;
-      align-items: flex-start; /* Aligns items to the right */
-      padding: 10px;
-    }
-
-    .container2 {
-    display: flex;
-    flex-direction: row;
-    width: 100%; 
-    align-items: flex-start;
-    padding: 10px;
-    }
-
-    .vertical-divider {
-      width: 1px;
-      height: auto;
-      align-self: stretch;
-      background-color: #ccc;
-      margin: 0 15px;
-    }
   
     .setup {
       text-align: left; /* Aligns text to the right */
@@ -190,8 +166,8 @@
     }
 </style>
 
-<div class="container1">
-  <div class="container2">
+<div class="flex flex-col w-full items-start p-2.5">
+  <div class="flex flex-col sm:flex-row w-full items-start p-2.5 gap-4 mb-4">
     {#if drink1 !== ''}
       <div class="setup">
         <div class="card">
@@ -211,10 +187,6 @@
           </div>
         </div>
       </div>
-    {/if}
-
-    {#if drink1 !== '' && drink2 !== ''}
-      <div class="vertical-divider"></div>
     {/if}
 
     {#if drink2 !== ''}
@@ -239,7 +211,7 @@
     {/if}
   </div>
 
-  <div class="container2">
+  <div class="flex flex-col sm:flex-row w-full items-start p-2.5 gap-4 mb-4">
     {#if drink3 !== ''}
       <div class="setup">
         <div class="card">
@@ -259,10 +231,6 @@
           </div>
         </div>
       </div>
-    {/if}
-
-    {#if drink3 !== '' && drink4 !== ''}
-      <div class="vertical-divider"></div>
     {/if}
 
     {#if drink4 !== ''}
