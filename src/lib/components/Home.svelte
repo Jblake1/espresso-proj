@@ -202,16 +202,6 @@
     padding: 0;
   }
 
-
-  /* Update container classes with Tailwind */
-  .outerContainer {
-    @apply flex flex-row items-start gap-6 p-6;
-  }
-
-  .innerContainer {
-    @apply flex flex-col items-start gap-4 w-1/5 p-4; /* Changed from w-2/5 to w-1/5 */
-  }
-
   .toDoForm {
     @apply flex-[0.7] mr-0 w-full p-4;
   }
@@ -240,50 +230,54 @@
 
 <!-- HTML remains exactly the same -->
 <div class="flex flex-col items-start gap-4 p-4 md:flex-row md:gap-6 md:p-6">
-  <div class="innerContainer">
+  <div class="flex flex-col items-start gap-4 w-1/5 p-4">
     <form class="toDoForm">
-      <h2 class="label-wrapper">
-        <label for="drink" class="label__lg">Drink</label>
-      </h2>
-      <select bind:value={drink} id="drink" class="select w-full px-3 py-2 mb-4 border rounded">
-        <option value="">Select a drink</option>
-        <option value="Espresso">Espresso</option>
-        <option value="Coffee">Coffee</option>
-      </select>
+      <div class="flex flex-col md:flex-row items-start gap-4 w-1/5 p-4">
+        <div class="flex flex-col items-start gap-4 w-1/5 p-4">
+          <h2 class="label-wrapper">
+            <label for="drink" class="label__lg">Drink</label>
+          </h2>
+          <select bind:value={drink} id="drink" class="select w-full px-3 py-2 mb-4 border rounded">
+            <option value="">Select a drink</option>
+            <option value="Espresso">Espresso</option>
+            <option value="Coffee">Coffee</option>
+          </select>
 
-      <h2 class="label-wrapper">
-        <label for="brewing_device" class="label__lg">Brewing Device</label>
-      </h2>
-      <select bind:value={brewingDevice} id="brewingDevice" class="select w-full px-3 py-2 mb-4 border rounded" disabled={!drink}>
-        <option value="">Select a device</option>
-        {#each deviceOptions as device}
-          <option value={device}>{device}</option>
-        {/each}
-      </select>
+          <h2 class="label-wrapper">
+            <label for="brewing_device" class="label__lg">Brewing Device</label>
+          </h2>
+          <select bind:value={brewingDevice} id="brewingDevice" class="select w-full px-3 py-2 mb-4 border rounded" disabled={!drink}>
+            <option value="">Select a device</option>
+            {#each deviceOptions as device}
+              <option value={device}>{device}</option>
+            {/each}
+          </select>
+        </div>
+        <div class="flex flex-col items-start gap-4 w-1/5 p-4">
+          <h2 class="label-wrapper">
+            <label for="grinder" class="label__lg">Grinder</label>
+          </h2>
+          <select bind:value={grinder} id="grinder" class="select w-full px-3 py-2 mb-4 border rounded" disabled={!drink}>
+            <option value="">Select a grinder</option>
+            {#each grinderOptions as grinder}
+              <option value={grinder}>{grinder}</option>
+            {/each}
+          </select>
 
-      <h2 class="label-wrapper">
-        <label for="grinder" class="label__lg">Grinder</label>
-      </h2>
-      <select bind:value={grinder} id="grinder" class="select w-full px-3 py-2 mb-4 border rounded" disabled={!drink}>
-        <option value="">Select a grinder</option>
-        {#each grinderOptions as grinder}
-          <option value={grinder}>{grinder}</option>
-        {/each}
-      </select>
-
-      <h2 class="label-wrapper">
-        <label for="coffeeBeans" class="label__lg">Bean</label>
-      </h2>
-      <div class="relative w-full">
-        <input bind:value={coffeeBeans} bind:this={coffeeBeansEl} use:selectOnFocus 
-          type="text" id="coffeeBeans" autoComplete="off" class="input input__lg" 
-          maxlength="40" placeholder="Enter coffee bean" 
-        />
-        <div class="text-xs text-gray-500 absolute right-2 bottom-6">
-          {coffeeBeans.length}/40
+          <h2 class="label-wrapper">
+            <label for="coffeeBeans" class="label__lg">Bean</label>
+          </h2>
+          <div class="relative w-full">
+            <input bind:value={coffeeBeans} bind:this={coffeeBeansEl} use:selectOnFocus 
+              type="text" id="coffeeBeans" autoComplete="off" class="input input__lg" 
+              maxlength="40" placeholder="Enter coffee bean" 
+            />
+            <div class="text-xs text-gray-500 absolute right-2 bottom-6">
+              {coffeeBeans.length}/40
+            </div>
+          </div>
         </div>
       </div>
-      
       {#if $userStore}
         <button 
           type="button" class="btn variant-filled" onclick={submit} disabled={isSubmitting}>
