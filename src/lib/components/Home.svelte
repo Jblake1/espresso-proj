@@ -246,7 +246,7 @@
           <h2 class="label-wrapper min-w-40 min-h-6">
             <label for="brewing_device" class="label__lg">Brewing Device</label>
           </h2>
-          <select bind:value={brewingDevice} id="brewingDevice" class="select w-full px-3 py-2 mb-4 border rounded min-w-40 min-h-10" disabled={!drink}>
+          <select bind:value={brewingDevice} id="brewingDevice" class="select w-full px-3 py-2 border rounded min-w-40 min-h-10" disabled={!drink}>
             <option value="">Select a device</option>
             {#each deviceOptions as device}
               <option value={device}>{device}</option>
@@ -257,7 +257,7 @@
           <h2 class="label-wrapper min-w-40 min-h-6">
             <label for="grinder" class="label__lg">Grinder</label>
           </h2>
-          <select bind:value={grinder} id="grinder" class="select w-full px-3 py-2 mb-4 border rounded min-w-40 min-h-10" disabled={!drink}>
+          <select bind:value={grinder} id="grinder" class="select w-full px-3 py-2 border rounded min-w-40 min-h-10" disabled={!drink}>
             <option value="">Select a grinder</option>
             {#each grinderOptions as grinder}
               <option value={grinder}>{grinder}</option>
