@@ -234,10 +234,10 @@
     <form class="toDoForm">
       <div class="flex flex-row md:flex-col items-start gap-4 w-1/5 p-4">
         <div class="flex flex-col items-start gap-4 w-1/5 p-4">
-          <h2 class="label-wrapper">
-            <label for="drink" class="label__lg">Drink</label>
+          <h2 class="label-wrapper mb-1">
+            <label for="drink" class="label__lg font-semibold">Drink</label>
           </h2>
-          <select bind:value={drink} id="drink" class="select w-full px-3 py-2 mb-4 border rounded">
+          <select bind:value={drink} id="drink" class="select w-full px-3 py-2 border rounded min-h-10">
             <option value="">Select a drink</option>
             <option value="Espresso">Espresso</option>
             <option value="Coffee">Coffee</option>

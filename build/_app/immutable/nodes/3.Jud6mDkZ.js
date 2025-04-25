@@ -1,0 +1,1 @@
+import{t,a as p}from"../chunks/DLZ7H7Fm.js";import"../chunks/BMgznbf7.js";import{Q as n,R as e}from"../chunks/BOw1AeM4.js";import{A as f}from"../chunks/Bzc3L6mu.js";var i=t('<form><h1>About</h1> <p>Standard "about" page</p></form>');function s(r){var o=i();p(r,o)}var d=t("<!> <!>",1);function g(r){var o=d(),a=n(o);f(a,{});var m=e(a,2);s(m),p(r,o)}export{g as component};
