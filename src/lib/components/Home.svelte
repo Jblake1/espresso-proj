@@ -231,75 +231,79 @@
 <!-- HTML remains exactly the same -->
 <div class="flex flex-col items-start gap-4 p-4 md:flex-row md:gap-6 md:p-6">
   <div class="flex flex-col items-start gap-4 p-4">
-    <form class="toDoForm">
-      <div class="flex flex-row md:flex-col items-start gap-4 p-4">
-        <div class="flex flex-col items-start gap-4 px-4">
-          <h2 class="label-wrapper mb-1 min-w-40 min-h-6">
-            <label for="drink" class="label__lg font-semibold">Drink</label>
-          </h2>
-          <select bind:value={drink} id="drink" class="select w-full px-3 py-2 border rounded min-h-10 min-w-40">
-            <option value="">Select a drink</option>
-            <option value="Espresso">Espresso</option>
-            <option value="Coffee">Coffee</option>
-          </select>
+    <div class="toDoForm">
+      <form onsubmit={submit} class="p-4 border bg-white shadow rounded-lg">
+        <div class="flex justify-center w-full">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col items-start gap-4 px-4">
+              <h2 class="label-wrapper min-w-40 min-h-6">
+                <label for="drink" class="label__lg font-semibold">Drink</label>
+              </h2>
+              <select bind:value={drink} id="drink" class="select w-full px-3 py-2 border rounded min-h-10 min-w-40">
+                <option value="">Select a drink</option>
+                <option value="Espresso">Espresso</option>
+                <option value="Coffee">Coffee</option>
+              </select>
 
-          <h2 class="label-wrapper min-w-40 min-h-6">
-            <label for="brewing_device" class="label__lg font-semibold">Brewing Device</label>
-          </h2>
-          <select bind:value={brewingDevice} id="brewingDevice" class="select w-full px-3 py-2 border rounded min-w-40 min-h-10" disabled={!drink}>
-            <option value="">Select a device</option>
-            {#each deviceOptions as device}
-              <option value={device}>{device}</option>
-            {/each}
-          </select>
-        </div>
-        <div class="flex flex-col items-start gap-4 px-4">
-          <h2 class="label-wrapper min-w-40 min-h-6">
-            <label for="grinder" class="label__lg font-semibold">Grinder</label>
-          </h2>
-          <select bind:value={grinder} id="grinder" class="select w-full px-3 py-2 border rounded min-w-40 min-h-10" disabled={!drink}>
-            <option value="">Select a grinder</option>
-            {#each grinderOptions as grinder}
-              <option value={grinder}>{grinder}</option>
-            {/each}
-          </select>
+              <h2 class="label-wrapper min-w-40 min-h-6">
+                <label for="brewing_device" class="label__lg font-semibold">Brewing Device</label>
+              </h2>
+              <select bind:value={brewingDevice} id="brewingDevice" class="select w-full px-3 py-2 border rounded min-w-40 min-h-10" disabled={!drink}>
+                <option value="">Select a device</option>
+                {#each deviceOptions as device}
+                  <option value={device}>{device}</option>
+                {/each}
+              </select>
+            </div>
+            <div class="flex flex-col items-start gap-4 px-4">
+              <h2 class="label-wrapper min-w-40 min-h-6">
+                <label for="grinder" class="label__lg font-semibold">Grinder</label>
+              </h2>
+              <select bind:value={grinder} id="grinder" class="select w-full px-3 py-2 border rounded min-w-40 min-h-10" disabled={!drink}>
+                <option value="">Select a grinder</option>
+                {#each grinderOptions as grinder}
+                  <option value={grinder}>{grinder}</option>
+                {/each}
+              </select>
 
-          <h2 class="label-wrapper min-w-40 min-h-6">
-            <label for="coffeeBeans" class="label__lg font-semibold">Bean</label>
-          </h2>
-          <div class="relative w-full">
-            <input bind:value={coffeeBeans} bind:this={coffeeBeansEl} use:selectOnFocus 
-              type="text" id="coffeeBeans" autoComplete="off" class="input input__lg min-w-40 min-h-10"
-              maxlength="40" placeholder="Enter coffee bean" 
-            />
-            <div class="text-xs text-gray-500 absolute right-2 bottom-6">
-              {coffeeBeans.length}/40
+              <h2 class="label-wrapper min-w-40 min-h-6">
+                <label for="coffeeBeans" class="label__lg font-semibold">Bean</label>
+              </h2>
+              <div class="relative w-full">
+                <input bind:value={coffeeBeans} bind:this={coffeeBeansEl} use:selectOnFocus 
+                  type="text" id="coffeeBeans" autoComplete="off" class="input input__lg min-w-40 min-h-10"
+                  maxlength="40" placeholder="Enter coffee bean" 
+                />
+                <div class="text-xs text-gray-500 absolute right-2 bottom-6">
+                  {coffeeBeans.length}/40
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      {#if $userStore}
-        <button 
-          type="button" class="btn variant-filled" onclick={submit} disabled={isSubmitting}>
-          {#if isSubmitting}
-            Submitting...
-          {:else}
-            Submit
-          {/if}
-        </button>
-      {:else}
-      <div></div>
+        {#if $userStore}
+          <button 
+            type="button" class="btn variant-filled" onclick={submit} disabled={isSubmitting}>
+            {#if isSubmitting}
+              Submitting...
+            {:else}
+              Submit
+            {/if}
+          </button>
+        {:else}
+        <div></div>
+        {/if}
+      </form>
+
+      {#if formErrors}
+        <div class="text-red-500 mb-4 p-2 bg-red-100 border border-red-300 rounded">
+          {formErrors}
+        </div>
       {/if}
-    </form>
 
-    {#if formErrors}
-      <div class="text-red-500 mb-4 p-2 bg-red-100 border border-red-300 rounded">
-        {formErrors}
+      <div class="CoffeeSetupSave">
+        <CoffeeSetupSave bind:value={messageBind} props={snapPropData}/>
       </div>
-    {/if}
-
-    <div class="CoffeeSetupSave">
-      <CoffeeSetupSave bind:value={messageBind} props={snapPropData}/>
     </div>
   </div>
 
