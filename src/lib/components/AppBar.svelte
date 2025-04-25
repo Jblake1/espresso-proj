@@ -37,7 +37,7 @@
      // Check auth status and get user data
     async function checkAuth() {
         try {
-            console.log("Checking authentication...");
+            // console.log("Checking authentication..."); // Reduced logging
             
             // Try to get stored user data first
             const storedUser = localStorage.getItem('user');
@@ -46,15 +46,14 @@
                     const userData = JSON.parse(storedUser);
                     $userStore = userData;
                     userInitials = getInitials(userData.username);
-                    // console.log("Loaded user from localStorage:", userData);
-                    // console.log("Set user initials to:", userInitials);
                 } catch (e) {
                     console.error("Error parsing localStorage data:", e);
                     localStorage.removeItem('user');
                 }
-            } else {
-                console.log("No user found in localStorage");
-            }
+            } 
+            // else { // Reduced logging
+            //     console.log("No user found in localStorage");
+            // }
             
             // Only check with server if we're in the browser
             if (typeof window !== 'undefined') {
@@ -95,12 +94,13 @@
                     } else if (response.status === 401) {
                         // Token expired, try to refresh
                         console.log("Auth token expired, attempting refresh...");
-                        const refreshed = null;
+                        // Placeholder for actual refresh logic
+                        const refreshed = false; // Assume refresh fails for now
                         
                         if (refreshed) {
                             // If refresh succeeded, try auth check again
                             console.log("Token refreshed, checking auth again...");
-                            await checkAuth();
+                            await checkAuth(); // Re-check immediately
                         } else {
                             // If refresh failed, clear user data
                             console.log("Token refresh failed, logging out...");
@@ -121,6 +121,8 @@
         }
     }
 
+
+    // Run checkAuth immediately on mount
     onMount(() => {
         currentPath = window.location.pathname;
         checkAuth();
@@ -169,6 +171,7 @@
             localStorage.removeItem('user');
             $userStore = null;
             userInitials = 'G';
+            authChecked = true;
             
             // Redirect to login page
             goto('/login');
@@ -185,48 +188,50 @@
 <style></style>
 
 <div>
-    <AppBar color={color}>
+    <AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
         <svelte:fragment slot="lead">
             <strong class="text-xl uppercase">Espresso Oracle</strong>
         </svelte:fragment>
         
         <svelte:fragment slot="trail">
-            <TabGroup slot="justify-center">
-                <div class="relative px-4">
-                    <button class="btn-icon variant-ghost-surface z-50" use:popup={popupSettings}>
+            <div class="flex items-center space-x-2 sm:space-x-4 flex-wrap justify-end">
+                <TabGroup regionList="flex space-x-1 sm:space-x-2">
+                    <TabAnchor href="/" selected={currentPath === '/'} on:click={(e) => handleNavigation(e, '/')}>Home</TabAnchor>
+                    <TabAnchor href="/archive" selected={currentPath === '/archive'} on:click={(e) => handleNavigation(e, '/archive')}>Notes</TabAnchor>
+                    <TabAnchor href="/about" selected={currentPath === '/about'} on:click={(e) => handleNavigation(e, '/about')}>About</TabAnchor>
+                </TabGroup>
+
+                <div class="flex items-center">
+                    <LightSwitch />
+                </div>
+                
+                <div class="relative">
+                    <button class="btn-icon variant-ghost-surface" use:popup={popupSettings}>
                         <Avatar initials={userInitials} />
                         {#if $userStore}
                             <span class="badge-icon variant-filled-primary absolute -top-1 -right-1 z-10">✓</span>
                         {/if}
                     </button>
                 </div>
-                
-                <TabAnchor href="/" selected={currentPath === '/'} on:click={(e) => handleNavigation(e, '/')}>Home</TabAnchor>
-                <TabAnchor href="/archive" selected={currentPath === '/archive'} on:click={(e) => handleNavigation(e, '/archive')}>Notes</TabAnchor>
-                <TabAnchor href="/about" selected={currentPath === '/about'} on:click={(e) => handleNavigation(e, '/about')}>About</TabAnchor>
-                <LightSwitch />
-            </TabGroup>
+            </div>
         </svelte:fragment>
     </AppBar>
 </div>
 
 <!-- User Menu Popup -->
 <div class="card p-4 w-60 shadow-xl fixed z-[1000]" data-popup="userMenu">
-    <div class="list-nav">
+    <nav class="list-nav">
         <ul>
             {#if $userStore}
-                <!-- Options for logged-in users -->
-                <li><button class="menu-item w-full text-left" on:click={handleLogout}>Logout</button></li>
+                <li><button class="w-full text-left p-2 hover:bg-primary-500/10 rounded" on:click={handleLogout}>Logout</button></li>
             {:else if authChecked}
-                <!-- Options for confirmed logged-out users -->
-                <li><a href="/login" class="menu-item" on:click={(e) => handleNavigation(e, '/login')}>Login</a></li>
-                <li><a href="/register" class="menu-item" on:click={(e) => handleNavigation(e, '/register')}>Register</a></li>
+                <li><a href="/login" class="w-full block p-2 hover:bg-primary-500/10 rounded" on:click={(e) => handleNavigation(e, '/login')}>Login</a></li>
+                <li><a href="/register" class="w-full block p-2 hover:bg-primary-500/10 rounded" on:click={(e) => handleNavigation(e, '/register')}>Register</a></li>
             {:else}
-                <!-- Options for users with unknown auth status (still checking) -->
-                <li><div class="p-2 text-center">Checking login status...</div></li>
+                <li><div class="p-2 text-center text-sm opacity-75">Loading...</div></li>
             {/if}
         </ul>
-    </div>
+    </nav>
 </div>
 
 
