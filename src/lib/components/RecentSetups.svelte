@@ -152,7 +152,7 @@
 
 <style>
     .card {
-      @apply w-full max-w-xs; /* Set a fixed maximum width */
+      @apply w-full max-width; /* Set a fixed maximum width */
       --card-width: 20rem; /* This variable helps set the divider width */
     }
 
@@ -166,8 +166,8 @@
     }
 </style>
 
-<div class="flex flex-col w-full items-start p-2.5">
-  <div class="flex flex-col sm:flex-row w-full items-start p-2.5 gap-4 mb-4">
+<div class="flex flex-col w-full items-start p-2">
+  <div class="flex flex-col sm:flex-row w-full items-start gap-4 mb-4">
     {#if drink1 !== ''}
       <div class="setup">
         <div class="card">
