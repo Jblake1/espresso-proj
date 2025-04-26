@@ -166,7 +166,7 @@
     }
 </style>
 
-<div class="flex flex-col w-full items-start p-2">
+<div class="flex flex-col w-full items-start">
   <div class="flex flex-col sm:flex-row w-full items-start gap-4 mb-4">
     {#if drink1 !== ''}
       <div class="setup">
