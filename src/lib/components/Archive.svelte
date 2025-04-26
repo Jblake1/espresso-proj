@@ -124,11 +124,11 @@
             <Accordion class="w-full">
                 {#each journeys as journey, index}
                     <AccordionItem open={openItem === index}>
-                        <svelte:fragment slot="lead">
+                        <!-- <svelte:fragment slot="lead">
                             <div class="flex items-center space-x-2">
                                 <span class="badge bg-primary-500">{index + 1}</span>
                             </div>
-                        </svelte:fragment>
+                        </svelte:fragment> -->
                         <svelte:fragment slot="summary">
                             <button
                                 type="button"
