@@ -158,19 +158,17 @@
                             </button>
                         </svelte:fragment>
                         <svelte:fragment slot="content">
-                            <div class="journey-content">
+                            <div class="w-full">
                                 <div class="w-full rounded-md overflow-hidden">
-                                    <div class="p-4">
-                                        <div class="flex items-center justify-center">
-                                            <div class="flex items-center space-x-3 flex-wrap">
-                                                <p class="whitespace-nowrap">{journey.drink}</p>
-                                                <div class="h-4 border-r border-slate-300"></div>
-                                                <p class="whitespace-nowrap">{journey.coffeeBeans}</p>
-                                                <div class="h-4 border-r border-slate-300"></div>
-                                                <p class="whitespace-nowrap">{journey.grinder}</p>
-                                                <div class="h-4 border-r border-slate-300"></div>
-                                                <p class="whitespace-nowrap">{journey.brewingDevice}</p>
-                                            </div>
+                                    <div class="flex items-center justify-center">
+                                        <div class="flex items-center space-x-3 flex-wrap">
+                                            <p class="whitespace-nowrap">{journey.drink}</p>
+                                            <div class="h-4 border-r border-slate-300"></div>
+                                            <p class="whitespace-nowrap">{journey.coffeeBeans}</p>
+                                            <div class="h-4 border-r border-slate-300"></div>
+                                            <p class="whitespace-nowrap">{journey.grinder}</p>
+                                            <div class="h-4 border-r border-slate-300"></div>
+                                            <p class="whitespace-nowrap">{journey.brewingDevice}</p>
                                         </div>
                                     </div>
                                 </div>
