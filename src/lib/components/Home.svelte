@@ -203,7 +203,7 @@
   }
 
   .toDoForm {
-    @apply flex-[0.7] mr-0 w-full p-4;
+    @apply flex-[0.7] mr-0 w-full;
   }
 
   /* Keep label-wrapper but add padding */
@@ -230,9 +230,9 @@
 
 <!-- HTML remains exactly the same -->
 <div class="flex flex-col items-start gap-4 p-4 md:flex-row md:gap-6 md:p-6">
-  <div class="flex flex-col items-start gap-4 p-4">
+  <div class="flex flex-col items-start gap-4">
     <div class="toDoForm">
-      <form onsubmit={submit} class="p-4 border bg-white shadow rounded-lg">
+      <form onsubmit={submit} class="border bg-white shadow rounded-lg">
         <div class="flex justify-center w-full">
           <div class="grid grid-cols-2 gap-4">
             <div class="flex flex-col items-start gap-4 px-4">
