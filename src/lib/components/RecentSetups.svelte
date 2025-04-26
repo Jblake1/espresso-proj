@@ -152,7 +152,7 @@
 
 <style>
     .card {
-      @apply w-full max-width; /* Set a fixed maximum width */
+      @apply w-full max-w-md; /* Set a fixed maximum width */
       --card-width: 20rem; /* This variable helps set the divider width */
     }
 
