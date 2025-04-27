@@ -159,7 +159,8 @@
                         </svelte:fragment>
                         <svelte:fragment slot="content">
                             <div class="w-full">
-                                <div class="w-full rounded-md overflow-hidden">
+                                <!-- removed "overflow-hidden" -->
+                                <div class="w-full rounded-md"> 
                                     <div class="flex items-center justify-center">
                                         <div class="flex items-center space-x-3 flex-wrap">
                                             <p class="whitespace-nowrap">{journey.drink}</p>
