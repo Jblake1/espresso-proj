@@ -190,7 +190,7 @@
 <div>
     <AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
         <svelte:fragment slot="lead">
-            <strong class="text-xl uppercase">Espresso Oracle</strong>
+            <strong class="text-xl uppercase">JavaBooklet</strong>
         </svelte:fragment>
         
         <svelte:fragment slot="trail">

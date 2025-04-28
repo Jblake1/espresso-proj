@@ -25,7 +25,7 @@
             });
 
             if (response.ok) {
-                alert('Setup archived successfully!');
+                alert('Java setup sent to notes!');
             } else {
                 const error = await response.json();
                 alert('Failed to archive setup: ' + error.message);

@@ -185,9 +185,9 @@
             </Accordion>
         {:else}
             <div class="w-full text-center p-10 border border-primary-200 rounded-lg bg-tertiary-900/50">
-                <p class="text-xl font-semibold text-tertiary-200">No Archives</p>
+                <p class="text-xl font-semibold text-tertiary-200">No Notes</p>
                 <p class="mt-2 text-tertiary-400">No coffee records have been created yet!?</p>
-                <a href="/" class="btn variant-filled-primary mt-6">Get a settings recommendation</a>
+                <a href="/" class="btn variant-filled-primary mt-6">Get a setting recommendation</a>
             </div>
         {/if}
     </div>
