@@ -114,8 +114,9 @@
     
 </style>
 
-<div class="flex flex-row w-full">
-    <div class="flex flex-col items-start gap-7 w-3/4">
+<!-- removed gap of 7 from flex container -->
+<div class="flex flex-row w-full justify-end">
+    <div class="flex flex-col items-start w-3/4">
         {#if isLoading}
             <div class="w-full flex justify-center items-center p-10">
                 <div class="border-4 border-transparent border-t-primary-500 rounded-full w-10 h-10 animate-spin"></div>
@@ -129,10 +130,11 @@
                                 <span class="badge bg-primary-500">{index + 1}</span>
                             </div>
                         </svelte:fragment> -->
+                        <!-- removed "overflow-hidden" from summary button -->
                         <svelte:fragment slot="summary">
                             <button
                                 type="button"
-                                class="flex items-center space-x-3 w-full text-left h-10 p-0 overflow-hidden" 
+                                class="flex items-center space-x-3 w-full text-left h-10 p-0"
                                 style="background-image: url({getImageForIndex(index)}); background-size: cover; background-position: center;"
                                 on:click|stopPropagation={() => toggleAccordion(index)}
                                 on:keydown={(e) => e.key === 'Enter' && toggleAccordion(index)}
