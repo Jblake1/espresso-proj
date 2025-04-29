@@ -115,7 +115,7 @@
 </style>
 
 <!-- removed gap of 7 from flex container -->
-<div class="flex flex-row w-full justify-end">
+<div class="flex flex-row w-full justify-start">
     <div class="flex flex-col items-start w-3/4">
         {#if isLoading}
             <div class="w-full flex justify-center items-center p-10">
@@ -124,7 +124,7 @@
         {:else if journeys.length > 0}
             <Accordion class="w-full">
                 {#each journeys as journey, index}
-                    <AccordionItem open={openItem === index}>
+                    <AccordionItem open={openItem === index} class="mb-0">
                         <!-- <svelte:fragment slot="lead">
                             <div class="flex items-center space-x-2">
                                 <span class="badge bg-primary-500">{index + 1}</span>
