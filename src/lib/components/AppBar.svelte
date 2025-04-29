@@ -148,7 +148,7 @@
     // Re-check auth periodically (every 10 seconds)
     let authInterval;
     onMount(() => {
-        authInterval = setInterval(checkAuth, 10000);
+        authInterval = setInterval(checkAuth, 300000);
         return () => clearInterval(authInterval);
     });
 
@@ -190,7 +190,9 @@
 <div>
     <AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
         <svelte:fragment slot="lead">
-            <strong class="text-xl uppercase">JavaBooklet</strong>
+            <a href="/" on:click={(e) => handleNavigation(e, '/')}>
+                <strong class="text-xl uppercase">Java Booklet</strong>
+            </a>
         </svelte:fragment>
         
         <svelte:fragment slot="trail">
