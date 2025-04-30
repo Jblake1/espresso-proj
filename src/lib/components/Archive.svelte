@@ -142,7 +142,7 @@
                                 <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow">
                                     <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{journey.drink}</p>
                                     <div class="h-3 border-r border-slate-300"></div>
-                                    <p class="whitespace-nowrap truncate max-w-sm bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{journey.coffeeBeans}</p>
+                                    <p class="whitespace-nowrap truncate max-w-xs bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{journey.coffeeBeans}</p>
                                 </div>
                                 <div>
                                     <span 
