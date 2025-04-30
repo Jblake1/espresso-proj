@@ -139,13 +139,16 @@
                                 on:click|stopPropagation={() => toggleAccordion(index)}
                                 on:keydown={(e) => e.key === 'Enter' && toggleAccordion(index)}
                             >
-                                <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow">
+                                <!-- Text Content (takes natural width) -->
+                                <div class="py-0 px-3 rounded-md flex items-center space-x-3">
                                     <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{journey.drink}</p>
                                     <div class="h-3 border-r border-slate-300"></div>
                                     <p class="whitespace-nowrap truncate max-w-xs min-w-0 bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">
                                         {journey.coffeeBeans.length > 20 ? journey.coffeeBeans.slice(0, 15) + '...' : journey.coffeeBeans}
                                     </p>
                                 </div>
+                                <!-- Flexible Spacer -->
+                                <div class="flex-grow"></div>
                                 <div>
                                     <span 
                                         class="btn-icon variant-filled-primary cursor-pointer"

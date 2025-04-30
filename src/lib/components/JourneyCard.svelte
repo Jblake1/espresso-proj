@@ -14,24 +14,60 @@
     let props = $props<{ journeyData: { journeyID: string }, drink: string }>();
 
     let cardData = $state([
-        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '' },
-        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '' },
-        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '' },
-        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '' }
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '', grindAmount: '' },
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '', grindAmount: '' },
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '', grindAmount: '' },
+        { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '', grindAmount: '' }
     ]);
 
     // Track which fields have been modified
     let modifiedCards = $state({});
 
-    // Handle input field blur event
-    const handleBlur = async (index, fieldName) => {
-        // Mark this card as needing update
+    // Temporary store for original values on focus
+    let originalValues = $state({});
+
+    // Saves card data on blur
+    const saveCardUpdate = async (index, fieldName) => {
+        // Mark this card as needing update if not already marked
+        // (This check prevents unnecessary state updates if multiple fields blur quickly)
         if (!modifiedCards[index]) {
             modifiedCards[index] = true;
+        } 
+        // We could potentially debounce this or only save if modifiedCards[index] was just set to true,
+        // but for now, we save on any blur after potential modification.
+        await updateJourneyCard(index); 
+    };
+
+    // Handle focus event for inputs/textarea
+    const handleFocus = (index, fieldName) => {
+        if (!originalValues[index]) {
+            originalValues[index] = {};
+        }
+        originalValues[index][fieldName] = cardData[index][fieldName];
+        cardData[index][fieldName] = '';
+    };
+
+    // Handle blur event for inputs/textarea
+    const handleBlur = (index, fieldName) => {
+        const currentValue = cardData[index][fieldName];
+        const originalValue = originalValues[index]?.[fieldName];
+
+        if (currentValue === '' || currentValue === null) {
+            if (originalValue !== undefined) {
+                cardData[index][fieldName] = originalValue; 
+            }
         }
         
-        // Update the card when any field loses focus
-        await updateJourneyCard(index);
+        // Call the save logic regardless of whether the value was restored
+        saveCardUpdate(index, fieldName); 
+
+        // Clean up temporary store for this field
+        if (originalValues[index]) {
+            delete originalValues[index][fieldName];
+            if (Object.keys(originalValues[index]).length === 0) {
+                delete originalValues[index];
+            }
+        }
     };
 
     const createJourneyCard = async () => {
@@ -80,6 +116,7 @@
             cardData[index].grindSetting = '';
             cardData[index].shotTime = '';
             cardData[index].journeyID = '';
+            cardData[index].grindAmount = '';
 
             // Refresh all journey cards to ensure proper iteration numbers and display
             if (props.journeyData.journeyID) {
@@ -118,7 +155,8 @@
                         shotTime: '', 
                         cardID: '', 
                         journeyID: '', 
-                        iteration: '' 
+                        iteration: '',
+                        grindAmount: ''
                     };
                 }
 
@@ -132,6 +170,7 @@
                         cardData[index].grindSetting = card.grindSetting;
                         cardData[index].shotTime = card.shotTime;
                         cardData[index].journeyID = props.journeyData.journeyID;
+                        cardData[index].grindAmount = card.grindAmount;
                     }
                 });
             }
@@ -152,7 +191,8 @@
                     id: cardData[index].cardID,
                     grindSetting: cardData[index].grindSetting,
                     shotTime: cardData[index].shotTime,
-                    notes: cardData[index].notes
+                    notes: cardData[index].notes,
+                    grindAmount: cardData[index].grindAmount
                 })
             });
 
@@ -233,41 +273,60 @@
                             <label for={`grindSetting${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">Grind Setting</label>
                             <div class="relative">
                                 <div class="absolute top-0 left-0 h-[1px] w-1/3 bg-primary-200"></div>
-                                <input 
-                                    type="text" 
-                                    id={`grindSetting${index + 1}`} 
-                                    bind:value={card.grindSetting} 
+                                <input
+                                    type="text"
+                                    id={`grindSetting${index + 1}`}
+                                    bind:value={card.grindSetting}
+                                    onfocus={() => handleFocus(index, 'grindSetting')}
                                     onblur={() => handleBlur(index, 'grindSetting')}
                                     required
-                                    class="w-full p-2 border-0 rounded-md text-tertiary-500 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500" 
+                                    class="w-full p-2 border-0 rounded-md text-tertiary-500 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500"
                                 />
                             </div>
                         </div>
-                        
+
+                        <div class="mb-3">
+                            <label for={`grindAmount${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">Grind Amount</label>
+                            <div class="relative">
+                                <div class="absolute top-0 left-0 h-[1px] w-1/3 bg-primary-200"></div>
+                                <input
+                                    type="text"
+                                    id={`grindAmount${index + 1}`}
+                                    bind:value={card.grindAmount}
+                                    onfocus={() => handleFocus(index, 'grindAmount')}
+                                    onblur={() => handleBlur(index, 'grindAmount')}
+                                    required
+                                    class="w-full p-2 border-0 rounded-md text-tertiary-500 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500"
+                                />
+                            </div>
+                        </div>
+
                         <div class="mb-3">
                             <label for={`shotTime${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">
                                 {props.drink && props.drink.toLowerCase() === 'coffee' ? 'Brew Time' : 'Shot Time'}
                             </label>
                             <div class="relative">
                                 <div class="absolute top-0 left-0 h-[1px] w-1/3 bg-primary-200"></div>
-                                <input 
-                                    type="text" 
-                                    id={`shotTime${index + 1}`} 
-                                    bind:value={card.shotTime} 
+                                <input
+                                    type="text"
+                                    id={`shotTime${index + 1}`}
+                                    bind:value={card.shotTime}
+                                    onfocus={() => handleFocus(index, 'shotTime')}
                                     onblur={() => handleBlur(index, 'shotTime')}
-                                    required 
+                                    required
                                     class="w-full p-2 border-0 rounded-md text-tertiary-500 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500"
                                 />
                             </div>
                         </div>
-                        
+
                         <div class="mb-4 relative">
                             <label for={`notes${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">Notes</label>
                             <div class="relative">
                                 <div class="absolute top-0 left-0 h-[1px] w-1/3 bg-primary-200"></div>
-                                <textarea 
-                                    id={`notes${index + 1}`} 
-                                    bind:value={card.notes} 
+                                <textarea
+                                    id={`notes${index + 1}`}
+                                    bind:value={card.notes}
+                                    onfocus={() => handleFocus(index, 'notes')}
                                     onblur={() => handleBlur(index, 'notes')}
                                     required
                                     class="w-full p-2 border-0 rounded-md text-tertiary-500 bg-tertiary-900 focus:ring-primary-500 focus:border-primary-500 min-h-[80px]"
