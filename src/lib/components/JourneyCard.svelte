@@ -11,7 +11,8 @@
     import { onMount } from "svelte";
     
     // Props that can be passed from the parent Archive component
-    let props = $props();
+    let props = $props<{ journeyData: { journeyID: string }, drink: string }>();
+
     let cardData = $state([
         { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '' },
         { datePosted: '', notes: '', grindSetting: '', shotTime: '', cardID: '', journeyID: '', iteration: '' },
@@ -244,7 +245,9 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for={`shotTime${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">Shot Time</label>
+                            <label for={`shotTime${index + 1}`} class="block text-sm font-medium text-tertiary-200 mb-1">
+                                {props.drink && props.drink.toLowerCase() === 'coffee' ? 'Brew Time' : 'Shot Time'}
+                            </label>
                             <div class="relative">
                                 <div class="absolute top-0 left-0 h-[1px] w-1/3 bg-primary-200"></div>
                                 <input 
