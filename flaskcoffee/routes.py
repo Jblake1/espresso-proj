@@ -421,8 +421,9 @@ def journey_card():
             notes = data.get('notes', None)
             shot_time = data.get('shotTime', None)
             iteration = data.get('iteration', None)
+            grind_amount = data.get('grindAmount', None)
            
-            card = JourneyCard(journey_id=journey_id, grind_setting=grind_setting, iteration=iteration, notes=notes, shot_time=shot_time)
+            card = JourneyCard(journey_id=journey_id, grind_setting=grind_setting, iteration=iteration, notes=notes, shot_time=shot_time, grind_amount=grind_amount)
             
             db.session.add(card)
             db.session.commit()
@@ -443,6 +444,7 @@ def journey_card():
                 card_list.append({
                     "id": card.id,
                     "grindSetting": card.grind_setting,
+                    "grindAmount": card.grind_amount,
                     "iteration": card.iteration,
                     "notes": card.notes,
                     "journey_id": card.journey_id,
@@ -467,12 +469,14 @@ def journey_card_edit():
         grind_setting = data.get('grindSetting')
         shot_time = data.get('shotTime')
         notes = data.get('notes')
+        grind_amount = data.get('grindAmount')
         
         
         card = JourneyCard.query.get(card_id)
         card.grind_setting = grind_setting
         card.notes = notes
         card.shot_time = shot_time
+        card.grind_amount = grind_amount
         db.session.commit()
 
         return jsonify({

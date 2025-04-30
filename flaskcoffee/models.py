@@ -57,7 +57,8 @@ class JourneyCard(db.Model):
     iteration = db.Column(db.Integer, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     journey_id = db.Column(db.Integer, db.ForeignKey('coffee_journey.id'), nullable=False)
-    shot_time = db.Column(db.String(20), nullable=True, default='(shot time)')
+    shot_time = db.Column(db.String(20), nullable=True, default='(time)')
+    grind_amount = db.Column(db.String(40), nullable=True, default='(amount)')
     notes = db.Column(db.Text, nullable=True, default='(notes)')
 
     def __init__(self, **kwargs):
@@ -78,4 +79,4 @@ class JourneyCard(db.Model):
                 self.iteration = 1
     
     def __repr__(self):
-        return f"JourneyCard('{self.grind_setting}', '{self.iteration}', '{self.date_posted}', '{self.notes}', '{self.shot_time}', '{self.journey_id}')"
+        return f"JourneyCard('{self.grind_setting}', '{self.iteration}', '{self.date_posted}', '{self.notes}', '{self.shot_time}', '{self.grind_amount}', '{self.journey_id}')"
