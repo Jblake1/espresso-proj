@@ -116,7 +116,7 @@
 
 <!-- removed gap of 7 from flex container -->
 <div class="flex flex-row w-full justify-start">
-    <div class="flex flex-col items-start w-3/4">
+    <div class="flex flex-col items-start w-full md:w-3/4">
         {#if isLoading}
             <div class="w-full flex justify-center items-center p-10">
                 <div class="border-4 border-transparent border-t-primary-500 rounded-full w-10 h-10 animate-spin"></div>
@@ -142,7 +142,7 @@
                                 <div class="py-0 px-3 rounded-md flex items-center space-x-3 flex-grow">
                                     <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{journey.drink}</p>
                                     <div class="h-3 border-r border-slate-300"></div>
-                                    <p class="whitespace-nowrap truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{journey.coffeeBeans}</p>
+                                    <p class="whitespace-nowrap truncate max-w-sm bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{journey.coffeeBeans}</p>
                                 </div>
                                 <div>
                                     <span 
