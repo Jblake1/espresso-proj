@@ -134,22 +134,26 @@
                         <svelte:fragment slot="summary">
                             <button
                                 type="button"
-                                class="flex items-center space-x-3 w-full text-left h-10 p-0"
+                                class="flex items-center space-x-3 w-full min-w-full text-left h-10 p-0"
                                 style="background-image: url({getImageForIndex(index)}); background-size: cover; background-position: center;"
                                 on:click|stopPropagation={() => toggleAccordion(index)}
                                 on:keydown={(e) => e.key === 'Enter' && toggleAccordion(index)}
                             >
                                 <!-- Text Content (takes natural width) -->
-                                <div class="py-0 px-3 rounded-md flex items-center space-x-3">
-                                    <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">{journey.drink}</p>
-                                    <div class="h-3 border-r border-slate-300"></div>
-                                    <p class="whitespace-nowrap truncate max-w-xs min-w-0 bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">
-                                        {journey.coffeeBeans.length > 20 ? journey.coffeeBeans.slice(0, 15) + '...' : journey.coffeeBeans}
+                                <div class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden flex-shrink"> 
+                                    {/* Prevent drink text from shrinking */}
+                                    <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0">{journey.drink}</p>
+                                    {/* Prevent separator from shrinking */}
+                                    <div class="h-3 border-r border-slate-300 flex-shrink-0"></div>
+                                    {/* Let coffee beans text truncate naturally, remove max-width */}
+                                    <p class="whitespace-nowrap truncate min-w-0 bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">
+                                        {journey.coffeeBeans} {/* Removed length check and slice */}
                                     </p>
                                 </div>
                                 <!-- Flexible Spacer -->
                                 <div class="flex-grow"></div>
-                                <div>
+                                <!-- Prevent delete button container from shrinking, add some padding -->
+                                <div class="flex-shrink-0 px-2"> 
                                     <span 
                                         class="btn-icon variant-filled-primary cursor-pointer"
                                         on:click|stopPropagation={() => deleteJourney(journey.id)}
