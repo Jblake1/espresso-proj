@@ -123,30 +123,33 @@
             </div>
         {:else if journeys.length > 0}
         
-            <button
-                type="button"
-                class="flex items-center w-full min-w-0 text-left h-10 p-0 pr-2 justify-between"
-                
-            >
-                <div class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden min-w-0 flex-1"> 
-                    <!-- <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0">{journey.drink}</p>
-                    <div class="h-3 border-r border-slate-300 flex-shrink-0"></div> -->
-                    <p class="whitespace-nowrap truncate min-w-0 bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm w-0">
-                        here_are_your_journeys_to_test_truncation
-                    </p>
-                </div>
-               
-                <div class="flex-shrink-0"> 
-                    <span 
-                        class="btn-icon variant-filled-primary cursor-pointer"
-                        tabindex="0"
-                        role="button"
-                        aria-label="Delete journey"
-                    >
-                        delete
-                    </span>
-                </div>
-            </button>
+            <div class="w-full max-w-md mx-auto my-4 p-2 border border-dashed border-gray-400"> <h3 class="text-center font-bold mb-2">Standalone Button Test</h3>
+                <button
+                    type="button"
+                    class="flex items-center w-full h-10 px-2 justify-between border border-red-500 rounded"
+                >
+                    <div class="flex items-center space-x-2 overflow-hidden min-w-0 flex-1 border border-blue-500">
+                        <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-xs flex-shrink-0">
+                            Espresso
+                        </p>
+                        <div class="h-3 border-r border-slate-400 flex-shrink-0"></div>
+                        <p class="truncate min-w-0 flex-1 bg-secondary-500/80 px-2 py-0.5 rounded text-white text-xs border border-green-500">
+                            Super Long Ethiopia Yirgacheffe Gedeb Natural Process Name That Needs Ellipsis
+                        </p>
+                    </div>
+            
+                    <div class="flex-shrink-0 ml-2 border border-purple-500"> <span
+                            class="btn-icon btn-sm variant-filled-error cursor-pointer p-1"
+                            role="button"
+                            aria-label="Delete item"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </span>
+                    </div>
+                </button>
+            </div>
        
             <Accordion class="w-full">
                 {#each journeys as journey, index}
