@@ -140,13 +140,10 @@
                                 on:keydown={(e) => e.key === 'Enter' && toggleAccordion(index)}
                             >
                                 <div class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden flex-shrink m-w-0"> 
-                                    {/* Prevent drink text from shrinking */}
                                     <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0">{journey.drink}</p>
-                                    {/* Prevent separator from shrinking */}
                                     <div class="h-3 border-r border-slate-300 flex-shrink-0"></div>
-                                    {/* Let coffee beans text truncate naturally, remove max-width */}
                                     <p class="whitespace-nowrap truncate min-w-0 bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm">
-                                        {journey.coffeeBeans} {/* Removed length check and slice */}
+                                        {journey.coffeeBeans}
                                     </p>
                                 </div>
                                 <!-- Flexible Spacer -->
