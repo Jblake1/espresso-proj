@@ -122,6 +122,32 @@
                 <div class="border-4 border-transparent border-t-primary-500 rounded-full w-10 h-10 animate-spin"></div>
             </div>
         {:else if journeys.length > 0}
+        
+            <button
+                type="button"
+                class="flex items-center w-full min-w-0 text-left h-10 p-0 pr-2 justify-between"
+                
+            >
+                <div class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden min-w-0 flex-1"> 
+                    <!-- <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0">{journey.drink}</p>
+                    <div class="h-3 border-r border-slate-300 flex-shrink-0"></div> -->
+                    <p class="whitespace-nowrap truncate min-w-0 bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm w-0">
+                        here_are_your_journeys_to_test_truncation
+                    </p>
+                </div>
+               
+                <div class="flex-shrink-0"> 
+                    <span 
+                        class="btn-icon variant-filled-primary cursor-pointer"
+                        tabindex="0"
+                        role="button"
+                        aria-label="Delete journey"
+                    >
+                        delete
+                    </span>
+                </div>
+            </button>
+       
             <Accordion class="w-full">
                 {#each journeys as journey, index}
                     <AccordionItem open={openItem === index} class="mb-0">
@@ -142,7 +168,7 @@
                                 <div class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden min-w-0 flex-1"> 
                                     <!-- <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0">{journey.drink}</p>
                                     <div class="h-3 border-r border-slate-300 flex-shrink-0"></div> -->
-                                    <p class="whitespace-nowrap truncate min-w-0 bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm w-0">
+                                    <p class="whitespace-nowrap truncate min-w-0 bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-1">
                                         {journey.coffeeBeans}
                                     </p>
                                 </div>
