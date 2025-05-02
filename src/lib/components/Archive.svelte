@@ -90,6 +90,7 @@
         }
     }
 
+
     onMount(() => {
         displayArchive();
     });
@@ -100,43 +101,13 @@
     :global(.accordion-item) {
         margin-top: 0 !important;
         margin-bottom: 0 !important;
-        /* Add border to easily see item bounds */
-        /* border: 1px solid red !important; */
     }
 
     :global(.accordion-item + .accordion-item) {
         margin-top: 1px !important;
     }
 
-    /* --- ADD THESE OVERRIDES --- */
 
-    /* 1. Reset Padding on Skeleton's Trigger */
-    /* This allows your wrapper's px-2 to control the spacing */
-    :global(.accordion-item .trigger) {
-        padding: 0 !important;
-        border: 1px dashed blue !important;
-    }
-
-    /* 2. Ensure the text container div can actually shrink */
-    /* Target the div containing drink/separator/beans */
-    :global(.accordion-item .trigger .summary-content-wrapper > div:first-of-type) {
-        min-width: 0 !important; /* Force shrinking if overridden */
-        border: 1px dashed lime !important;
-    }
-
-    /* 3. Explicitly re-apply truncate properties if needed (less likely) */
-    :global(.accordion-item .trigger .summary-content-wrapper .coffee-bean-name) {
-         
-         min-width: 0 !important; 
-         overflow: hidden !important;
-         text-overflow: ellipsis !important;
-         white-space: nowrap !important;
-         border: 1px dashed yellow !important;
-    }
-
-    /* --- END OF NEW OVERRIDES --- */
-
-    /* Existing img styles */
     img {
         max-height: 70vh;
         object-fit: contain;
@@ -144,7 +115,7 @@
     }
 </style>
 
-<!-- removed gap of 7 from flex container -->
+
 <div class="flex flex-row w-full justify-start">
     <div class="flex flex-col items-start w-full md:w-3/4">
         {#if isLoading}
@@ -152,77 +123,11 @@
                 <div class="border-4 border-transparent border-t-primary-500 rounded-full w-10 h-10 animate-spin"></div>
             </div>
         {:else if journeys.length > 0}
-        
-
-
-            <div class="w-full max-w-md mx-auto my-4 p-2 border border-dashed border-gray-400"> <h3 class="text-center font-bold mb-2">Standalone Button Test</h3>
-                <button
-                    type="button"
-                    class="flex items-center w-full h-10 px-2 justify-between border border-red-500 rounded"
-                >
-                    <div class="flex items-center space-x-2 overflow-hidden min-w-0 flex-1 border border-blue-500">
-                        <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-xs flex-shrink-0">
-                            Espresso
-                        </p>
-                        <div class="h-3 border-r border-slate-400 flex-shrink-0"></div>
-                        <p class="truncate min-w-0 flex-1 bg-secondary-500/80 px-2 py-0.5 rounded text-white text-xs border border-green-500">
-                            Super Long Ethiopia Yirgacheffe Gedeb Natural Process Name That Needs Ellipsis
-                        </p>
-                    </div>
-            
-                    <div class="flex-shrink-0 ml-2 border border-purple-500"> <span
-                            class="btn-icon btn-sm variant-filled-error cursor-pointer p-1"
-                            role="button"
-                            aria-label="Delete item"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                            </svg>
-                        </span>
-                    </div>
-                </button>
-            </div>
        
             <Accordion class="w-full">
                 {#each journeys as journey, index}
                     <AccordionItem open={openItem === index} class="mb-0">
                         <svelte:fragment slot="summary">
-                            <div
-                                class="summary-content-wrapper flex items-center w-full h-10 px-2 justify-between"
-                                style="background-image: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.2)), url({getImageForIndex(index)}); background-size: cover; background-position: center;"
-                                on:click|stopPropagation={() => toggleAccordion(index)}
-                                on:keydown={(e) => e.key === 'Enter' && toggleAccordion(index)}
-                                role="button"
-                                tabindex="0"
-                                aria-label="Toggle journey details for {journey.drink}"
-                            >
-                                <div class="flex items-center space-x-2 overflow-hidden min-w-0 flex-1">
-                                    <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-xs flex-shrink-0">
-                                        {journey.drink}
-                                    </p>
-                                    <div class="h-3 border-r border-white/60 flex-shrink-0"></div>
-                                    <p class="coffee-bean-name truncate min-w-0 flex-1 bg-secondary-500/80 px-2 py-0.5 rounded text-white text-xs">
-                                        {journey.coffeeBeans}
-                                    </p>
-                                </div>
-
-                                <div class="flex-shrink-0 ml-2">
-                                    <span
-                                        class="btn-icon btn-sm variant-filled-error cursor-pointer p-1 flex items-center justify-center"
-                                        on:click|stopPropagation={() => deleteJourney(journey.id)}
-                                        on:keydown|stopPropagation={(e) => e.key === 'Enter' && deleteJourney(journey.id)}
-                                        tabindex="0"
-                                        role="button"
-                                        aria-label="Delete journey {journey.drink} - {journey.coffeeBeans}"
-                                    >
-                                        <svg class="delete-icon" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                                        </span>
-                                </div>
-                            </div>
-                        </svelte:fragment>
-
-
-                        <!-- <svelte:fragment slot="summary">
                             <button
                                 type="button"
                                 class="flex items-center w-full min-w-0 text-left h-10 p-0 pr-2 justify-between"
@@ -230,7 +135,7 @@
                                 on:click|stopPropagation={() => toggleAccordion(index)}
                                 on:keydown={(e) => e.key === 'Enter' && toggleAccordion(index)}
                             >
-                                <div class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden min-w-0 flex-1"> 
+                                <div class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden min-w-0"> 
                                     <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0">{journey.drink}</p>
                                     <div class="h-3 border-r border-slate-300 flex-shrink-0"></div>
                                     <p class="whitespace-nowrap truncate min-w-0 bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-1">
@@ -251,11 +156,7 @@
                                     </span>
                                 </div>
                             </button>
-                        </svelte:fragment> -->
-
-
-
-
+                        </svelte:fragment>
 
                         <svelte:fragment slot="content">
                             <div class="w-full">
