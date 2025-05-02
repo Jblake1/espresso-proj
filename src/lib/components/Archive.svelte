@@ -96,22 +96,52 @@
 </script>
 
 <style>
+    /* Keep existing styles */
     :global(.accordion-item) {
         margin-top: 0 !important;
         margin-bottom: 0 !important;
+        /* Add border to easily see item bounds */
+        /* border: 1px solid red !important; */
     }
-    
+
     :global(.accordion-item + .accordion-item) {
         margin-top: 1px !important;
     }
 
-    /* Add styles for the espresso machine image */
+    /* --- ADD THESE OVERRIDES --- */
+
+    /* 1. Reset Padding on Skeleton's Trigger */
+    /* This allows your wrapper's px-2 to control the spacing */
+    :global(.accordion-item .trigger) {
+        padding: 0 !important;
+        /* border: 1px dashed blue !important; */ /* Add border for debugging */
+    }
+
+    /* 2. Ensure the text container div can actually shrink */
+    /* Target the div containing drink/separator/beans */
+    :global(.accordion-item .trigger .summary-content-wrapper > div:first-of-type) {
+        min-width: 0 !important; /* Force shrinking if overridden */
+        /* border: 1px dashed lime !important; */ /* Add border for debugging */
+    }
+
+    /* 3. Explicitly re-apply truncate properties if needed (less likely) */
+    :global(.accordion-item .trigger .summary-content-wrapper .coffee-bean-name) {
+         /* Usually not needed if parents are correct, but uncomment if desperate */
+         /* min-width: 0 !important; */
+         /* overflow: hidden !important; */
+         /* text-overflow: ellipsis !important; */
+         /* white-space: nowrap !important; */
+         /* border: 1px dashed yellow !important; */ /* Add border for debugging */
+    }
+
+    /* --- END OF NEW OVERRIDES --- */
+
+    /* Existing img styles */
     img {
         max-height: 70vh;
         object-fit: contain;
         transition: transform 0.3s ease;
     }
-    
 </style>
 
 <!-- removed gap of 7 from flex container -->
