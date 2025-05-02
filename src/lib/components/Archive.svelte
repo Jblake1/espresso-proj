@@ -130,7 +130,7 @@
                         <svelte:fragment slot="summary">
                             <button
                                 type="button"
-                                class="flex items-center w-full min-w-0 text-left h-10 p-0 pr-2 justify-between"
+                                class="flex items-center w-full min-w-0 text-left h-10 p-0 pr-2 justify-between overflow-hidden"
                                 style="background-image: url({getImageForIndex(index)}); background-size: cover; background-position: center;"
                                 on:click|stopPropagation={() => toggleAccordion(index)}
                                 on:keydown={(e) => e.key === 'Enter' && toggleAccordion(index)}
