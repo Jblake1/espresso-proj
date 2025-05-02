@@ -114,24 +114,24 @@
     /* This allows your wrapper's px-2 to control the spacing */
     :global(.accordion-item .trigger) {
         padding: 0 !important;
-        /* border: 1px dashed blue !important; */ /* Add border for debugging */
+        border: 1px dashed blue !important;
     }
 
     /* 2. Ensure the text container div can actually shrink */
     /* Target the div containing drink/separator/beans */
     :global(.accordion-item .trigger .summary-content-wrapper > div:first-of-type) {
         min-width: 0 !important; /* Force shrinking if overridden */
-        /* border: 1px dashed lime !important; */ /* Add border for debugging */
+        border: 1px dashed lime !important;
     }
 
     /* 3. Explicitly re-apply truncate properties if needed (less likely) */
     :global(.accordion-item .trigger .summary-content-wrapper .coffee-bean-name) {
-         /* Usually not needed if parents are correct, but uncomment if desperate */
-         /* min-width: 0 !important; */
-         /* overflow: hidden !important; */
-         /* text-overflow: ellipsis !important; */
-         /* white-space: nowrap !important; */
-         /* border: 1px dashed yellow !important; */ /* Add border for debugging */
+         
+         min-width: 0 !important; 
+         overflow: hidden !important;
+         text-overflow: ellipsis !important;
+         white-space: nowrap !important;
+         border: 1px dashed yellow !important;
     }
 
     /* --- END OF NEW OVERRIDES --- */
