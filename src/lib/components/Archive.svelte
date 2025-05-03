@@ -127,26 +127,39 @@
         <!-- pulled out of accordion summary -->
         <!-- on:click={() => toggleAccordion(index)} 
         on:keydown={(e) => e.key === 'Enter' && toggleAccordion(index)} -->
-       
-            <Accordion class="w-full">
-                {#each journeys as journey, index}
-                    <AccordionItem open={openItem === index} class="mb-0">
-                        <svelte:fragment slot="summary">
-                            <div 
-                                class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden min-w-0 w-full h-10 justify-between" 
+
+        <!-- class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden min-w-0 w-full h-10 justify-between" 
                                 style="background-image: url({getImageForIndex(index)}); background-size: cover; background-position: center;"
                                 role="button" 
                                 tabindex="0" 
                                 aria-label="Toggle journey details"
-                            > 
-                                <div class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden min-w-0"
-                                > 
-                                    <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0">{journey.drink}</p>
+        -->
+            <Accordion class="w-full">
+                {#each journeys as journey, index}
+                    <AccordionItem open={openItem === index} class="mb-0">
+                        <svelte:fragment slot="summary">
+                            <div class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden min-w-0 w-full h-10">
+                                <div class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden min-w-0"> 
+                                    <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0">
+                                        {journey.drink}
+                                    </p>
                                     <div class="h-3 border-r border-slate-300 flex-shrink-0"></div>
-                                    <p class="whitespace-nowrap truncate min-w-0 bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-1">
+                                    <p class="whitespace-nowrap truncate min-w-0 bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-1"
+                                        style="max-width: calc(100% - 60px);">
                                         {journey.coffeeBeans}
                                     </p>
                                 </div>
+
+                                <span 
+                                    class="btn-icon variant-filled-primary cursor-pointer ml-auto"
+                                    on:click|stopPropagation={() => deleteJourney(journey.id)}
+                                    on:keydown|stopPropagation={(e) => e.key === 'Enter' && deleteJourney(journey.id)}
+                                    tabindex="0"
+                                    role="button"
+                                    aria-label="Delete journey"
+                                >
+                                    delete
+                                </span>
                             </div>
                         </svelte:fragment>
 
