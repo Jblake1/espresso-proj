@@ -141,18 +141,18 @@
                             <div class="py-0 px-3 rounded-md flex items-center justify-between w-full h-10"
                                 style="background-image: url({getImageForIndex(index)}); background-size: cover; background-position: center;"
                             >
-                                <div class="flex items-center space-x-3 overflow-hidden w-4/5">
+                                <div class="flex items-center space-x-3 overflow-hidden max-w-[calc(100%-50px)]">
                                     <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0">
                                         {journey.drink}
                                     </p>
                                     <div class="h-3 border-r border-slate-300 flex-shrink-0"></div>
-                                    <p class="truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm overflow-hidden">
+                                    <p class="truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink min-w-0 max-w-full">
                                         {journey.coffeeBeans}
                                     </p>
                                 </div>
 
                                 <span 
-                                    class="btn-icon variant-filled-primary cursor-pointer"
+                                    class="btn-icon variant-filled-primary cursor-pointer flex-shrink-0"
                                     on:click|stopPropagation={() => deleteJourney(journey.id)}
                                     on:keydown|stopPropagation={(e) => e.key === 'Enter' && deleteJourney(journey.id)}
                                     tabindex="0"
