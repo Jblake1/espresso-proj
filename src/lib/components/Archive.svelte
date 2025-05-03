@@ -146,7 +146,7 @@
                                         {journey.drink}
                                     </p>
                                     <div class="h-3 border-r border-slate-300 flex-shrink-0"></div>
-                                    <p class="overflow-hidden text-ellipsis whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm w-auto max-w-full">
+                                    <p class="overflow-hidden text-ellipsis whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm w-auto max-w-full min-w-0">
                                         {journey.coffeeBeans}
                                     </p>
                                 </div>
