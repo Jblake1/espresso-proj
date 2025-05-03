@@ -146,7 +146,7 @@
                                         {journey.drink}
                                     </p>
                                     <div class="h-3 border-r border-slate-300 flex-shrink-0"></div>
-                                    <p class="truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink min-w-0 max-w-full">
+                                    <p class="truncate bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0 w-0 flex-grow">
                                         {journey.coffeeBeans}
                                     </p>
                                 </div>
