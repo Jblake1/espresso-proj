@@ -146,7 +146,6 @@
                                         {journey.drink}
                                     </p>
                                     <div class="h-3 border-r border-slate-300 flex-shrink-0"></div>
-                                    {/* Use flex-1 to allow growing/shrinking, keep min-w-0 */}
                                     <p class="overflow-hidden text-ellipsis whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-1 min-w-0">
                                         {journey.coffeeBeans}
                                     </p>
