@@ -116,14 +116,14 @@
 </style>
 
 
-<div class="flex flex-row w-full justify-start">
-    <div class="flex flex-col items-start w-[90%] mx-auto md:w-3/4 md:mx-0">
+<div class="flex flex-row w-full justify-start overflow-hidden">
+    <div class="flex flex-col items-start w-full overflow-hidden mx-auto md:w-3/4 md:mx-0">
         {#if isLoading}
             <div class="w-full flex justify-center items-center p-10">
                 <div class="border-4 border-transparent border-t-primary-500 rounded-full w-10 h-10 animate-spin"></div>
             </div>
         {:else if journeys.length > 0}
-            <Accordion class="w-full">
+            <Accordion class="w-full overflow-hidden">
                 {#each journeys as journey, index}
                     <AccordionItem open={openItem === index} class="mb-0">
                         <svelte:fragment slot="summary">
