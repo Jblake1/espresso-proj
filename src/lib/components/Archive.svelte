@@ -117,7 +117,7 @@
 
 
 <div class="flex flex-row w-full justify-start">
-    <div class="flex flex-col items-start w-full md:w-3/4">
+    <div class="flex flex-col items-start w-[90%] mx-auto md:w-3/4 md:mx-0">
         {#if isLoading}
             <div class="w-full flex justify-center items-center p-10">
                 <div class="border-4 border-transparent border-t-primary-500 rounded-full w-10 h-10 animate-spin"></div>
