@@ -123,17 +123,6 @@
                 <div class="border-4 border-transparent border-t-primary-500 rounded-full w-10 h-10 animate-spin"></div>
             </div>
         {:else if journeys.length > 0}
-
-        <!-- pulled out of accordion summary -->
-        <!-- on:click={() => toggleAccordion(index)} 
-        on:keydown={(e) => e.key === 'Enter' && toggleAccordion(index)} -->
-
-        <!-- class="py-0 px-3 rounded-md flex items-center space-x-3 overflow-hidden min-w-0 w-full h-10 justify-between" 
-                                style="background-image: url({getImageForIndex(index)}); background-size: cover; background-position: center;"
-                                role="button" 
-                                tabindex="0" 
-                                aria-label="Toggle journey details"
-        -->
             <Accordion class="w-full">
                 {#each journeys as journey, index}
                     <AccordionItem open={openItem === index} class="mb-0">
@@ -141,7 +130,7 @@
                             <div class="py-0 px-3 rounded-md flex items-center justify-between w-full h-10"
                                 style="background-image: url({getImageForIndex(index)}); background-size: cover; background-position: center;"
                             >
-                                <div class="flex items-center space-x-3 overflow-hidden max-w-[calc(100%-50px)]">
+                                <div class="flex items-center space-x-3 overflow-hidden max-w-[calc(100%-4rem)]"> 
                                     <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0">
                                         {journey.drink}
                                     </p>
