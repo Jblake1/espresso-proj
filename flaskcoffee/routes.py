@@ -340,7 +340,7 @@ def archive_setup():
                 journey_id=journey.id,
                 grind_setting=grind_setting,
                 notes="(notes)",
-                shot_time="(shot time)"
+                shot_time="(time)"
             )
             
             db.session.add(initial_card)
