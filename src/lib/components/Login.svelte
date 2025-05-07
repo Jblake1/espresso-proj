@@ -108,42 +108,42 @@
 <style></style>
 
 <div class="flex justify-center items-center min-h-screen">
-<div class="card p-4 w-1/3">
-  <form onsubmit={handleSubmit} class="space-y-4">
-      <h2 class="h2">Login</h2>
+  <div class="card p-4 w-[90%] sm:w-2/3 md:w-1/3">
+    <form onsubmit={handleSubmit} class="space-y-4">
+        <h2 class="h2">Login</h2>
 
-      {#if errorMessage}
-          <div class="alert variant-filled-error">{errorMessage}</div>
-      {/if}
-      <label class="label">
-          <span>Email</span>
-          <input 
-              class="input" 
-              type="email" 
-              bind:value={email}
-              bind:this={emailEl}
-              placeholder="Enter your email"
-              required
-          />
-      </label>
+        {#if errorMessage}
+            <div class="alert variant-filled-error">{errorMessage}</div>
+        {/if}
+        <label class="label">
+            <span>Email</span>
+            <input 
+                class="input" 
+                type="email" 
+                bind:value={email}
+                bind:this={emailEl}
+                placeholder="Enter your email"
+                required
+            />
+        </label>
 
-      <label class="label">
-          <span>Password</span>
-          <input 
-              class="input" 
-              type="password" 
-              bind:value={password}
-              bind:this={passwordEl}
-              placeholder="Enter your password"
-              required
-          />
-      </label>
+        <label class="label">
+            <span>Password</span>
+            <input 
+                class="input" 
+                type="password" 
+                bind:value={password}
+                bind:this={passwordEl}
+                placeholder="Enter your password"
+                required
+            />
+        </label>
 
-      <button type="submit" class="btn variant-filled-primary w-full">Login</button>
-      <div class="flex items-center space-x-2">
-          <span>Need an account?</span>
-          <a href="/register" class="text-blue-500 underline">Register</a>
-      </div>
-  </form>
-</div>
+        <button type="submit" class="btn variant-filled-primary w-full">Login</button>
+        <div class="flex items-center space-x-2">
+            <span>Need an account?</span>
+            <a href="/register" class="text-blue-500 underline">Register</a>
+        </div>
+    </form>
+  </div>
 </div>

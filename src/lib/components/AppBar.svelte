@@ -96,6 +96,7 @@
                         console.log("Auth token expired, attempting refresh...");
                         // Placeholder for actual refresh logic
                         const refreshed = false; // Assume refresh fails for now
+                        authChecked = true;
                         
                         if (refreshed) {
                             // If refresh succeeded, try auth check again
@@ -111,6 +112,7 @@
                     } else {
                         // Handle other non-OK responses
                         console.warn(`Auth check failed with status: ${response.status}`);
+                        authChecked = true;
                     }
                 } catch (error) {
                     console.error('Auth check error:', error);
@@ -118,6 +120,7 @@
             }
         } catch (error) {
             console.error('Auth check error:', error);
+            authChecked = true; // Mark as checked even if there's an error
         }
     }
 
