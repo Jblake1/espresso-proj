@@ -5,7 +5,7 @@
     import JourneyCard from './JourneyCard.svelte';
     
     // Add loading state
-    let isLoading = true;
+    let isLoading = $state(true);
 
     let drink = $state('');
     let isSubmitting = $state(false);
@@ -119,8 +119,8 @@
         event.preventDefault();
     };
 
-    onMount(async () => {
-        await displayArchive();
+    onMount(() => {
+        displayArchive();
     });
 </script>
 
