@@ -24,10 +24,18 @@
     // Store all journeys in an array
     let journeys = $state([]);
    
+    // let filteredJourneys = $derived(
+    //     drink ? journeys.filter(journey => (journey.drink === drink) &&
+    //                             (grinder ? journey.grinder === grinder : true)) : journeys
+    // );
+
     let filteredJourneys = $derived(
-        drink ? journeys.filter(journey => (journey.drink === drink) &&
-                                (grinder ? journey.grinder === grinder : true)) : journeys
+        journeys.filter(journey => 
+            (drink ? journey.drink === drink : true) &&
+            (grinder ? journey.grinder === grinder : true)
+        )
     );
+
 
     // An array of background images to cycle through
     const journeyImages = [
