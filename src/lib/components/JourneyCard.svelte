@@ -251,7 +251,7 @@
         {#each cardData as card, index}
             {#if card.cardID !== ''}
                 <!-- Each card is a snap point -->
-                <div class="snap-start shrink-0 w-80 relative">
+                <div class="snap-start shrink-0 relative sm:w-64 md:w-76 lg:w-96">
                     <button 
                         type="button"
                         onclick={() => deleteJourneyCard(card.cardID, index)}
@@ -260,7 +260,7 @@
                     >
                         <span class="text-xs font-bold">×</span>
                     </button>
-                    <form class="border border-primary-400 rounded-lg shadow-sm bg-tertiary-900 p-4 w-1/2">
+                    <form class="border border-primary-400 rounded-lg shadow-sm bg-tertiary-900 p-4 w-full">
 
                         <div class="mb-4">
                             <div class="flex items-center justify-between">
