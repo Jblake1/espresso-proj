@@ -7,7 +7,11 @@
     // Add loading state
     let isLoading = true;
 
+    let drink = $state('');
+    let isSubmitting = $state(false);
+
     let isMobile = false;
+
 
     if (typeof window !== 'undefined') {
         isMobile = window.innerWidth < 768; // Adjust the breakpoint as needed
@@ -16,7 +20,11 @@
         });
     }
     // Store all journeys in an array
-    let journeys = [];
+    let journeys = $state([]);
+   
+    let filteredJourneys = $derived(
+        drink ? journeys.filter(journey => journey.drink === drink) : journeys
+    );
     
     // An array of background images to cycle through
     const journeyImages = [
@@ -28,7 +36,7 @@
     const espresso_machine = '/images/espresso_machine.png';
     
     // Add state to track which accordion item is open
-    let openItem = -1; // -1 means all closed
+    let openItem = $state(-1); // -1 means all closed
 
     // Function to toggle accordion items
     function toggleAccordion(index) {
@@ -107,9 +115,12 @@
         }
     }
 
+    const submit = (event: Event) => { // Added type for event
+        event.preventDefault();
+    };
 
-    onMount(() => {
-        displayArchive();
+    onMount(async () => {
+        await displayArchive();
     });
 </script>
 
@@ -132,35 +143,55 @@
     }
 </style>
 
-
-<div class="flex flex-row w-full justify-start overflow-hidden">
-    <div class="flex flex-col items-start w-full overflow-hidden mx-auto md:w-3/4 md:mx-0">
-        {#if isLoading}
-            <div class="w-full flex justify-center items-center p-10">
-                <div class="border-4 border-transparent border-t-primary-500 rounded-full w-10 h-10 animate-spin"></div>
-            </div>
-        {:else if journeys.length > 0}
-            <Accordion class="w-full overflow-hidden">
-                {#each journeys as journey, index}
-                    <AccordionItem open={openItem === index} class="mb-0">
-                        <svelte:fragment slot="summary">
-                            <div class="py-0 px-3 rounded-md flex items-center justify-between w-full h-10"
-                                style="background-image: url({getImageForIndex(index)}); background-size: cover; background-position: center;"
-                            >
-                                <div class="flex items-center space-x-3 overflow-hidden max-w-[calc(100%-4rem)]"> 
-                                    <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0">
-                                        {journey.drink}
-                                    </p>
-                                    <div class="h-3 border-r border-slate-300 flex-shrink-0"></div>
-                                    <p class="overflow-hidden text-ellipsis whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-1 min-w-0">
-                                        {getTruncatedCoffeeBeans(journey.coffeeBeans)}
-                                    </p>
+<div class="flex-col w-full">
+    <div class="flex justify-center items-center w-full p-0">
+        <form onsubmit={submit} class="toDoForm">
+            <select bind:value={drink} id="drink" class="select w-full px-3 py-2 border rounded min-h-10 min-w-30">
+                <option value="">Select a drink</option>
+                <option value="Espresso">Espresso</option>
+                <option value="Coffee">Coffee</option>
+            </select>
+        </form>
+    </div>
+    <div class="flex flex-row w-full justify-start overflow-hidden">
+        <div class="flex flex-col items-start w-full overflow-hidden mx-auto md:w-3/4 md:mx-0">
+            {#if isLoading}
+                <div class="w-full flex justify-center items-center p-10">
+                    <div class="border-4 border-transparent border-t-primary-500 rounded-full w-10 h-10 animate-spin"></div>
+                </div>
+            {:else if filteredJourneys.length > 0}
+                <Accordion class="w-full overflow-hidden">
+                    {#each filteredJourneys as journey, index}
+                        <AccordionItem open={openItem === index} class="mb-0">
+                            <svelte:fragment slot="summary">
+                                <div class="py-0 px-3 rounded-md flex items-center justify-between w-full h-10"
+                                    style="background-image: url({getImageForIndex(index)}); background-size: cover; background-position: center;"
+                                >
+                                    <div class="flex items-center space-x-3 overflow-hidden max-w-[calc(100%-4rem)]"> 
+                                        <p class="whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-shrink-0">
+                                            {journey.drink}
+                                        </p>
+                                        <div class="h-3 border-r border-slate-300 flex-shrink-0"></div>
+                                        <p class="overflow-hidden text-ellipsis whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-1 min-w-0">
+                                            {getTruncatedCoffeeBeans(journey.coffeeBeans)}
+                                        </p>
+                                    </div>
                                 </div>
+                            </svelte:fragment>
 
-                                <span 
-                                    class="btn-icon variant-filled-primary cursor-pointer flex-shrink-0"
-                                    on:click|stopPropagation={() => deleteJourney(journey.id)}
-                                    on:keydown|stopPropagation={(e) => e.key === 'Enter' && deleteJourney(journey.id)}
+                            <div class="flex-shrink-0"> 
+                                <span
+                                    class="btn-icon variant-filled-primary cursor-pointer"
+                                    onclick={(event) => {
+                                        event.stopPropagation();
+                                        deleteJourney(journey.id);
+                                    }}
+                                    onkeydown={(event) => {
+                                        if (event.key === 'Enter') {
+                                            event.stopPropagation();
+                                            deleteJourney(journey.id);
+                                        }
+                                    }}
                                     tabindex="0"
                                     role="button"
                                     aria-label="Delete journey"
@@ -168,60 +199,47 @@
                                     delete
                                 </span>
                             </div>
-                        </svelte:fragment>
 
-                        <div class="flex-shrink-0"> 
-                            <span 
-                                class="btn-icon variant-filled-primary cursor-pointer"
-                                on:click|stopPropagation={() => deleteJourney(journey.id)}
-                                on:keydown|stopPropagation={(e) => e.key === 'Enter' && deleteJourney(journey.id)}
-                                tabindex="0"
-                                role="button"
-                                aria-label="Delete journey"
-                            >
-                                delete
-                            </span>
-                        </div>
-
-                        <svelte:fragment slot="content">
-                            <div class="w-full">
-                                <!-- removed "overflow-hidden" -->
-                                <div class="w-full rounded-md"> 
-                                    <div class="flex items-center justify-center">
-                                        <div class="flex items-center space-x-3 flex-wrap">
-                                            <p class="whitespace-nowrap">{journey.drink}</p>
-                                            <div class="h-4 border-r border-slate-300"></div>
-                                            <p class="whitespace-nowrap">{journey.coffeeBeans}</p>
-                                            <div class="h-4 border-r border-slate-300"></div>
-                                            <p class="whitespace-nowrap">{journey.grinder}</p>
-                                            <div class="h-4 border-r border-slate-300"></div>
-                                            <p class="whitespace-nowrap">{journey.brewingDevice}</p>
+                            <svelte:fragment slot="content">
+                                <div class="w-full">
+                                    <!-- removed "overflow-hidden" -->
+                                    <div class="w-full rounded-md"> 
+                                        <div class="flex items-center justify-center">
+                                            <div class="flex items-center space-x-3 flex-wrap">
+                                                <p class="whitespace-nowrap">{journey.drink}</p>
+                                                <div class="h-4 border-r border-slate-300"></div>
+                                                <p class="whitespace-nowrap">{journey.coffeeBeans}</p>
+                                                <div class="h-4 border-r border-slate-300"></div>
+                                                <p class="whitespace-nowrap">{journey.grinder}</p>
+                                                <div class="h-4 border-r border-slate-300"></div>
+                                                <p class="whitespace-nowrap">{journey.brewingDevice}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-center w-full">
+                                        <div class="w-full md:w-3/4">
+                                            <JourneyCard journeyData={createCardPropData(journey)}  drink={journey.drink}/>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flex justify-center w-full">
-                                    <div class="w-full md:w-3/4">
-                                        <JourneyCard journeyData={createCardPropData(journey)}  drink={journey.drink}/>
-                                    </div>
-                                </div>
-                            </div>
-                        </svelte:fragment>
-                    </AccordionItem>
-                {/each}
-            </Accordion>
-        {:else}
-            <div class="w-full text-center p-10 border border-primary-200 rounded-lg bg-tertiary-900/50">
-                <p class="text-xl font-semibold text-tertiary-200">No Notes</p>
-                <p class="mt-2 text-tertiary-400">No coffee records have been created yet!?</p>
-                <a href="/" class="btn variant-filled-primary mt-6">Get a setting recommendation</a>
-            </div>
-        {/if}
-    </div>
+                            </svelte:fragment>
+                        </AccordionItem>
+                    {/each}
+                </Accordion>
+            {:else}
+                <div class="w-full text-center p-10 border border-primary-200 rounded-lg bg-tertiary-900/50">
+                    <p class="text-xl font-semibold text-tertiary-200">No Notes</p>
+                    <p class="mt-2 text-tertiary-400">No coffee records have been created yet!?</p>
+                    <a href="/" class="btn variant-filled-primary mt-6">Get a setting recommendation</a>
+                </div>
+            {/if}
+        </div>
 
-    <!-- Right side: Fixed espresso machine image -->
-    <div class="hidden md:block w-1/4 relative">
-        <div class="p-4">
-            <img src={espresso_machine} alt="Espresso Machine" class="w-full max-w-xs mx-auto drop-shadow-xl" />
+        <!-- Right side: Fixed espresso machine image -->
+        <div class="hidden md:block w-1/4 relative">
+            <div class="p-4">
+                <img src={espresso_machine} alt="Espresso Machine" class="w-full max-w-xs mx-auto drop-shadow-xl" />
+            </div>
         </div>
     </div>
 </div>
