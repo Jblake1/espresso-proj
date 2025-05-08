@@ -8,6 +8,8 @@
     let isLoading = $state(true);
 
     let drink = $state('');
+    let brewingDevice = $state('');
+    let grinder = $state('');
     let isSubmitting = $state(false);
 
     let isMobile = false;
@@ -150,6 +152,18 @@
                 <option value="">Select a drink</option>
                 <option value="Espresso">Espresso</option>
                 <option value="Coffee">Coffee</option>
+            </select>
+            <select bind:value={grinder} id="grinder" class="select w-full px-3 py-2 border rounded min-h-10 min-w-30">
+                <option value="">Select a grinder</option>
+                <option value="DF 54">DF 54</option>
+                <option value="DF 64">DF 64</option>
+                <option value="Baratza Encore">Baratza Encore</option>
+                <option value="Baratza Encore ESP">Baratza Encore ESP</option>
+                <option value="Baratza Sette 270">Baratza Sette 270</option>
+                <option value="Baratza Virtuoso">Baratza Virtuoso</option>
+                <option value="Breville Smart Grinder Pro">Breville Smart Grinder Pro</option>
+                <option value="Eureka Mignon Specialita">Eureka Mignon Specialita</option>
+                <option value="1Zpresso JX Pro">1Zpresso JX Pro</option>
             </select>
         </form>
     </div>
