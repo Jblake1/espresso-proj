@@ -6,7 +6,15 @@
     
     // Add loading state
     let isLoading = true;
-    
+
+    let isMobile = false;
+
+    if (typeof window !== 'undefined') {
+        isMobile = window.innerWidth < 768; // Adjust the breakpoint as needed
+        window.addEventListener('resize', () => {
+            isMobile = window.innerWidth < 768;
+        });
+    }
     // Store all journeys in an array
     let journeys = [];
     
@@ -35,6 +43,15 @@
     // Create card prop data for a journey
     function createCardPropData(journey) {
         return { journeyID: journey.id };
+    }
+
+    function truncateText(text: string, maxLength: number): string {
+        if (!text) return '';
+        return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+    }
+
+    function getTruncatedCoffeeBeans(coffeeBeans: string): string {
+        return isMobile ? truncateText(coffeeBeans, 16) : truncateText(coffeeBeans, 40);
     }
 
     const deleteJourney = async (journeyID) => {
@@ -136,7 +153,7 @@
                                     </p>
                                     <div class="h-3 border-r border-slate-300 flex-shrink-0"></div>
                                     <p class="overflow-hidden text-ellipsis whitespace-nowrap bg-primary-500/80 px-2 py-0.5 rounded text-white text-sm flex-1 min-w-0">
-                                        {journey.coffeeBeans}
+                                        {getTruncatedCoffeeBeans(journey.coffeeBeans)}
                                     </p>
                                 </div>
 
