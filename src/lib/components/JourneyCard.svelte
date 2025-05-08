@@ -260,7 +260,7 @@
                     >
                         <span class="text-xs font-bold">×</span>
                     </button>
-                    <form class="border border-primary-400 rounded-lg shadow-sm bg-tertiary-900 p-4 w-full">
+                    <form class="border border-primary-400 rounded-lg shadow-sm bg-tertiary-900 p-4 w-1/2">
 
                         <div class="mb-4">
                             <div class="flex items-center justify-between">
