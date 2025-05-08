@@ -157,7 +157,8 @@
 <div class="flex-col w-full">
     <div class="flex justify-center items-center w-full p-0">
         <form onsubmit={submit} class="toDoForm">
-            <div class="flex gap-4">
+            <div class="flex gap-4 py-4">
+                <p class="label-wrapper">Filter by:</p>
                 <select bind:value={drink} id="drink" class="select w-full px-3 py-2 border rounded min-h-10 min-w-30">
                     <option value="">Select a drink</option>
                     <option value="Espresso">Espresso</option>
