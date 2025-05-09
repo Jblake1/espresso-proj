@@ -1,6 +1,7 @@
 <script lang="ts">
     import { AppBar, LightSwitch } from '@skeletonlabs/skeleton';
     import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
     import { TabGroup, TabAnchor, Avatar, popup } from '@skeletonlabs/skeleton';
     import type { PopupSettings } from '@skeletonlabs/skeleton';
     import { onMount } from 'svelte';
@@ -10,10 +11,10 @@
     const userStore = writable(null);
     
     let color = 'primary';
-    let currentPath = '';
     let userInitials = 'G';
     let authChecked = false;
 
+    $: currentPath = $page.url.pathname;
     $: isHomePage = currentPath === '/';
     
 
@@ -130,7 +131,7 @@
 
     // Run checkAuth immediately on mount
     onMount(() => {
-        currentPath = window.location.pathname;
+        // currentPath = $page.url.pathname;
         console.log('Current Path:', currentPath);
         console.log('isHomePage:', isHomePage);
         checkAuth();
@@ -147,7 +148,7 @@
     function handleNavigation(event, path) {
         event.preventDefault(); // Prevent full page reload
         goto(path); // Use SvelteKit's client-side navigation
-        currentPath = path; // Update the state
+        // currentPath = path;
         console.log('Navigated to:', currentPath); // Debugging
 
         // Re-check auth after navigation
