@@ -1,5 +1,5 @@
 <script>
-    import About from '$lib/components/About.svelte';
+    import Recommendation from '$lib/components/Recommendation.svelte';
     import AppBar from '$lib/components/AppBar.svelte';
 </script>
 
