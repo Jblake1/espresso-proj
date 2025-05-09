@@ -198,8 +198,10 @@
 <style></style>
 
 <div>
-    <AppBar class={`grid-cols-3 ${isHomePage ? 'bg-white/80 backdrop-blur bg-transparent' : 'bg-primary'}`}
-        slotDefault="place-self-center" 
+    <AppBar
+        background={isHomePage ? 'bg-transparent' : 'bg-primary'}
+        class={`grid-cols-3 ${isHomePage ? 'bg-white/80 backdrop-blur' : ''}`}
+        slotDefault="place-self-center"
         slotTrail="place-content-end"
     >
         <svelte:fragment slot="lead">
