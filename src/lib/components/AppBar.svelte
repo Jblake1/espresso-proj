@@ -201,9 +201,9 @@
         <svelte:fragment slot="trail">
             <div class="flex items-center space-x-2 sm:space-x-4 flex-wrap justify-end">
                 <TabGroup regionList="flex space-x-1 sm:space-x-2">
-                    <TabAnchor href="/" selected={currentPath === '/'} on:click={(e) => handleNavigation(e, '/')}>Home</TabAnchor>
+                    <TabAnchor href="/recommendation" selected={currentPath === '/recommendation'} on:click={(e) => handleNavigation(e, '/recommendation')}>Recommendation</TabAnchor>
                     <TabAnchor href="/archive" selected={currentPath === '/archive'} on:click={(e) => handleNavigation(e, '/archive')}>Notes</TabAnchor>
-                    <TabAnchor href="/about" selected={currentPath === '/about'} on:click={(e) => handleNavigation(e, '/about')}>About</TabAnchor>
+                    <TabAnchor href="/" selected={currentPath === '/'} on:click={(e) => handleNavigation(e, '/')}>Home</TabAnchor>
                 </TabGroup>
 
                 <div class="flex items-center">
