@@ -15,6 +15,7 @@
     let authChecked = false;
 
     $: isHomePage = currentPath === '/';
+    
 
      // Define the popup settings
      const popupSettings: PopupSettings = {
@@ -131,6 +132,7 @@
     onMount(() => {
         currentPath = window.location.pathname;
         console.log('Current Path:', currentPath);
+        console.log('isHomePage:', isHomePage);
         checkAuth();
         
         // Add event listener for storage changes (for multi-tab support)
@@ -195,7 +197,7 @@
 <style></style>
 
 <div>
-    <AppBar class={`grid-cols-3 ${isHomePage ? 'bg-white/80 backdrop-blur' : 'bg-primary'}`}
+    <AppBar class={`grid-cols-3 ${isHomePage ? 'bg-white/80 backdrop-blur bg-transparent' : 'bg-primary'}`}
         slotDefault="place-self-center" 
         slotTrail="place-content-end"
     >
