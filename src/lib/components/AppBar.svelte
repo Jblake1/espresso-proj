@@ -14,6 +14,8 @@
     let userInitials = 'G';
     let authChecked = false;
 
+    $: isHomePage = currentPath === '/';
+
      // Define the popup settings
      const popupSettings: PopupSettings = {
         event: 'click',
@@ -191,7 +193,10 @@
 <style></style>
 
 <div>
-    <AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
+    <AppBar class={`grid-cols-3 ${isHomePage ? 'bg-white/80 backdrop-blur' : 'bg-primary'}`}
+        slotDefault="place-self-center" 
+        slotTrail="place-content-end"
+    >
         <svelte:fragment slot="lead">
             <a href="/" on:click={(e) => handleNavigation(e, '/')}>
                 <strong class="text-xl uppercase">Java Booklet</strong>

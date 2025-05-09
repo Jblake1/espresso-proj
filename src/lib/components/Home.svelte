@@ -2,6 +2,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
+    let drink = $state('');
 </script>
 
 
@@ -11,8 +12,11 @@
 </style>
 
 <form class="h-screen w-full bg-hero-pattern bg-cover bg-center flex justify-center items-center">
-    <div class="bg-white bg-opacity-80 p-6 rounded-lg shadow-lg">
-        <h1 class="text-2xl font-bold mb-4">Welcome to Java Booklet!</h1>
-        <p class="text-gray-700">Once you create an account you can</p>
-    </div>
+    <h2 class="label-wrapper min-w-40 min-h-6">
+        <label for="drink" class="label__lg font-semibold">What are we brewing today?</label>
+    <select bind:value={drink} id="drink" class="select w-full px-3 py-2 border rounded min-h-10 min-w-30">
+        <option value="">Select a drink</option>
+        <option value="Espresso">Espresso</option>
+        <option value="Coffee">Coffee</option>
+      </select>
 </form>
