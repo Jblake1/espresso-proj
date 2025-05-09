@@ -206,9 +206,9 @@
                     <TabAnchor href="/" selected={currentPath === '/'} on:click={(e) => handleNavigation(e, '/')}>Home</TabAnchor>
                 </TabGroup>
 
-                <div class="flex items-center">
+                <!-- <div class="flex items-center">
                     <LightSwitch />
-                </div>
+                </div> -->
                 
                 <div class="relative">
                     <button class="btn-icon variant-ghost-surface" use:popup={popupSettings}>
@@ -229,9 +229,11 @@
         <ul>
             {#if $userStore}
                 <li><button class="w-full text-left p-2 hover:bg-primary-500/10 rounded" on:click={handleLogout}>Logout</button></li>
+                <li><div class="flex items-center"><LightSwitch /></div></li>
             {:else if authChecked}
                 <li><a href="/login" class="w-full block p-2 hover:bg-primary-500/10 rounded" on:click={(e) => handleNavigation(e, '/login')}>Login</a></li>
                 <li><a href="/register" class="w-full block p-2 hover:bg-primary-500/10 rounded" on:click={(e) => handleNavigation(e, '/register')}>Register</a></li>
+                <li><div class="flex items-center"><LightSwitch /></div></li>
             {:else}
                 <li><div class="p-2 text-center text-sm opacity-75">Loading...</div></li>
             {/if}

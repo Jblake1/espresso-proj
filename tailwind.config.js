@@ -21,6 +21,13 @@ export default {
       "../**/*.{html,js,svelte,ts}"
     ),
   ],
+  theme: {
+    extend: {
+      backgroundImage: {
+        'hero-pattern': "url('/images/christina-bi-Vgm0CSJeU14-unsplash.jpg')",
+      },
+    },
+  },
   plugins: [
     skeleton({
       themes: {
@@ -28,6 +35,7 @@ export default {
           myCustomTheme
         ]
       }
-    })
-  ]
+    }),
+    forms,
+  ],
 };
