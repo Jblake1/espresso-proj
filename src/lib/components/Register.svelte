@@ -51,7 +51,7 @@
 
 <style></style>
 
-<div class="flex justify-center items-center min-h-screen">
+<div class="flex justify-start pt-10 items-center min-h-screen">
     <div class="card p-4 w-[90%] sm:w-2/3 md:w-1/3">
         <form on:submit|preventDefault={register} class="space-y-4">
             <h2 class="h2">Register</h2>
