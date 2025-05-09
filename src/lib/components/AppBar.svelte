@@ -130,6 +130,7 @@
     // Run checkAuth immediately on mount
     onMount(() => {
         currentPath = window.location.pathname;
+        console.log('Current Path:', currentPath);
         checkAuth();
         
         // Add event listener for storage changes (for multi-tab support)
@@ -145,6 +146,7 @@
         event.preventDefault(); // Prevent full page reload
         goto(path); // Use SvelteKit's client-side navigation
         currentPath = path; // Update the state
+        console.log('Navigated to:', currentPath); // Debugging
 
         // Re-check auth after navigation
         setTimeout(checkAuth, 100);
@@ -208,12 +210,8 @@
                 <TabGroup regionList="flex space-x-1 sm:space-x-2">
                     <TabAnchor href="/recommendation" selected={currentPath === '/recommendation'} on:click={(e) => handleNavigation(e, '/recommendation')}>Brew</TabAnchor>
                     <TabAnchor href="/archive" selected={currentPath === '/archive'} on:click={(e) => handleNavigation(e, '/archive')}>Notes</TabAnchor>
-                    <TabAnchor href="/" selected={currentPath === '/'} on:click={(e) => handleNavigation(e, '/')}>Home</TabAnchor>
+                    <!-- <TabAnchor href="/" selected={currentPath === '/'} on:click={(e) => handleNavigation(e, '/')}>Home</TabAnchor> -->
                 </TabGroup>
-
-                <!-- <div class="flex items-center">
-                    <LightSwitch />
-                </div> -->
                 
                 <div class="relative">
                     <button class="btn-icon variant-ghost-surface" use:popup={popupSettings}>
