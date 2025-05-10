@@ -118,6 +118,7 @@
     bg-no-repeat
   "
   style="background-image: url('/images/jeremy-ricketts-6ZnhM-xBpos-unsplash.jpg');"
+  data-test-id="login-main-div"
 >
   <div class="card p-4 w-[90%] sm:w-2/3 md:w-1/3">
     <form onsubmit={handleSubmit} class="space-y-4">
