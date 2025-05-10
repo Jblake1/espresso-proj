@@ -12,15 +12,17 @@
 </style>
 
 <!-- bg-hero-pattern bg-cover bg-center -->
-<div class="min-h-screen flex justify-center items-center">
-    <form class="h-screen w-1/2 md:w-1/3 flex flex-col justify-start items-center pt-10 mx-auto">
-        <h2 class="label-wrapper min-w-40 min-h-6 text-center">
-            <label for="drink" class="label__lg font-semibold">What are we brewing today?</label>
-        </h2>
-        <select bind:value={drink} id="drink" class="select w-full px-3 py-2 border rounded min-h-10 min-w-30">
-            <option value="">Select a drink</option>
-            <option value="Espresso">Espresso</option>
+<div class="min-h-screen flex flex-col justify-center items-center p-4">
+    <form class="w-full max-w-sm flex flex-col items-center space-y-6 p-6 md:p-8 bg-white shadow-xl rounded-lg">
+        <div class="text-center"> <label for="drink" class="text-xl md:text-2xl font-semibold text-gray-800">
+                What are we brewing today?
+            </label>
+        </div>
+
+        <select bind:value={drink} id="drink" class="select w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base">
+            <option value="" disabled>Select a drink</option> <option value="Espresso">Espresso</option>
             <option value="Coffee">Coffee</option>
         </select>
-    </form>
+
+        </form>
 </div>

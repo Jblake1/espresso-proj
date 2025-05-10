@@ -12,6 +12,8 @@
   let passwordEl: HTMLInputElement;
   let errorMessage = $state('');
 
+  let bgImage = '/images/jeremy-ricketts-6ZnhM-xBpos-unsplash.jpg';
+
   const handleSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
     try {
@@ -110,7 +112,7 @@
 
 <div class="
   flex justify-center pt-10 items-start min-h-screen 
-  bg-[url('/images/jeremy-ricketts-6ZnhM-xBpos-unsplash.jpg')] 
+  bg-[url({bgImage})] 
   bg-cover 
   bg-center 
   bg-no-repeat
