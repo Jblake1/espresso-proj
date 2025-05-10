@@ -110,13 +110,15 @@
 <style></style>
 
 
-<div class="
-  flex justify-center pt-10 items-start min-h-screen 
-  bg-[url({bgImage})] 
-  bg-cover 
-  bg-center 
-  bg-no-repeat
-">
+<div
+  class="
+    flex justify-center pt-10 items-start min-h-screen
+    bg-cover 
+    bg-center 
+    bg-no-repeat
+  "
+  style="background-image: url('{bgImage}');"
+>
   <div class="card p-4 w-[90%] sm:w-2/3 md:w-1/3">
     <form onsubmit={handleSubmit} class="space-y-4">
         <h2 class="h2">Login</h2>

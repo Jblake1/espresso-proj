@@ -12,7 +12,7 @@
 </style>
 
 <!-- bg-hero-pattern bg-cover bg-center -->
-<div class="min-h-screen flex flex-col justify-center items-center p-4">
+<div class="min-h-screen flex flex-col justify-start items-center p-4">
     <form class="w-full max-w-sm flex flex-col items-center space-y-6 p-6 md:p-8 bg-white shadow-xl rounded-lg">
         <div class="text-center"> <label for="drink" class="text-xl md:text-2xl font-semibold text-gray-800">
                 What are we brewing today?
