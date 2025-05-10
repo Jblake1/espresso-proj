@@ -200,7 +200,7 @@
 <div>
     <AppBar
         background={isHomePage ? 'bg-transparent' : 'bg-secondary'}
-        class={`grid-cols-3 ${isHomePage ? 'backdrop-blur bg-gradient-to-b from-transparent via-transparent to-white/50' : 'bg-secondary'}`}
+        class={`grid-cols-3 ${isHomePage ? 'backdrop-blur bg-gradient-to-b from-white/80 via-white/50 to-transparent' : 'bg-secondary'}`}
         slotDefault="place-self-center"
         slotTrail="place-content-end"
     >
