@@ -9,6 +9,13 @@
     storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
     $: isHomepage = $page.route.id === '/';
+
+    $: {
+        if ($page.route.id !== undefined) { // Log only when route.id is available
+            console.log('Current $page.route.id:', $page.route.id);
+            console.log('Calculated isHomepage:', isHomepage);
+        }
+    }
     
 </script>
   
