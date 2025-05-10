@@ -60,10 +60,10 @@
           }
           
           // Continue with redirect regardless
-          window.location.href = '/';
+          window.location.href = '/recommendation';
         } catch (error) {
           console.error('Auth check error:', error);
-          window.location.href = '/';
+          window.location.href = '/recommendation';
         }
       }, 100);
       

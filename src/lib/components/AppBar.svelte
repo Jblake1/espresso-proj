@@ -199,8 +199,8 @@
 
 <div>
     <AppBar
-        background={isHomePage ? 'bg-transparent' : 'bg-primary'}
-        class={`grid-cols-3 ${isHomePage ? 'backdrop-blur' : 'bg-primary'}`}
+        background={isHomePage ? 'bg-transparent' : 'bg-secondary'}
+        class={`grid-cols-3 ${isHomePage ? 'backdrop-blur bg-gradient-to-b from-transparent via-transparent to-white/50' : 'bg-secondary'}`}
         slotDefault="place-self-center"
         slotTrail="place-content-end"
     >
