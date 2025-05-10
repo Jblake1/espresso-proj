@@ -10,45 +10,46 @@
 
     $: isHomepage = $page.route.id === '/';
 
+    // Reactive classes for the wrapper div
+    let dynamicWrapperClasses = '';
     $: {
-        if ($page.route.id !== undefined) { // Log only when route.id is available
-            console.log('Current $page.route.id:', $page.route.id);
-            console.log('Calculated isHomepage:', isHomepage);
-        }
-    }
-    
-</script>
-  
-<svelte:body
-    class:test-always-on-body={true}
-    class:test-homepage-only-body={isHomepage}
-/>
+        // Base classes for the wrapper on all pages
+        const baseClasses = 'min-h-screen w-full transition-colors duration-300 ease-in-out';
 
-<main class="relative z-10">
-    <slot />
-</main>
+        if (isHomepage) {
+            // Classes for the homepage (using your pre-defined Tailwind bg image)
+            dynamicWrapperClasses = `${baseClasses} bg-hero-pattern bg-cover bg-center bg-no-repeat bg-fixed`;
+        } else {
+            // Classes for other pages (e.g., a Skeleton surface color or a simple Tailwind color)
+            dynamicWrapperClasses = `${baseClasses} bg-surface-100-800-token`; // Example Skeleton surface
+            // Or a simple Tailwind color: dynamicWrapperClasses = `${baseClasses} bg-gray-100`;
+        }
+        // For debugging in browser console:
+        // console.log('Applied dynamicWrapperClasses:', dynamicWrapperClasses);
+    }
+</script>
+
+<div class="{dynamicWrapperClasses}">
+    <main class="relative z-10">
+        <slot />
+    </main>
+</div>
 
 <style lang="postcss">
-    /* Base body styles (can also be in app.postcss) */
-    :global(body) {
-        @apply min-h-screen w-full m-0 p-0 font-sans;
-    }
-
-    /* Styles for testing if the classes get applied */
-    :global(body.test-always-on-body) {
-        border: 10px solid limegreen !important; /* Very visible */
-    }
-    :global(body.test-homepage-only-body) {
-        outline: 10px solid dodgerblue !important; /* Very visible */
-    }
-
-    /* Comment out your actual background image styles for this test */
     /*
-    :global(body.s-homepage-background) {
-        @apply bg-[url('/images/christina-bi-Vgm0CSJeU14-unsplash.jpg')] bg-cover bg-center bg-no-repeat bg-fixed;
+      Ensure html and body allow the wrapper div to truly take up full height.
+      Skeleton's app.postcss and theme usually handle this, but good to be aware.
+      If Skeleton sets a background on <body>, this wrapper div's background will sit on top.
+    */
+    :global(html), :global(body) {
+        height: 100%; /* Or min-height: 100% if preferred */
+        margin: 0;
+        padding: 0;
     }
-    :global(body.s-otherpages-background) {
-        @apply bg-gray-100;
-    }
+
+    /*
+      Any truly global font settings or base text colors from Skeleton
+      will likely apply through app.postcss to the body and be inherited.
+      If you needed to override something specific here, you could.
     */
 </style>

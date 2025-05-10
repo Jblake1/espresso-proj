@@ -96,7 +96,7 @@
       
       if (authData.is_authenticated) {
         // Already logged in, redirect to home
-        window.location.href = '/';
+        window.location.href = '/recommendation';
       }
     } catch (error) {
       console.error('Auth check error:', error);
